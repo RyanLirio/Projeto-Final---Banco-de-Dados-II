@@ -1,5 +1,6 @@
 ﻿using Cine_Ma.Data;
 using Cine_Ma.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cine_Ma.Repository
 {
@@ -42,14 +43,16 @@ namespace Cine_Ma.Repository
             return _context.SaveChangesAsync();
         }
 
-        public Task<List<Person>> GetAll()
+        public async Task<List<Person>> GetAll()
         {
-            vara
+            var data = await _context.Persons.ToListAsync();
+            return data;
         }
 
-        public Task<Person?> GetById(int id)
+        public async Task<Person?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var person = await _context.Persons.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return person;
         }
 
         
