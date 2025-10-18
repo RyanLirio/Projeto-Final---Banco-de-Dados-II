@@ -9,6 +9,5 @@
         public string Nationality { get; set; }
         public bool Actor { get; set; }
         public bool Director { get; set; }
-
     }
 }
