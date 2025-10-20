@@ -1,6 +1,6 @@
 ﻿namespace Cine_Ma.Models
 {
-    public class TicketItem
+    public class TicketOrder
     {
     }
 }
