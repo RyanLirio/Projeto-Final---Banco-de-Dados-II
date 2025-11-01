@@ -31,7 +31,7 @@ namespace Cine_Ma.Repository
                 // Remove o registro antigo
                 _context.DirectorMovies.Remove(directorMovieOld);
                 await _context.SaveChangesAsync();
-                d
+                
                 // Adiciona o novo registro com os dados atualizados
                 await _context.DirectorMovies.AddAsync(directorMovieNewData);
                 await _context.SaveChangesAsync();
@@ -88,7 +88,7 @@ namespace Cine_Ma.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<DirectorMovie>> GetByDirectortName(string name)
+        public async Task<List<DirectorMovie>> GetByDirectorName(string name)
         {
             return await _context.DirectorMovies
                 .Include(x => x.Movie)

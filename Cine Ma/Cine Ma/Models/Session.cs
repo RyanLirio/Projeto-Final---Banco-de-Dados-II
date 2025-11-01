@@ -6,26 +6,29 @@ using System.Net.Sockets;
 
 namespace Cine_Ma.Models
 {
-    [PrimaryKey(nameof(IdFilm), nameof(IdIdioma), nameof(IdSala), nameof(IdLegenda))]
     public class Session
     {
         [Key]
         public int Id { get; set; }
 
-        public int IdFilm { get; set; }
-        [ForeignKey(nameof(IdFilm))]
+        public int MovieId { get; set; }
+        [ForeignKey(nameof(MovieId))]
+        public Movie? Movie { get; set; }
 
         public DateOnly SessionHour { get; set; }
 
-        public int IdIdioma { get; set; }
-        [ForeignKey(nameof(IdIdioma))]
+        public int LanguageId { get; set; }
+        [ForeignKey(nameof(LanguageId))]
+        public Language? LanguageAudio { get; set; }
 
-        public String IdSala { get; set; }
-        [ForeignKey(nameof(IdSala))]
+        public int RoomId { get; set; }
+        [ForeignKey(nameof(RoomId))]
+        public CinemaRoom? CinemaRoom { get; set; }
 
-        public int IdLegenda { get; set; }
-        [ForeignKey(nameof(IdLegenda))]
+        public int? CaptionId { get; set; }
+        [ForeignKey(nameof(CaptionId))]
+        public Language? LanguageCaption { get; set; }
 
-        public bool _3D { get; set; }//3D, n sei como coloco a variavel
+        public bool Is3D { get; set; }
     } 
 }
