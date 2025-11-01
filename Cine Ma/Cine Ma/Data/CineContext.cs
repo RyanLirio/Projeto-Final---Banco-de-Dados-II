@@ -8,10 +8,12 @@ namespace Cine_Ma.Data
         public CineContext(DbContextOptions<CineContext> options) : base(options) { }
     
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>().ToTable("Person");
+            modelBuilder.Entity<Movie>().ToTable("Movie");
         }
     }
 }
