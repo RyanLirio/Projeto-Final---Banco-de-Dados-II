@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cine_Ma.Models
@@ -6,6 +7,7 @@ namespace Cine_Ma.Models
     [PrimaryKey(nameof(IdUnit), nameof(IdClient))]
     public class Order
     {
+        [Key]
         public int Id { get; set; }
 
         [ForeignKey(nameof(IdUnit))]
