@@ -9,7 +9,7 @@ namespace Cine_Ma.Data
     
         public DbSet<Person> Persons { get; set; }
         public DbSet<Movie> Movies { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>().ToTable("Person");
@@ -17,3 +17,4 @@ namespace Cine_Ma.Data
         }
     }
 }
+

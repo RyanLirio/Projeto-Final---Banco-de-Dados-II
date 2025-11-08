@@ -1,6 +1,46 @@
-﻿namespace Cine_Ma.Repository
+﻿using Cine_Ma.Data;
+using Cine_Ma.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Cine_Ma.Repository
 {
-    public class TicketRepository
+    public class TicketRepository : ITicketRepository
     {
+        private CineContext _context;
+
+        public TicketRepository(CineContext context)
+        {
+            _context = context;
+        }
+
+        public async Task Create(Ticket ticket)
+        {
+            await _context.Tickets.AddAsync(ticket);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Ticket ticket)
+        {
+            _context.Tickets.Remove(ticket);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Ticket>> GetAll()
+        {
+            var data = await _context.Tickets.ToListAsync();
+            return data;
+        }
+
+        public async Task<Ticket?> GetById(int id)
+        {
+            var ticket = await _context.Tickets.Where(t => t.Id == id).FirstOrDefaultAsync();
+            return ticket;
+        }
+
+        public async Task Update(Ticket ticket)
+        {
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+        }
     }
 }
