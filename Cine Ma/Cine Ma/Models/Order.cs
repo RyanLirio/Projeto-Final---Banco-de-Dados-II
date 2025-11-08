@@ -4,20 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cine_Ma.Models
 {
-    [PrimaryKey(nameof(IdUnit), nameof(IdClient))]
     public class Order
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(IdUnit))]
-        public int IdUnit { get; set; }
+        public int CinemaId { get; set; }
+        [ForeignKey(nameof(CinemaId))]
+        public Cinema? Cinema { get; set; }
         public DateOnly DtSale { get; set; }
         public float TotalPrice { get; set; }
         public String PaymentType { get; set; }
 
-        [ForeignKey(nameof(IdClient))]
-        public int IdClient { get; set; }
+        public int ClientId { get; set; }
+        [ForeignKey(nameof(ClientId))]
+        public Client? Client { get; set; }
         
     }
 }

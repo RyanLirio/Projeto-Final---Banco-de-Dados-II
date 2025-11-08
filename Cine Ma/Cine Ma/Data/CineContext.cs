@@ -7,11 +7,11 @@ namespace Cine_Ma.Data
     {
         public CineContext(DbContextOptions<CineContext> options) : base(options) { }
     
-        public DbSet<Person> Persons { get; set; }
+        //public DbSet<Person> Persons { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Language> Languages { get; set; }
-        public DbSet<Gender> Genders { get; set; }
-        public DbSet<DirectorMovie> DirectorMovies { get; set; }
+        public DbSet<Sex> Sexes { get; set; }
+        //public DbSet<DirectorMovie> DirectorMovies { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Cinema> Cinemas { get; set; }
@@ -19,16 +19,18 @@ namespace Cine_Ma.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Session> Sessions { get; set; }
-        public DbSet<Studio> Studios { get; set; }
+        //public DbSet<Studio> Studios { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<SexMovie> SexMovies { get; set; }
+        public DbSet<TicketOrder> TicketOrders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>().ToTable("Person");
+            //modelBuilder.Entity<Person>().ToTable("Person");
             modelBuilder.Entity<Movie>().ToTable("Movie");
-            modelBuilder.Entity<Gender>().ToTable("Gender");
-            modelBuilder.Entity<DirectorMovie>().ToTable("DirectorMovie");
+            modelBuilder.Entity<Sex>().ToTable("Sex");
+            //modelBuilder.Entity<DirectorMovie>().ToTable("DirectorMovie");
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<Client>().ToTable("Client");
             modelBuilder.Entity<Cinema>().ToTable("Cinema");
@@ -36,9 +38,10 @@ namespace Cine_Ma.Data
             modelBuilder.Entity<Address>().ToTable("Address");
             modelBuilder.Entity<Order>().ToTable("Order");
             modelBuilder.Entity<Session>().ToTable("Session");
-            modelBuilder.Entity<Studio>().ToTable("Studio");
+            //modelBuilder.Entity<Studio>().ToTable("Studio");
             modelBuilder.Entity<Ticket>().ToTable("Ticket");
-
+            modelBuilder.Entity<SexMovie>().ToTable("SexMovie");
+            modelBuilder.Entity<TicketOrder>().ToTable("TicketOrder");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Cine_Ma.Data;
+﻿/*using Cine_Ma.Data;
 using Cine_Ma.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -98,3 +98,4 @@ namespace Cine_Ma.Repository
         }
     }
 }
+*/

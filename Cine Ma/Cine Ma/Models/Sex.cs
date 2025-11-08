@@ -2,7 +2,7 @@
 
 namespace Cine_Ma.Models
 {
-    public class Gender
+    public class Sex
     {
         [Key]
         public int Id { get; set; }

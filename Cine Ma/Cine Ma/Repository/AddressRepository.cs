@@ -36,7 +36,7 @@ namespace Cine_Ma.Repository
             var data = await _context.Addresses.ToListAsync();
             return data;
         }
-
+        //questpdf
         public async Task<Address?> GetById(int id)
         {
             var address = await _context.Addresses.Where(a => a.Id == id).FirstOrDefaultAsync();
