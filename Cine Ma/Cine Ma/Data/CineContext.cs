@@ -17,6 +17,10 @@ namespace Cine_Ma.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Chair> Chairs { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Studio> Studios { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +34,11 @@ namespace Cine_Ma.Data
             modelBuilder.Entity<Cinema>().ToTable("Cinema");
             modelBuilder.Entity<Chair>().ToTable("Chair");
             modelBuilder.Entity<Address>().ToTable("Address");
+            modelBuilder.Entity<Order>().ToTable("Order");
+            modelBuilder.Entity<Session>().ToTable("Session");
+            modelBuilder.Entity<Studio>().ToTable("Studio");
+            modelBuilder.Entity<Ticket>().ToTable("Ticket");
+
         }
     }
 }
