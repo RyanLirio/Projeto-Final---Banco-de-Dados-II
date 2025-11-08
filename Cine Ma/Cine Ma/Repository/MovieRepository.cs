@@ -8,35 +8,46 @@ namespace Cine_Ma.Repository
     {
         private readonly CineContext _context;
 
+        public MovieRepository(CineContext context)
+        {
+            _context = context;
+        }
+
         public async Task Create(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
         }
 
+        public async Task Update(Movie movie)
+        {
+            _context.Movies.Update(movie);
+            await _context.SaveChangesAsync();
+        }
+
         public Task Delete(Movie movie)
         {
-            throw new NotImplementedException();
+            _context.Movies.Remove(movie);
+            return _context.SaveChangesAsync();
         }
 
-        public Task<List<Movie>> GetAll()
+        public async Task<List<Movie>> GetAll()
         {
-            throw new NotImplementedException();
+            var data = await _context.Movies.ToListAsync();
+            return data;
         }
 
-        public Task<Movie?> GetById(int id)
+        public async Task<Movie?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var movie = await _context.Movies.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return movie;
         }
 
-        public Task<List<Movie>> GetByName(string name)
+        public async Task<List<Movie>> GetByName(string name)
         {
-            throw new NotImplementedException();
-        }
+            var movies = await _context.Movies.Where(m => m.Title!.ToLower().Contains(name.ToLower())).ToListAsync();
 
-        public Task Update(Movie movie)
-        {
-            throw new NotImplementedException();
+            return movies;
         }
     }
 }

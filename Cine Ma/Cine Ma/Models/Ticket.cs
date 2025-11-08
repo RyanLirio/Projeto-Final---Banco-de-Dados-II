@@ -16,7 +16,9 @@ namespace Cine_Ma.Models
         public int ChairNumber { get; set; }
         [ForeignKey(nameof(ChairNumber))]
 
-        public String Row { get; set; }
+        public String? Row { get; set; }
         [ForeignKey(nameof(Row))]
+
+        public Chair? Chair { get; set; }
     }
 }
