@@ -1,0 +1,11 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Cine_Ma.Models
+{
+    public class Studio
+    {
+        [Key]
+        public int Id { get; set; }
+        public string? Name { get; set; }
+    }
+}
