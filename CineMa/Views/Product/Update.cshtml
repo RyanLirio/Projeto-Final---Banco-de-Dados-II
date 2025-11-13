@@ -1,23 +1,29 @@
 ﻿@model Cine_Ma.Models.Product
 
-<h1>Criando Produto</h1>
+<h1>Atualizando Produto</h1>
 
 <hr />
 
 <div class="row">
-    <form asp-action="Create" asp-controller="Product">
+    <form asp-action="Update" asp-controller="Product" asp-route-id="@Model.Id">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group col-md-12">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <input type="hidden" asp-for="Id" />
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <p class="fw-bold">ID: <span class="fw-light">@Model.Id></span></p>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" value="@Model.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="row g-3 mb-3">
             <div class="form-group col-md-6">
                 <label asp-for="Price" class="control-label">Preço</label>
-                <input asp-for="Price" id="PriceInput" class="form-control" type="text" oninput="formatPrice(this)" />
+                <input asp-for="Price" id="PriceInput" class="form-control" type="text" oninput="formatPrice(this)" value="@Model.Price" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <script>
@@ -33,15 +39,15 @@
             </script>
             <div class="form-group col-md-6">
                 <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
+                <input asp-for="Discount" class="form-control" value="@Model.Discount" />
                 <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
         </div>
 
 
         <div class="form-group">
-
-            <input type="submit" value="Criar" class="btn btn-primary float-end" />
+            <a class="btn btn-outline-success float-end" asp-controller="Product" asp-action="Index">Voltar</a>
+            <input type="submit" value="Atualizar" class="btn btn-success float-end" />
         </div>
     </form>
 </div>
