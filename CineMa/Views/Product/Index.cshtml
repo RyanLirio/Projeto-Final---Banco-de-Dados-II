@@ -1,0 +1,36 @@
+﻿@model ICollection<Cine_Ma.Models.Product>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<div class="text-center">
+    <a asp-controller="Product" asp-action="Create">Novo</a>
+    <table class="table table-responsive table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Preco</th>
+                <th>Desconto</th>
+                <th>Valor Final</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model) 
+            {
+                var price = p.Price / 100;
+                var discountPrice = (p.Price - (p.Price * p.Discount / 100))/100;
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>R$@price.ToString("F2")</td>
+                    <td>@p.Discount</td>
+                    <td>R$@discountPrice.ToString("F2")</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

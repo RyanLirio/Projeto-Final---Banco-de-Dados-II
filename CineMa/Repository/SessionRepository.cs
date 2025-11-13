@@ -49,6 +49,19 @@ namespace Cine_Ma.Repository
             return session;
         }
 
+        public async Task<List<Session>?> GetActiveSessions()
+        {
+            var data = await _context.Sessions
+                .Where(s => s.SessionHour > DateTime.Now)
+                .Include(s => s.Movie)
+                .Include(s => s.LanguageAudio)
+                .Include(s => s.CinemaRoom)
+                .Include(s => s.LanguageCaption)
+                .ToListAsync();
+
+            return data;
+        }
+
         public async Task Update(Session session)
         {
             _context.Sessions.Update(session);
