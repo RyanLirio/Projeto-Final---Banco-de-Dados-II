@@ -24,5 +24,7 @@ namespace Cine_Ma.Models
         [ForeignKey(nameof(AddressId))]
         public Address? Address { get; set; }
         public ICollection<Order>? Orders { get; set; }
+        public string? SenhaHash { get; set; } 
+        public string? PersonIdAzure { get; set; } // futuro uso facial
     }
 }

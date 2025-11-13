@@ -1,0 +1,51 @@
+﻿@model CineMa.Models.ViewModel.RegisterClientViewModel
+
+<h2>Registrar Cliente</h2>
+
+<form method="post" asp-action="Registrar" asp-controller="Account">
+
+    <h3>Dados do Cliente</h3>
+
+    <label>Nome</label>
+    <input type="text" asp-for="Name" required />
+
+    <label>CPF</label>
+    <input type="text" asp-for="Cpf" required />
+
+    <label>E-mail</label>
+    <input type="email" asp-for="Email" required />
+
+    <label>Telefone</label>
+    <input type="text" asp-for="Phone" required />
+
+    <label>Nascimento</label>
+    <input type="date" asp-for="Birthday" required />
+
+    <label>Senha</label>
+    <input type="password" asp-for="Senha" required />
+
+    <hr />
+
+    <h3>Endereço</h3>
+
+    <label>CEP</label>
+    <input type="text" asp-for="ZipCode" required />
+
+    <label>Cidade</label>
+    <input type="text" asp-for="City" required />
+
+    <label>Rua</label>
+    <input type="text" asp-for="Road" required />
+
+    <label>Estado</label>
+    <input type="text" asp-for="State" required />
+
+    <label>Número</label>
+    <input type="number" asp-for="Number" required />
+
+    <label>Descrição</label>
+    <input type="text" asp-for="Descripton" required />
+
+    <button type="submit">Registrar</button>
+
+</form>

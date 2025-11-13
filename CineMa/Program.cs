@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
+
 builder.Services.AddDbContext<CineContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Defaultconnection"))
@@ -38,11 +42,16 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseSession();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+
 
 app.MapControllerRoute(
     name: "default",
