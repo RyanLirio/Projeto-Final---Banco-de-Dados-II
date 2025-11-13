@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Cadastrar Rosto";
+}
+
+<h2>Cadastrar foto para login facial</h2>
+
+<form asp-action="RegisterFace" asp-controller="Account" method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label class="form-label">Selecione uma foto:</label>
+        <input class="form-control" type="file" name="faceImage" accept="image/*" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar Foto</button>
+</form>
+
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mt-3">
+        @ViewBag.Error
+    </div>
+}
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success mt-3">
+        @ViewBag.Success
+    </div>
+}
