@@ -26,5 +26,7 @@ namespace Cine_Ma.Models
         public ICollection<Order>? Orders { get; set; }
         public string? SenhaHash { get; set; } 
         public string? PersonIdAzure { get; set; } // futuro uso facial
+        public byte[]? FaceEmbedding { get; set; }
+
     }
 }

@@ -1,4 +1,4 @@
-using Cine_Ma.Data;
+﻿using Cine_Ma.Data;
 using Cine_Ma.Repository;
 using CineMa.Services;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// NECESSÁRIO PARA A SESSÃO FUNCIONAR
+builder.Services.AddDistributedMemoryCache();   // <-- ADICIONE ISTO
 builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<CineContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Defaultconnection"))
-    );
+);
 
+// seus repositórios
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IChairRepository, ChairRepository>();
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
@@ -31,10 +34,8 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<ISexRepository, SexRepository>();
 builder.Services.AddScoped<ISexMovieRepository, SexMovieRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+
 builder.Services.AddScoped<FaceService>();
-
-
-
 
 var app = builder.Build();
 
@@ -42,21 +43,17 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-app.UseSession();
-
+// ORDEM CORRETA DO PIPELINE ↓↓↓↓
+app.UseStaticFiles();
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-
+app.UseSession();          // <-- AQUI (DEPOIS DO ROUTING)
+app.UseAuthorization();    // <-- AQUI (DEPOIS DO SESSION)
+// ORDEM CORRETA ↑↑↑↑
 
 app.MapControllerRoute(
     name: "default",
