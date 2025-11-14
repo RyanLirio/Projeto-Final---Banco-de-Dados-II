@@ -1,23 +1,29 @@
 ﻿@model Cine_Ma.Models.Product
 
-<h1>Criando Produto</h1>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Products";
+    ViewData["Title"] = "Produtos";
+}
+
+<h1 class="texto">Criando Produto</h1>
 
 <hr />
 
 <div class="row">
-    <form asp-action="Create" asp-controller="Product">
+    <form asp-action="Create" asp-controller="Product" class="form-padrao">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group col-md-12">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <label asp-for="Name" class="control-label texto"></label>
+            <input asp-for="Name" class="form-control inputs-padrao" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="row g-3 mb-3">
             <div class="form-group col-md-6">
-                <label asp-for="Price" class="control-label">Preço</label>
-                <input asp-for="Price" id="PriceInput" class="form-control" type="text" oninput="formatPrice(this)" />
+                <label asp-for="Price" class="control-label texto">Preço</label>
+                <input asp-for="Price" id="PriceInput" class="form-control inputs-padrao" type="text" oninput="formatPrice(this)" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <script>
@@ -33,15 +39,15 @@
             </script>
             <div class="form-group col-md-6">
                 <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
+                <input asp-for="Discount" class="form-control inputs-padrao" />
                 <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
         </div>
 
-
+        
         <div class="form-group">
-
-            <input type="submit" value="Criar" class="btn btn-primary float-end" />
+            
+            <input type="submit" value="Criar" class="btn btn-red float-end" />
         </div>
     </form>
 </div>

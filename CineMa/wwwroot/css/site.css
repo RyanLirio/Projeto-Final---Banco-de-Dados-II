@@ -1,31 +1,161 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    background: #121212;
+    color: #F5F5F5;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
+}
+
+.black {
+    background-color: #121212;
+}
+
+.red {
+    background-color: #E50914;
+}
+
+.gray {
+    background-color: #1F2937;
+}
+
+.purple {
+    background-color: #6366F1;
+}
+
+.cinza {
+    background-color: #D1D5DB;
+}
+
+.texto {
+    color: #F5F5F5 !important;
+}
+
+.nav-link:hover {
+    transition: 1s;
+    background-color: #E50914;
+    color: #F5F5F5 !important;
+}
+
+.nav-link.active {
+    transition: 1s;
+    background-color: #6366F1;
+    color: #F5F5F5 !important;
+}
+
+.btn-red {
+    background-color: #E50914;
+    color: #FFFFFF;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 600;
+}
+
+.btn-purple {
+    background-color: #6366F1;
+    color: #FFFFFF;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 600;
+}
+
+.btn-red:hover {
+    transition: 1s;
+    background-color: #6366F1;
+}
+
+.btn-purple:hover {
+    transition: 1s;
+    background-color: #E50914;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 600;
+}
+
+.form-padrao {
+    display: block;
+    width: 100%;
+}
+
+.form-padrao .form-group,
+.form-padrao .mb-field {
+    margin-bottom: 16px;
+}
+.inputs-padrao,
+.form-padrao input[type="text"],
+.form-padrao input[type="number"],
+.form-padrao input[type="email"],
+.form-padrao input[type="password"],
+.form-padrao input[type="date"],
+.form-padrao input[type="time"],
+.form-padrao select,
+.form-padrao textarea {
+    background-color: #1F2937;
+    color: #F5F5F5;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    padding: 10px 12px;
+    width: 100%;
+    font-size: 16px;
+    transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+}
+
+.inputs-padrao::placeholder,
+.form-padrao input::placeholder,
+.form-padrao textarea::placeholder {
+    color: #D1D5DB;
+    opacity: 0.7;
+}
+
+.inputs-padrao:focus,
+.form-padrao input:focus,
+.form-padrao select:focus,
+.form-padrao textarea:focus {
+    outline: none;
+    border-color: #6366F1;
+    box-shadow: 0px 0px 0px 2px rgba(99, 102, 241, 0.3);
+}
+
+ 
+.form-padrao .input-validation-error {
+    border-color: #E50914 !important;
+}
+
+.form-padrao .field-validation-error {
+    color: #E50914;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+
+.form-padrao textarea {
+    min-height: 100px;
+    resize: vertical;
 }

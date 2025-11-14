@@ -20,9 +20,15 @@ namespace CineMa.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> IndexAdmin()
+        {
+            return View("~/Views/Admin/Product/Index.cshtml", await _productRepository.GetAll());
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Admin/Product/Create.cshtml");
         }
 
         [HttpPost]
@@ -38,9 +44,9 @@ namespace CineMa.Controllers
             {
                 
                 await _productRepository.Create(product);
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexAdmin");
             }
-            return View("Index");
+            return View("IndexAdmin");
         }
 
         [HttpPost]
@@ -53,7 +59,7 @@ namespace CineMa.Controllers
             }
 
             await _productRepository.Delete(product);
-            return RedirectToAction("Index");
+            return RedirectToAction("IndexAdmin");
         }
 
         [HttpGet]
@@ -70,7 +76,7 @@ namespace CineMa.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            return View("~/Views/Admin/Product/Update.cshtml", product);
         }
 
         [HttpPost]
@@ -95,10 +101,10 @@ namespace CineMa.Controllers
             if (ModelState.IsValid)
             {
                 await _productRepository.Update(product);
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexAdmin");
             }
 
-            return View(product);
+            return View("IndexAdmin", product);
         }
     }
 }

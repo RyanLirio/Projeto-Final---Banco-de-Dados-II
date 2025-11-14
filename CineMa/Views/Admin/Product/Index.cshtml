@@ -1,9 +1,10 @@
 ﻿@model ICollection<Cine_Ma.Models.Product>
 
 @{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Products";
     ViewData["Title"] = "Produtos";
 }
-
 <div class="text-center">
     <a asp-controller="Product" asp-action="Create">Novo</a>
     <table class="table table-responsive table-hover table-striped">
@@ -26,22 +27,22 @@
                     <td>@p.Id</td>
                     <td>@p.Name</td>
                     <td>R$@price.ToString("F2")</td>
-                    <td>@p.Discount</td>
+                    <td>@p.Discount %</td>
                     <td>R$@discountPrice.ToString("F2")</td>
                     <td>
                         <a asp-controller="Product"
-                           asp-action="Update"
-                           class="btn btn-primary btn-sm"
-                           asp-route-id="@p.Id">
+                            asp-action="Update"
+                            class="btn btn-purple btn-sm"
+                            asp-route-id="@p.Id">
                             Editar
                         </a>
                         <form asp-controller="Product" asp-action="Delete"
-                              method="post"
-                              onsubmit="return confirm('Tem certeza que deseja excluir este registro?');">
+                                method="post"
+                                onsubmit="return confirm('Tem certeza que deseja excluir este registro?');">
 
                             <input type="hidden" name="id" value="@p.Id" />
 
-                            <button type="submit" class="btn btn-danger btn-sm">
+                            <button type="submit" class="btn btn-red btn-sm">
                                 Excluir
                             </button>
                         </form>

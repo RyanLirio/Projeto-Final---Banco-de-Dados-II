@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = ViewData["Title"] ?? "Admin";
+    var activeMenu = ViewData["ActiveMenu"] as string ?? "";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CineMa</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CineMa.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="black">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-0 gray">
+                <div class="d-flex flex-column align-items-start px-3 pt-3 texto min-vh-100">
+
+                    <h5 class="mb-4">Admin Center</h5>
+
+                    <ul class="nav nav-pills flex-column mb-auto w-100">
+                        <li class="nav-item w-100">
+                            <a asp-area=""
+                               asp-controller="Admin"
+                               asp-action="Index"
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Menu" ? "red" : "")">
+                                <i class="bi-house"></i>
+                                <span class="ms-2">Menu</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100">
+                            <a asp-area=""
+                               asp-controller="Product"
+                               asp-action="IndexAdmin"
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Products" ? "red" : "")">
+                                <i class="bi-grid"></i>
+                                <span class="ms-2">Produtos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col py-3">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
