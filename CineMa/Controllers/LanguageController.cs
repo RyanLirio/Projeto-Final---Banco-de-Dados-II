@@ -4,40 +4,40 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMa.Controllers
 {
-    public class SexController : Controller
+    public class LanguageController : Controller
     {
-        private readonly ISexRepository _sexRepository;
+        private readonly ILanguageRepository _languageRepository;
 
-        public SexController(ISexRepository sexRepository)
+        public LanguageController(ILanguageRepository languageRepository)
         {
-            _sexRepository = sexRepository;
+            _languageRepository = languageRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _sexRepository.GetAll());
+            return View(await _languageRepository.GetAll());
         }
 
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
-            return View("~/Views/Admin/Sex/Index.cshtml",await _sexRepository.GetAll());
+            return View("~/Views/Admin/Language/Index.cshtml", await _languageRepository.GetAll());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View("~/Views/Admin/Sex/Create.cshtml");
+            return View("~/Views/Admin/Language/Create.cshtml");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Sex sex)
+        public async Task<IActionResult> Create(Language language)
         {
             if (ModelState.IsValid)
             {
 
-                await _sexRepository.Create(sex);
+                await _languageRepository.Create(language);
                 return RedirectToAction("IndexAdmin");
             }
             return View("IndexAdmin");
@@ -46,13 +46,13 @@ namespace CineMa.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var sex = await _sexRepository.GetById(id);
-            if (sex == null)
+            var language = await _languageRepository.GetById(id);
+            if (language == null)
             {
                 return NotFound();
             }
 
-            await _sexRepository.Delete(sex);
+            await _languageRepository.Delete(language);
             return RedirectToAction("IndexAdmin");
         }
 
@@ -63,36 +63,36 @@ namespace CineMa.Controllers
             {
                 return BadRequest();
             }
-            var sex = await _sexRepository.GetById(id.Value);
+            var language = await _languageRepository.GetById(id.Value);
 
-            if (sex == null)
+            if (language == null)
             {
                 return NotFound();
             }
 
-            return View("~/Views/Admin/Sex/Update.cshtml", sex);
+            return View("~/Views/Admin/Language/Update.cshtml", language);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int? id, Sex sex)
+        public async Task<IActionResult> Update(int? id, Language language)
         {
             if (!id.HasValue)
             {
                 return BadRequest();
             }
 
-            if (id.Value != sex.Id)
+            if (id.Value != language.Id)
             {
                 return BadRequest();
             }
 
             if (ModelState.IsValid)
             {
-                await _sexRepository.Update(sex);
+                await _languageRepository.Update(language);
                 return RedirectToAction("IndexAdmin");
             }
 
-            return View(sex);
+            return View(language);
         }
     }
 }

@@ -33,7 +33,7 @@
                             <a asp-area=""
                                asp-controller="Admin"
                                asp-action="Index"
-                               class="nav-link texto py-2 w-100 @(activeMenu == "Menu" ? "red" : "")">
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Menu" ? "btn-red" : "")">
                                 <i class="bi-house"></i>
                                 <span class="ms-2">Menu</span>
                             </a>
@@ -43,9 +43,29 @@
                             <a asp-area=""
                                asp-controller="Product"
                                asp-action="IndexAdmin"
-                               class="nav-link texto py-2 w-100 @(activeMenu == "Products" ? "red" : "")">
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Products" ? "btn-red" : "")">
                                 <i class="bi-grid"></i>
                                 <span class="ms-2">Produtos</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100">
+                            <a asp-area=""
+                               asp-controller="Sex"
+                               asp-action="IndexAdmin"
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Sex" ? "btn-red" : "")">
+                                <i class="bi-grid"></i>
+                                <span class="ms-2">Sex</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100">
+                            <a asp-area=""
+                               asp-controller="Language"
+                               asp-action="IndexAdmin"
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Language" ? "btn-red" : "")">
+                                <i class="bi-grid"></i>
+                                <span class="ms-2">Idioma</span>
                             </a>
                         </li>
                     </ul>
