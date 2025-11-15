@@ -1,6 +1,5 @@
 ﻿using Cine_Ma.Data;
 using Cine_Ma.Repository;
-using CineMa.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,8 +33,6 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<ISexRepository, SexRepository>();
 builder.Services.AddScoped<ISexMovieRepository, SexMovieRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-
-builder.Services.AddScoped<FaceService>();
 
 var app = builder.Build();
 
