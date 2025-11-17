@@ -1,8 +1,256 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- HERO PRINCIPAL -->
+<section class="hero hero-main mb-5" style="background-image:url('/images/hero-destaque.jpg');">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-3">Os Melhores Filmes Estão Aqui</h1>
+        <p class="lead mb-4">Aproveite estreias, salas premium e combos especiais!</p>
+
+        <a href="#" class="btn btn-primary btn-lg px-5 me-3">Comprar Ingressos</a>
+        <a href="#" class="btn btn-outline-light btn-lg px-5">Ver Estreias</a>
+    </div>
+</section>
+
+<div class="container">
+
+    <!-- FILTROS AVANÇADOS -->
+    <section class="mb-5">
+        <div class="filters-shell glass-block p-3 p-md-4 mb-4">
+            <div class="row g-3 align-items-center">
+                <!-- Busca -->
+                <div class="col-12 col-lg-4">
+                    <div class="input-group filter-search">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar por filme, ator ou diretor...">
+                    </div>
+                </div>
+
+                <!-- Dropdowns -->
+                <div class="col-12 col-md-8 col-lg-5">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Gênero</button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item">Ação</a></li>
+                            <li><a class="dropdown-item">Comédia</a></li>
+                            <li><a class="dropdown-item">Terror</a></li>
+                            <li><a class="dropdown-item">Romance</a></li>
+                        </ul>
+
+                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Classificação</button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item">Livre</a></li>
+                            <li><a class="dropdown-item">12+</a></li>
+                            <li><a class="dropdown-item">16+</a></li>
+                            <li><a class="dropdown-item">18+</a></li>
+                        </ul>
+
+                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Idioma</button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item">Dublado</a></li>
+                            <li><a class="dropdown-item">Legendado</a></li>
+                        </ul>
+
+                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Ordenar por</button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item">Mais assistidos</a></li>
+                            <li><a class="dropdown-item">Lançamentos</a></li>
+                            <li><a class="dropdown-item">Avaliação</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="col-12 col-lg-3 text-lg-end">
+                    <button class="btn btn-outline-light btn-sm me-2">Limpar filtros</button>
+                    <button class="btn btn-primary btn-sm">Aplicar</button>
+                </div>
+            </div>
+
+            <!-- Chips -->
+            <div class="mt-3 d-flex flex-wrap gap-2">
+                <button class="chip-filter chip-active">Todos</button>
+                <button class="chip-filter">Ação</button>
+                <button class="chip-filter">Comédia</button>
+                <button class="chip-filter">Romance</button>
+                <button class="chip-filter">Suspense</button>
+                <button class="chip-filter">Animação</button>
+                <button class="chip-filter">Família</button>
+                <button class="chip-filter">Heróis</button>
+            </div>
+        </div>
+
+        <!-- Sidebar (desktop) -->
+        <div class="row g-4 d-none d-lg-flex">
+            <div class="col-3">
+                <div class="glass-block p-3 side-filters">
+                    <h6 class="text-muted mb-3">FILTRAR POR</h6>
+
+                    <label class="form-label small">Horário</label>
+                    <select class="form-select form-select-sm mb-3">
+                        <option>Qualquer horário</option>
+                        <option>Manhã</option>
+                        <option>Tarde</option>
+                        <option>Noite</option>
+                    </select>
+
+                    <label class="form-label small">Formato</label>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="chip-filter chip-sm">2D</button>
+                        <button class="chip-filter chip-sm">3D</button>
+                        <button class="chip-filter chip-sm">IMAX</button>
+                    </div>
+
+                    <label class="form-label small">Faixa de preço</label>
+                    <select class="form-select form-select-sm mb-3">
+                        <option>Qualquer</option>
+                        <option>Até R$ 20</option>
+                        <option>R$ 20 - R$ 40</option>
+                        <option>Acima de R$ 40</option>
+                    </select>
+
+                    <button class="btn btn-primary btn-sm w-100">Ver sessões filtradas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARROSSEL DE ESTREIAS -->
+    <section class="mb-5">
+        <h2 class="section-title">🔥 Estreias da Semana</h2>
+
+        <div class="scroll-row">
+            <div class="movie-poster">
+                <img src="/images/movie1.jpg">
+                <div class="movie-info">
+                    <h5>Filme 1</h5>
+                    <button class="btn btn-primary btn-sm w-100 mt-2">Comprar</button>
+                </div>
+            </div>
+
+            <div class="movie-poster">
+                <img src="/images/movie2.jpg">
+                <div class="movie-info">
+                    <h5>Filme 2</h5>
+                    <button class="btn btn-primary btn-sm w-100 mt-2">Comprar</button>
+                </div>
+            </div>
+
+            <div class="movie-poster">
+                <img src="/images/movie3.jpg">
+                <div class="movie-info">
+                    <h5>Filme 3</h5>
+                    <button class="btn btn-primary btn-sm w-100 mt-2">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMBOS -->
+    <section class="mb-5">
+        <h2 class="section-title">🍿 Combos & Pipoca</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="combo-card">
+                    <img src="/images/combo1.png">
+                    <h5 class="mt-2">Combo Clássico</h5>
+                    <p class="text-muted">Pipoca + Refrigerante 500ml</p>
+                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="combo-card">
+                    <img src="/images/combo2.png">
+                    <h5 class="mt-2">Combo Família</h5>
+                    <p class="text-muted">2 Pipocas + 2 bebidas</p>
+                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="combo-card">
+                    <img src="/images/combo3.png">
+                    <h5 class="mt-2">Super Combo</h5>
+                    <p class="text-muted">Pipoca jumbo + chocolate + bebida</p>
+                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EM CARTAZ -->
+    <section class="mb-5">
+        <h2 class="section-title">🎞 Em Cartaz</h2>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="movie-card">
+                    <img src="/images/movie1.jpg">
+                    <div class="card-body">
+                        <h5>Filme Exemplo</h5>
+                        <p class="text-muted small">Ação • 2h02</p>
+                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="movie-card">
+                    <img src="/images/movie2.jpg">
+                    <div class="card-body">
+                        <h5>Filme Exemplo</h5>
+                        <p class="text-muted small">Comédia • 1h45</p>
+                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="movie-card">
+                    <img src="/images/movie3.jpg">
+                    <div class="card-body">
+                        <h5>Filme Exemplo</h5>
+                        <p class="text-muted small">Drama • 2h12</p>
+                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SESSÕES -->
+    <section class="mb-5">
+        <h2 class="section-title">🎟 Próximas Sessões</h2>
+
+        <div class="list-group">
+            <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
+                <div>
+                    <strong>Deadpool 3</strong>
+                    <div class="text-muted small">Sala 2 • Legendado</div>
+                </div>
+                <div>
+                    <span class="me-4">19:40</span>
+                    <a class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+
+            <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
+                <div>
+                    <strong>Divertida Mente 2</strong>
+                    <div class="text-muted small">Sala 1 • Dublado</div>
+                </div>
+                <div>
+                    <span class="me-4">20:10</span>
+                    <a class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </div>
+    
