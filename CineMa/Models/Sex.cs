@@ -8,6 +8,6 @@ namespace Cine_Ma.Models
         public int Id { get; set; }
         [Required]
         public string? Name { get; set; }
-        public ICollection<SexMovie>? SexMovies { get; set; }
+        public ICollection<SexMovie> SexMovies { get; set; } = new List<SexMovie>();
     }
 }

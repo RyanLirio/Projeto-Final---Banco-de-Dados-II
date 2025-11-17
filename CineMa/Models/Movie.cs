@@ -31,6 +31,6 @@ namespace Cine_Ma.Models
         [ForeignKey(nameof(LanguageId))]
         public Language? Language { get; set; }
 
-        public ICollection<SexMovie>? SexMovies { get; set; }
+        public ICollection<SexMovie> SexMovies { get; set; } = new List<SexMovie>();
     }
 }

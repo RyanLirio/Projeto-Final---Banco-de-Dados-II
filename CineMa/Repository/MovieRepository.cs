@@ -35,6 +35,8 @@ namespace Cine_Ma.Repository
         {
             var data = await _context.Movies
                 .Include(m => m.Language)
+                .Include(m => m.SexMovies)
+                    .ThenInclude(sm => sm.Sex)
                 .ToListAsync();
             return data;
         }

@@ -1,0 +1,123 @@
+﻿@model Cine_Ma.ViewModels.Movies.MovieViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Movie";
+    ViewData["Title"] = "Filmes";
+}
+
+<h1 class="texto">Atualizando Filme</h1>
+
+<hr />
+
+<div class="row">
+    <form asp-action="Update"
+          asp-controller="Movie"
+          asp-route-id="@Model.Id"
+          class="form-padrao">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <p class="fw-bold texto">
+                    ID: <span class="fw-light">@Model.Id</span>
+                </p>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Title" class="control-label texto">Título</label>
+                <input asp-for="Title" class="form-control inputs-padrao" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-2">
+                <label asp-for="Duration" class="control-label texto">Duração em minutos</label>
+                <input asp-for="Duration" class="form-control inputs-padrao" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label asp-for="MinimumAge" class="control-label texto">Idade mínima</label>
+                <input asp-for="MinimumAge" class="form-control inputs-padrao" />
+                <span asp-validation-for="MinimumAge" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="Rating" class="control-label texto">Nota (1-10)</label>
+                <input asp-for="Rating" class="form-control inputs-padrao" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="DtRelease" class="control-label texto">Lançamento</label>
+                <input asp-for="DtRelease" type="date" class="form-control inputs-padrao" />
+                <span asp-validation-for="DtRelease" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-4">
+                <label asp-for="LanguageId" class="control-label texto">Idioma</label>
+                <select asp-for="LanguageId"
+                        class="form-control inputs-padrao"
+                        asp-items="@(new SelectList(Model.Languages, "Id", "Name", Model.LanguageId))">
+                    <option value="">Selecione...</option>
+                </select>
+                <span asp-validation-for="LanguageId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label asp-for="Studio" class="control-label texto">Estúdio</label>
+                <input asp-for="Studio" class="form-control inputs-padrao" />
+                <span asp-validation-for="Studio" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="control-label texto">Descrição</label>
+            <textarea asp-for="Description" class="form-control inputs-padrao"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Synopsis" class="control-label texto">Sinopse</label>
+            <textarea asp-for="Synopsis" class="form-control inputs-padrao"></textarea>
+            <span asp-validation-for="Synopsis" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="control-label texto">Gêneros</label>
+            <div class="row">
+                @for (int i = 0; i < Model.Sexes.Count; i++)
+                {
+                    <div class="col-md-3">
+                        <input type="hidden" asp-for="Sexes[i].Id" />
+                        <input type="hidden" asp-for="Sexes[i].Name" />
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   asp-for="Sexes[i].IsSelected" />
+                            <label class="form-check-label texto">
+                                @Model.Sexes[i].Name
+                            </label>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn-purple float-end ms-2 texto"
+               asp-controller="Movie"
+               asp-action="Index">
+                Voltar
+            </a>
+            <input type="submit"
+                   value="Atualizar"
+                   class="btn btn-red float-end texto" />
+        </div>
+    </form>
+</div>
