@@ -1,464 +1,517 @@
-/* ======================================================
-   C I N E M A +   (Estilo Disney+ Premium)
-   Design System completo para o site inteiro
-   ====================================================== */
-
-/* -----------------------------
-   1. Variáveis Globais
---------------------------------*/
-:root {
-    /* Paleta principal */
-    --bg-900: #0A0F1F;
-    --bg-800: #11182C;
-    --bg-700: #1E2B48;
-    --fg: #EAF1FF;
-    --muted: #9FB3D2;
-    --primary: #3B82F6; /* Azul neon suave */
-    --primary-hover: #60A5FA;
-    --accent: #22D3EE; /* Ciano brilho */
-
-    --warning-gold: #FACC15;
-    /* Glass */
-    --glass: rgba(255,255,255,0.05);
-    --glass-strong: rgba(255,255,255,0.08);
-    /* Espaçamento */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 40px;
-    /* Radius */
-    --radius: 14px;
-    --radius-sm: 8px;
-    /* Sombras */
-    --shadow-1: 0 8px 24px rgba(0,0,0,0.4);
-    --shadow-2: 0 18px 40px rgba(0,0,0,0.6);
-    /* Tipografia */
-    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-    --font-display: "Montserrat", system-ui, sans-serif;
+ï»¿html {
+    font-size: 14px;
 }
 
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
 
-/* -----------------------------
-2. Reset básico
---------------------------------*/
-html, body {
-height: 100%;
-margin: 0;
-padding: 0;
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-background: var(--bg-900);
-color: var(--fg);
-font-family: var(--font-sans);
--webkit-font-smoothing: antialiased;
+    background: #121212;
+    color: #F5F5F5;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-
-/* -----------------------------
-3. Container global
---------------------------------*/
-.container, .container-fluid {
-max-width: 1200px;
-padding-left: 1rem;
-padding-right: 1rem;
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
-
-/* -----------------------------
-4. NAVBAR
---------------------------------*/
-.navbar {
-background: rgba(10,15,30,0.8);
-border-bottom: 1px solid rgba(255,255,255,0.06);
-backdrop-filter: blur(10px);
-padding: .65rem 1rem;
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
 }
 
-.navbar-brand {
-color: #fff !important;
-font-weight: 700;
-font-family: var(--font-display);
-letter-spacing: .5px;
+.black {
+    background-color: #121212;
 }
 
-.navbar .nav-link {
-color: var(--muted) !important;
-padding: .45rem .8rem;
-border-radius: var(--radius-sm);
-transition: .18s;
+.red {
+    background-color: #E50914;
 }
 
-.navbar .nav-link:hover {
-    background: rgba(255,255,255,0.08);
-    color: #fff !important;
+.gray {
+    background-color: #1F2937;
 }
 
-
-/* -----------------------------
-5. HERO
---------------------------------*/
-.hero {
-min-height: 60vh;
-background-size: cover;
-background-position: center;
-border-radius: var(--radius);
-overflow: hidden;
-position: relative;
-box-shadow: var(--shadow-2);
+.purple {
+    background-color: #6366F1;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.75));
+.cinza {
+    background-color: #D1D5DB;
 }
 
-.hero .container {
-    position: relative;
-    z-index: 2;
+.texto {
+    color: #F5F5F5 !important;
 }
 
-.hero h1 {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 3rem;
-    text-shadow: 0 6px 30px rgba(0,0,0,0.7);
+.nav-link:hover {
+    transition: 1s;
+    background-color: #E50914;
+    color: #F5F5F5 !important;
 }
 
-.hero .lead {
-    font-size: 1.25rem;
-    color: var(--muted);
+.nav-link.active {
+    transition: 1s;
+    background-color: #6366F1;
+    color: #F5F5F5 !important;
 }
 
-
-/* -----------------------------
-6. Botões
---------------------------------*/
-.btn-primary {
-background: var(--primary);
-border: none;
-padding: .7rem 1.4rem;
-border-radius: var(--radius-sm);
-font-weight: 600;
-}
-
-.btn-primary:hover {
-    background: var(--primary-hover);
-}
-
-.btn-outline-light {
-border-color: rgba(255,255,255,0.2);
-color: #fff;
-padding: .7rem 1.4rem;
-border-radius: var(--radius-sm);
-}
-
-.btn-outline-light:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-
-/* -----------------------------
-7. Movie Cards
---------------------------------*/
-.movie-card {
-background: var(--glass);
-border: 1px solid rgba(255,255,255,0.06);
-border-radius: var(--radius);
-overflow: hidden;
-backdrop-filter: blur(8px);
-transition: .25s;
-}
-
-.movie-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-2);
-}
-
-.movie-card img {
-    width: 100%;
-    height: 320px;
-    object-fit: cover;
-    background: #07121a;
-}
-
-.movie-card .card-body {
-    padding: 1rem;
-    background: rgba(255,255,255,0.02);
-}
-
-
-/* -----------------------------
-8. List group (sessões)
---------------------------------*/
-.list-group-item {
-background: rgba(255,255,255,0.05);
-border: none;
-border-radius: var(--radius-sm) !important;
-backdrop-filter: blur(6px);
-margin-bottom: var(--space-sm);
-padding: var(--space-md);
-}
-
-
-/* -----------------------------
-9. Títulos de seção
---------------------------------*/
-.section-title {
-font-family: var(--font-display);
-font-weight: 600;
-font-size: 1.5rem;
-margin-bottom: var(--space-lg);
-}
-
-
-/* ======================================================
-10. Filtros Avançados (Busca + Dropdown + Chips + Sidebar)
-====================================================== */
-
-/* container do bloco */
-.filters-shell {
-border-radius: var(--radius);
-background: radial-gradient(circle at top left, rgba(59,130,246,0.22), transparent 55%), radial-gradient(circle at bottom right, rgba(34,211,238,0.18), transparent 55%), rgba(15,23,42,0.92);
-border: 1px solid rgba(148,163,184,0.24);
-}
-
-/* glass reutilizável */
-.glass-block {
-background: rgba(15,23,42,0.9);
-border: 1px solid rgba(148,163,184,0.25);
-border-radius: var(--radius);
-backdrop-filter: blur(10px);
-box-shadow: var(--shadow-2);
-}
-
-/* --- busca --- */
-.filter-search .input-group-text {
-background: rgba(15,23,42,0.95);
-border: 1px solid rgba(148,163,184,0.5);
-border-right: 0;
-color: var(--muted);
-}
-
-.filter-search .form-control {
-background: rgba(15,23,42,0.85);
-border: 1px solid rgba(148,163,184,0.5);
-border-left: 0;
-color: var(--fg);
-}
-
-.filter-search .form-control::placeholder {
-    color: rgba(148,163,184,0.8);
-}
-
-.filter-search .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 1px rgba(59,130,246,0.6);
-}
-
-/* --- dropdown buttons --- */
-.btn-filter {
-background: rgba(15,23,42,0.95);
-border-radius: 999px;
-border: 1px solid rgba(148,163,184,0.5);
-color: var(--muted);
-font-size: .85rem;
-padding: .45rem .9rem;
-}
-
-.btn-filter:hover {
-    background: radial-gradient(circle at top left, rgba(59,130,246,0.28), rgba(15,23,42,0.95));
-    color: #EAF1FF;
-    border-color: var(--primary);
-}
-
-/* --- dropdown dark --- */
-.dropdown-menu-dark {
-    background: #020617;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(148,163,184,0.3);
-}
-
-.dropdown-menu-dark .dropdown-item {
-color: #E5E7EB;
-}
-
-.dropdown-menu-dark .dropdown-item:hover {
-    background: rgba(37,99,235,0.3);
-}
-
-/* --- chips --- */
-.chip-filter {
-    border-radius: 999px;
-    border: 1px solid rgba(148,163,184,0.6);
-    background: rgba(15,23,42,0.9);
-    color: var(--muted);
-    padding: .35rem .9rem;
-    font-size: .8rem;
-    cursor: pointer;
-    transition: .18s;
-}
-
-.chip-filter:hover {
-    border-color: var(--primary);
-    color: #EAF1FF;
-    background: radial-gradient(circle at top left, rgba(59,130,246,0.25), rgba(15,23,42,1));
-}
-
-.chip-active {
-    background: linear-gradient(120deg, var(--primary), var(--accent));
-    color: #0B1120;
-    border-color: transparent;
+.btn-red {
+    background-color: #E50914;
+    color: #FFFFFF;
+    border-radius: 6px;
+    padding: 10px 18px;
     font-weight: 600;
 }
 
-/* versão pequena (sidebar) */
-.chip-sm {
-    padding: .25rem .7rem;
-    font-size: .75rem;
+.btn-purple {
+    background-color: #6366F1;
+    color: #FFFFFF;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 600;
 }
 
-/* --- sidebar --- */
-.side-filters .form-select,
-.side-filters select {
-    background: rgba(15,23,42,0.95);
-    border: 1px solid rgba(148,163,184,0.6);
+.btn-red:hover {
+    transition: 1s;
+    background-color: #6366F1;
+}
+
+.btn-purple:hover {
+    transition: 1s;
+    background-color: #E50914;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 600;
+}
+
+.form-padrao {
+    display: block;
+    width: 100%;
+}
+
+    .form-padrao .form-group,
+    .form-padrao .mb-field {
+        margin-bottom: 16px;
+    }
+
+    .inputs-padrao,
+    .form-padrao input[type="text"],
+    .form-padrao input[type="number"],
+    .form-padrao input[type="email"],
+    .form-padrao input[type="password"],
+    .form-padrao input[type="date"],
+    .form-padrao input[type="time"],
+    .form-padrao select,
+    .form-padrao textarea {
+        background-color: #1F2937;
+        color: #F5F5F5;
+        border: 1px solid #D1D5DB;
+        border-radius: 6px;
+        padding: 10px 12px;
+        width: 100%;
+        font-size: 16px;
+        transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+    }
+
+        .inputs-padrao::placeholder,
+        .form-padrao input::placeholder,
+        .form-padrao textarea::placeholder {
+            color: #D1D5DB;
+            opacity: 0.7;
+        }
+
+        .inputs-padrao:focus,
+        .form-padrao input:focus,
+        .form-padrao select:focus,
+        .form-padrao textarea:focus {
+            outline: none;
+            border-color: #6366F1;
+            box-shadow: 0px 0px 0px 2px rgba(99, 102, 241, 0.3);
+        }
+
+
+    .form-padrao .input-validation-error {
+        border-color: #E50914 !important;
+    }
+
+    .form-padrao .field-validation-error {
+        color: #E50914;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+
+    .form-padrao textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+.tabela-escura {
+    background: #212529;
+}
+
+    .tabela-escura:hover {
+        transition: 1s;
+        background: #323539;
+    }
+
+.tabela-clara {
+    background: #2c3034;
+}
+
+    .tabela-clara:hover {
+        transition: 1s;
+        background: #323539;
+    }
+
+.tabela-borda {
+    border-bottom: var(--bs-border-width) var(--bs-border-style) #4d5154 !important;
+}
+/* ================================================================
+   CINE MA â€“ VISUAL DISNEY+ PREMIUM (AZUL NEON + GLASSMORPHISM)
+   ================================================================ */
+
+/* ---------------------------
+   PALETA GLOBAL
+--------------------------- */
+:root {
+    --bg: #020617;
+    --bg-2: #0f172a;
+    --bg-3: #1e293b;
+    --fg: #e2e8f0;
+    --muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --accent: #22d3ee;
+    --radius: 18px;
+    --radius-sm: 12px;
+    --shadow-1: 0 8px 24px rgba(0,0,0,0.45);
+    --shadow-2: 0 18px 48px rgba(0,0,0,0.6);
+    --glass: rgba(255,255,255,0.06);
+    --glass-strong: rgba(255,255,255,0.12);
+}
+
+/* ---------------------------
+   BASE
+--------------------------- */
+body {
+    background: var(--bg);
     color: var(--fg);
+    font-family: "Inter", sans-serif;
+}
+
+.container {
+    width: min(95%, 1600px);
+    margin: 0 auto;
+}
+
+/* ---------------------------
+   NAVBAR
+--------------------------- */
+.navbar {
+    background: var(--bg-2) !important;
+    border-bottom: 1px solid #1e293b;
+    box-shadow: var(--shadow-1);
+    padding: .8rem 1rem;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.4rem;
+    font-family: "Montserrat", sans-serif;
+}
+
+.nav-link {
+    color: #cbd5e1 !important;
+    margin-right: 1rem;
+    transition: .2s;
+}
+
+    .nav-link:hover {
+        color: #fff !important;
+        transform: translateY(-2px);
+    }
+
+/* ---------------------------
+   HERO â€“ CENTRALIZADO
+--------------------------- */
+.hero-cinema {
+    width: 100%;
+    max-width: 1100px;
+    margin: 30px auto 50px auto;
+    min-height: 360px;
+    background-image: url('/images/hero-destaque.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.55));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    padding-top: 70px;
+}
+
+.hero-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2.6rem;
+    font-weight: 800;
+    text-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+
+.hero-subtitle {
+    opacity: 0.85;
+    font-size: 1.2rem;
+}
+
+/* ---------------------------
+   BOTÃ•ES
+--------------------------- */
+.btn-primary {
+    background: var(--primary);
+    border: none;
+    padding: 10px 26px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        background: var(--primary-hover);
+    }
+
+.btn-outline-light {
+    border-color: #64748b;
+    color: #e2e8f0;
+    padding: 10px 26px;
+    border-radius: var(--radius-sm);
+}
+
+    .btn-outline-light:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+    }
+
+/* ---------------------------
+   FILTROS â€“ GLASS PREMIUM
+--------------------------- */
+.filters-shell {
+    background: var(--glass);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: var(--shadow-1);
+}
+
+/* input busca */
+.filter-search .input-group-text {
+    background: var(--bg-3);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--muted);
+}
+
+.filter-search .form-control {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+    .filter-search .form-control::placeholder {
+        color: var(--muted);
+    }
+
+/* dropdowns */
+.btn-filter {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 7px 16px;
     font-size: .85rem;
+    border-radius: 50px;
+    color: var(--fg);
+    transition: .2s;
 }
 
-.side-filters select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 1px rgba(59,130,246,0.5);
+    .btn-filter:hover {
+        background: rgba(59,130,246,0.35);
+        border-color: var(--primary);
+    }
+
+/* chips */
+.chip-filter {
+    background: rgba(255,255,255,0.07);
+    padding: 8px 17px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: .8rem;
+    cursor: pointer;
+    color: var(--fg);
 }
 
+    .chip-filter:hover {
+        background: rgba(59,130,246,0.3);
+    }
 
-/* ======================================================
-   11. Responsividade
-   ====================================================== */
-@media (max-width: 575.98px) {
-    .hero {
-        min-height: 42vh;
+.chip-active {
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    border: none !important;
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+/* ---------------------------
+   MOVIE CARDS
+--------------------------- */
+.movie-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-1);
+    transition: .25s;
+}
+
+    .movie-card:hover {
+        transform: translateY(-6px) scale(1.02);
     }
 
     .movie-card img {
-        height: 220px;
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
     }
 
-    .filters-shell {
-        padding: 1rem !important;
-    }
-
-    .chip-filter {
-        font-size: .75rem;
-    }
-
-    .btn-filter {
-        font-size: .75rem;
-        padding: .35rem .7rem;
-    }
-}
-/* CARROSSEL DISNEY+ */
+/* ---------------------------
+   POSTERS CARROSSEL
+--------------------------- */
 .scroll-row {
     display: flex;
-    gap: 18px;
+    gap: 20px;
     overflow-x: auto;
     padding-bottom: 10px;
 }
 
-.scroll-row::-webkit-scrollbar {
-    height: 8px;
-}
+    .scroll-row::-webkit-scrollbar {
+        height: 6px;
+    }
 
-.scroll-row::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15);
-    border-radius: 4px;
-}
+    .scroll-row::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.18);
+        border-radius: 6px;
+    }
 
 .movie-poster {
-min-width: 180px;
-background: rgba(255,255,255,0.05);
-border-radius: 12px;
-overflow: hidden;
-transition: .2s;
+    min-width: 180px;
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: .22s;
 }
 
-.movie-poster:hover {
-    transform: scale(1.05);
-}
+    .movie-poster:hover {
+        transform: scale(1.05);
+    }
 
-.movie-poster img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-}
+    .movie-poster img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
 
 .movie-info {
     padding: 10px;
     text-align: center;
 }
 
-/* COMBOS */
+/* ---------------------------
+   COMBOS
+--------------------------- */
 .combo-card {
+    padding: 22px;
     background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 14px;
+    border-radius: var(--radius);
     text-align: center;
     transition: .2s;
 }
 
-.combo-card:hover {
-    transform: translateY(-4px);
-}
-
-.combo-card img {
-    height: 140px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-/* BACKGROUND GERAL */
-body.layout-dark {
-    background: #020617 !important;
-    color: #e5e7eb !important;
-    font-family: 'Inter', sans-serif;
-}
-
-/* NAVBAR ESTILO DISNEY+ */
-.cinema-navbar {
-    background: #0f172a !important;
-    border-bottom: 1px solid #1e293b;
-    padding: 0.75rem 1rem;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
-}
-
-.cinema-navbar .navbar-brand {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.35rem;
-    color: #fff !important;
-}
-
-.cinema-navbar .nav-link {
-    color: #cbd5e1 !important;
-    margin-right: 0.8rem;
-    transition: .2s;
-}
-
-    .cinema-navbar .nav-link:hover {
-        color: #fff !important;
-        transform: translateY(-2px);
+    .combo-card:hover {
+        transform: translateY(-4px);
     }
 
-.cinema-navbar .btn-outline-light {
-    border-color: #64748b;
-    color: #e2e8f0;
+    .combo-card img {
+        height: 140px;
+        object-fit: contain;
+    }
+
+/* ---------------------------
+   RESPONSIVIDADE
+--------------------------- */
+@media (max-width: 768px) {
+    .hero-cinema {
+        min-height: 260px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .filters-shell {
+        padding: 16px;
+    }
+
+    .movie-card img {
+        height: 230px;
+    }
 }
 
-.cinema-navbar .btn-outline-light:hover {
-    background: #3b82f6;
-    color: #fff;
-    border-color: #3b82f6;
+.ad-left, .ad-right {
+    position: fixed;
+    top: 200px;
+    width: 300px;
+    height: 100%;
+    z-index: 100;
+    background-size: cover;
+    background-repeat: repeat-y; /* REPETE VERTICAL */
+    background-position: center top;
 }
+
+.ad-left {
+    left: 50px;
+    background-image: url('/images/ad-left.png');
+}
+
+.ad-right {
+    right: 80px;
+    background-image: url('/images/ad-right.png');
+}
+
+/* Esconde no celular */
+@media(max-width: 1200px) {
+    .ad-left, .ad-right {
+        display: none;
+    }
+}
+

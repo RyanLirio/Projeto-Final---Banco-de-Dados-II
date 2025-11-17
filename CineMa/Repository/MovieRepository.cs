@@ -60,5 +60,28 @@ namespace Cine_Ma.Repository
 
             return movies;
         }
+
+        public async Task<List<Movie>> GetByRelease()
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly in30Days = today.AddDays(30);
+
+            var movies = await _context.Movies
+                .Where(m => m.DtRelease >= today && m.DtRelease <= in30Days)
+                .Include(m => m.Language)
+                .ToListAsync();
+
+            return movies;
+        }
+
+        public async Task<List<Movie>> GetBySexId(int sexId)
+        {
+            var movies = await _context.SexMovies
+                .Where(m => m.SexId == sexId)
+                .Select(m => m.Movie!)
+                .ToListAsync();
+            return movies;
+        }
+
     }
 }
