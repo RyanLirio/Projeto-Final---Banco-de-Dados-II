@@ -69,6 +69,15 @@ namespace Cine_Ma.Repository
             var movies = await _context.Movies
                 .Where(m => m.DtRelease >= today && m.DtRelease <= in30Days)
                 .Include(m => m.Language)
+                .Include(m => m.ImageUrl)
+                .Include(m => m.Description)
+                .Include(m => m.DtRelease)
+                .Include(m => m.Synopsis)
+                .Include(m => m.Duration)
+                .Include(m => m.MinimumAge)
+                .Include(m => m.SexMovies)
+                .Include(m => m.Title)
+                .Include(m => m.Studio)
                 .ToListAsync();
 
             return movies;
