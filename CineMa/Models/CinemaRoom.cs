@@ -13,6 +13,6 @@ namespace Cine_Ma.Models
         public Cinema? Cinema { get; set; }
         [Required]
         public string? RoomNumber { get; set; }
-        public ICollection<Chair>? Chairs { get; set; }
+        public ICollection<Chair>? Chairs { get; set; } = new List<Chair>();
     }
 }

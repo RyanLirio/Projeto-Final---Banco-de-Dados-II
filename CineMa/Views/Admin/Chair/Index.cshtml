@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Cine_Ma.Models.Chair>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Cinema";
+    ViewData["Title"] = "Mapa da Sala";
+
+    var room = ViewBag.Room;
+    int totalRows = ViewBag.TotalRows;
+    int totalColumns = ViewBag.TotalColumns;
+
+    var rows = Model
+        .Select(c => c.Row)
+        .Distinct()
+        .OrderBy(r => r)
+        .ToList();
+}
+
+<h1 class="texto">Mapa da Sala @room.RoomNumber</h1>
+<hr />
+
+<div class="mb-3">
+    <a asp-controller="Cinema"
+       asp-action="IndexAdmin"
+       class="btn btn-purple texto">
+        Voltar
+    </a>
+
+    <a asp-controller="Room"
+       asp-action="Update"
+       asp-route-id="@room.Id"
+       class="btn btn-red texto ms-2">
+        Editar Sala
+    </a>
+</div>
+
+<div class="mt-4">
+    <div class="screen text-center text-white mb-4 py-2"
+         style="background: #444; border-radius: 6px;">
+        TELA
+    </div>
+
+    <table class="table text-center text-white">
+        <thead>
+            <tr>
+                <th></th>
+                @for (int c = 1; c <= totalColumns; c++)
+                {
+                    <th>@c</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var row in rows)
+            {
+                <tr>
+                    <th>@row</th>
+
+                    @for (int col = 1; col <= totalColumns; col++)
+                    {
+                        var exists = Model.Any(ch => ch.Row == row && ch.Column == col);
+
+                        if (exists)
+                        {
+                            <td style="padding: 8px;">
+                                <div style="
+                                                width: 24px;
+                                                height: 24px;
+                                                background: #00b37e;
+                                                border-radius: 4px;
+                                                margin: auto;">
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="padding: 8px;">
+                                <div style="
+                                                width: 24px;
+                                                height: 24px;
+                                                background: #b30000;
+                                                border-radius: 4px;
+                                                margin: auto;">
+                                </div>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .btn-blue {
+        background: #4d7cff !important;
+        color: white !important;
+    }
+
+    .texto {
+        color: #f5f5f5 !important;
+    }
+</style>

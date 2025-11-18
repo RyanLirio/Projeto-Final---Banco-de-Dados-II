@@ -1,0 +1,58 @@
+﻿@model Cine_Ma.ViewModels.Rooms.CinemaRoomViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Cinema";
+    ViewData["Title"] = "Editar Sala";
+}
+
+<h1 class="texto">Editar Sala</h1>
+<hr />
+
+<div class="row">
+    <form asp-action="Update" asp-controller="Room" asp-route-id="@Model.Id" class="form-padrao">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CinemaId" />
+
+        <div class="row g-3 mb-3">
+
+            <div class="form-group col-md-4">
+                <label asp-for="RoomNumber" class="control-label texto">Número da Sala</label>
+                <input asp-for="RoomNumber" class="form-control inputs-padrao" />
+                <span asp-validation-for="RoomNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="TotalRows" class="control-label texto">Quantidade de Fileiras</label>
+                <input asp-for="TotalRows" type="number" class="form-control inputs-padrao" min="1" />
+                <span asp-validation-for="TotalRows" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="TotalColumns" class="control-label texto">Assentos por Fileira</label>
+                <input asp-for="TotalColumns" type="number" class="form-control inputs-padrao" min="1" />
+                <span asp-validation-for="TotalColumns" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+
+            <a asp-controller="Cinema"
+               asp-action="IndexAdmin"
+               class="btn btn-purple float-end ms-2 texto">
+                Voltar
+            </a>
+
+            <input type="submit"
+                   value="Salvar alterações"
+                   class="btn btn-red float-end texto" />
+
+        </div>
+
+    </form>
+</div>

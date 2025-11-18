@@ -1,0 +1,102 @@
+﻿@model Cine_Ma.ViewModels.Cinemas.CinemaViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Cinema";
+    ViewData["Title"] = "Cinema";
+}
+
+<h1 class="texto">Atualizando Cinema</h1>
+
+<hr />
+
+<div class="row">
+    <form asp-action="Update" asp-controller="Cinema" asp-route-id="@Model.Id" class="form-padrao">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-12">
+                <p class="fw-bold texto">ID: <span class="fw-light">@Model.Id</span></p>
+            </div>
+
+            <div class="form-group col-md-3 mb-3">
+                <label asp-for="Name" class="control-label texto">Nome do Cinema</label>
+                <input asp-for="Name" class="form-control inputs-padrao" value="@Model.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Cnpj" class="control-label texto">CNPJ</label>
+                <input asp-for="Cnpj" class="form-control inputs-padrao" value="@Model.Cnpj" />
+                <span asp-validation-for="Cnpj" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Phone" class="control-label texto">Telefone</label>
+                <input asp-for="Phone" class="form-control inputs-padrao" value="@Model.Phone" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Email" class="control-label texto">E-mail</label>
+                <input asp-for="Email" class="form-control inputs-padrao" value="@Model.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr />
+        <h4 class="texto">Endereço</h4>
+
+        <div class="row g-3 mb-3">
+
+            <div class="form-group col-md-3">
+                <label asp-for="Address.ZipCode" class="control-label texto">CEP</label>
+                <input asp-for="Address.ZipCode" class="form-control inputs-padrao" value="@Model.Address.ZipCode" />
+                <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Address.State" class="control-label texto">Estado</label>
+                <input asp-for="Address.State" class="form-control inputs-padrao" value="@Model.Address.State" />
+                <span asp-validation-for="Address.State" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Address.City" class="control-label texto">Cidade</label>
+                <input asp-for="Address.City" class="form-control inputs-padrao" value="@Model.Address.City" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Address.Road" class="control-label texto">Rua</label>
+                <input asp-for="Address.Road" class="form-control inputs-padrao" value="@Model.Address.Road" />
+                <span asp-validation-for="Address.Road" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+
+            <div class="form-group col-md-3">
+                <label asp-for="Address.Number" class="control-label texto">Número</label>
+                <input asp-for="Address.Number" class="form-control inputs-padrao" value="@Model.Address.Number" />
+                <span asp-validation-for="Address.Number" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-9">
+                <label asp-for="Address.Descripton" class="control-label texto">Complemento</label>
+                <input asp-for="Address.Descripton" class="form-control inputs-padrao" value="@Model.Address.Descripton" />
+                <span asp-validation-for="Address.Descripton" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a asp-controller="Cinema" asp-action="IndexAdmin"
+               class="btn btn-purple float-end ms-2 texto">Voltar</a>
+
+            <input type="submit" value="Atualizar"
+                   class="btn btn-red float-end texto hoverRoxo" />
+        </div>
+    </form>
+</div>

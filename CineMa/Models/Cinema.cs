@@ -20,6 +20,6 @@ namespace Cine_Ma.Models
         public int AddressId { get; set; }
         [ForeignKey(nameof(AddressId))]
         public Address? Address { get; set; }
-        public ICollection<CinemaRoom>? Rooms { get; set; }
+        public ICollection<CinemaRoom>? Rooms { get; set; } = new List<CinemaRoom>();
     }
 }
