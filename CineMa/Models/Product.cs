@@ -12,6 +12,8 @@ namespace Cine_Ma.Models
         public int Price { get; set; }
         [Required]
         public int Discount { get; set; }
+        [Required]
+        public string? Category { get; set; }
         public ICollection<ProductOrder>? ProductOrders { get; set; }
     }
 }

@@ -175,33 +175,20 @@
 
         <div class="row g-4">
 
-            <div class="col-md-4 col-sm-6">
-                <div class="combo-card">
-                    <img src="/images/combo1.png">
-                    <h5 class="mt-2">Combo Clássico</h5>
-                    <p class="text-muted">Pipoca + Refrigerante 500ml</p>
-                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-                <div class="combo-card">git 
-                    <img src="/images/combo2.png">
-                    <h5 class="mt-2">Combo Família</h5>
-                    <p class="text-muted">2 Pipocas + 2 bebidas</p>
-                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-                <div class="combo-card">
-                    <img src="/images/combo3.png">
-                    <h5 class="mt-2">Super Combo</h5>
-                    <p class="text-muted">Pipoca jumbo + chocolate + bebida</p>
-                    <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
-                </div>
-            </div>
-
+            @if (Model.Products != null)
+            {
+                foreach (var product in Model.Products)
+                {
+                    <div class="col-md-4 col-sm-6">
+                        <div class="combo-card">
+                            <img src="/images/combo1.png">
+                            <h5 class="mt-2">@product.Name</h5>
+                            <p class="text-muted">@product.Price</p>
+                            <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </section>
 

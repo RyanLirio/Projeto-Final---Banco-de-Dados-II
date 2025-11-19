@@ -12,12 +12,14 @@ namespace CineMa.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IMovieRepository MovieRepository;
         private readonly ISessionRepository SessionRepository;
+        private readonly IProductRepository ProductRepository;
 
-        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository)
+        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository, IProductRepository productRepository)
         {
             _logger = logger;
             MovieRepository = movieRepository;
             SessionRepository = sessionRepository;
+            ProductRepository = productRepository;
         }
 
         public IActionResult Privacy()
@@ -33,6 +35,9 @@ namespace CineMa.Controllers
 
         public async Task<IActionResult> Index()
         {
+
+            var products = await ProductRepository.GetAll();
+
             var movies = await MovieRepository.GetAll();
 
             //lançamentos
@@ -57,6 +62,7 @@ namespace CineMa.Controllers
 
             var vm = new HomeViewModel
             {
+                Products = products ?? new List<Product>(),
                 ActiveSessions = sessionsToday ?? new List<Session>(),
                 UpcomingReleases = upcoming ?? new List<Movie>(),
                 MoviesInCartaz = moviesInCartaz ?? new List<Movie>()
