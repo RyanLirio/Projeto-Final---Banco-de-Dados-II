@@ -5,20 +5,21 @@
 namespace CineMa.Migrations
 {
     /// <inheritdoc />
-    public partial class AjustesNovos : Migration
+    public partial class revertendoRemocao : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ImageUrl",
-                table: "Movie",
-                type: "nvarchar(max)",
-                nullable: true);
-
             migrationBuilder.AddColumn<bool>(
                 name: "NowShowing",
                 table: "Movie",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsVip",
+                table: "Chair",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -28,12 +29,12 @@ namespace CineMa.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ImageUrl",
+                name: "NowShowing",
                 table: "Movie");
 
             migrationBuilder.DropColumn(
-                name: "NowShowing",
-                table: "Movie");
+                name: "IsVip",
+                table: "Chair");
         }
     }
 }

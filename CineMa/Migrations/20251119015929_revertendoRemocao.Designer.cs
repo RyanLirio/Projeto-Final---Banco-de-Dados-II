@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMa.Migrations
 {
     [DbContext(typeof(CineContext))]
-    [Migration("20251118224349_EditChar")]
-    partial class EditChar
+    [Migration("20251119015929_revertendoRemocao")]
+    partial class revertendoRemocao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
