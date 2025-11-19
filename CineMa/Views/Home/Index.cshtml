@@ -3,7 +3,7 @@
     Layout = "_Layout";
 }
 
-@model List<Cine_Ma.Models.Movie>
+@model CineMa.Models.ViewModel.HomeViewModel
 
 <!-- HERO CENTRALIZADO -->
 <section class="hero-cinema mx-auto">
@@ -97,40 +97,26 @@
         <h2 class="section-title">Em Cartaz</h2>
 
         <div class="row g-4">
-
-            <div class="col-md-4 col-sm-6">
-                <div class="movie-card">
-                    <img src="/images/movie1.jpg">
-                    <div class="card-body">
-                        <h5>Filme Exemplo</h5>
-                        <p class="text-muted small">Ação • 2h02</p>
-                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
+            @if (Model.MoviesInCartaz != null)
+            {
+                foreach (var movie in Model.MoviesInCartaz)
+                {
+                    <div class="col-md-4 col-sm-6">
+                        <div class="movie-card">
+                            <img src="@movie.ImageUrl">
+                            <div class="card-body">
+                                <h5>@movie.Title</h5>
+                                <p class="text-muted small">@movie.SexMovies • @movie.Duration</p>
+                                <button class="btn btn-primary btn-sm">Ver Sessões</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-                <div class="movie-card">
-                    <img src="/images/movie2.jpg">
-                    <div class="card-body">
-                        <h5>Filme Exemplo</h5>
-                        <p class="text-muted small">Comédia • 1h45</p>
-                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6">
-                <div class="movie-card">
-                    <img src="/images/movie3.jpg">
-                    <div class="card-body">
-                        <h5>Filme Exemplo</h5>
-                        <p class="text-muted small">Drama • 2h12</p>
-                        <button class="btn btn-primary btn-sm">Ver Sessões</button>
-                    </div>
-                </div>
-            </div>
-
+                }
+            }
+            else
+            {
+                <div class="p-3 text-muted">Nenhum filme disponível no momento.</div>
+            }   
         </div>
     </section>
 
@@ -170,9 +156,9 @@
         <h2 class="section-title">Estreias</h2>
 
         <div class="scroll-row">
-            @if (Model != null && Model.Count > 0)
+            @if (Model.UpcomingReleases != null && Model.UpcomingReleases.Count > 0)
             {
-                foreach (var movie in Model)
+                foreach (var movie in Model.UpcomingReleases)
                 {
                     <div class="movie-poster">
                         <img src="@movie.ImageUrl" />

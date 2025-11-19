@@ -9,7 +9,7 @@ namespace Cine_Ma.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string? Title{ get; set; }
+        public string? Title { get; set; }
         [Required]
         public int Duration { get; set; }
         [Required]
@@ -21,7 +21,7 @@ namespace Cine_Ma.Models
         //[ForeignKey(nameof(IdStudio))]
         //public int IdStudio { get; set; }
 
-        public string? Studio {  get; set; }
+        public string? Studio { get; set; }
 
         [Required]
         public DateOnly DtRelease { get; set; }
@@ -33,5 +33,6 @@ namespace Cine_Ma.Models
 
         public ICollection<SexMovie> SexMovies { get; set; } = new List<SexMovie>();
         public string? ImageUrl { get; set; }
+        public bool NowShowing { get; set; }
     }
 }

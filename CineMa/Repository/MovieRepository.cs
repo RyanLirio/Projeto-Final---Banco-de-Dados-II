@@ -68,11 +68,14 @@ namespace Cine_Ma.Repository
 
             var movies = await _context.Movies
                 .Where(m => m.DtRelease >= today && m.DtRelease <= in30Days)
-                .Include(m => m.Language)
+                .Include(m => m.Language)              // ok
+                .Include(m => m.SexMovies)             // ok
+                    .ThenInclude(sm => sm.Sex)         // ok
                 .ToListAsync();
 
             return movies;
         }
+
 
         public async Task<List<Movie>> GetBySexId(int sexId)
         {
