@@ -48,12 +48,12 @@ namespace Cine_Ma.Repository
             return cinemaRoom;
         }
 
-        public async Task<CinemaRoom?> GetByCinemaId(int id)
+        public async Task<List<CinemaRoom>> GetByCinemaId(int id)
         {
-            var cinemaRoom = await _context.CinemaRooms.Where(c => c.CinemaId == id)
+            return await _context.CinemaRooms
+                .Where(c => c.CinemaId == id)
                 .Include(r => r.Chairs)
-                .FirstOrDefaultAsync();
-            return cinemaRoom;
+                .ToListAsync();
         }
     }
 }

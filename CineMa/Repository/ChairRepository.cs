@@ -66,7 +66,7 @@ namespace Cine_Ma.Repository
             return chairs;
         }
 
-        public async Task<List<Chair>?> GetByRoom(int roomId)
+        public async Task<List<Chair>> GetByRoom(int roomId)
         {
             var chairs = await _context.Chairs
                 .Where(c => c.RoomId == roomId)
@@ -74,7 +74,7 @@ namespace Cine_Ma.Repository
                 .Include(c => c.Room)
                 .ToListAsync();
 
-            return chairs.Count == 0 ? null : chairs;
+            return chairs;
         }
     }
 }

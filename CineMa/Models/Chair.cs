@@ -10,5 +10,6 @@ namespace Cine_Ma.Models
         public CinemaRoom? Room { get; set; }
         public int Column { get; set; }
         public string? Row {  get; set; }
+        public bool IsVip { get; set; }
     }
 }
