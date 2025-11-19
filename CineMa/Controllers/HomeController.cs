@@ -42,7 +42,7 @@ namespace CineMa.Controllers
             var sessions = await SessionRepository.GetActiveSessions();
 
             //filmes em cartaz
-            var moviesInCartaz = upcoming
+            var moviesInCartaz = movies
                 .Where(m => sessions.Any(s => s.MovieId == m.Id))
                 .Distinct()
                 .ToList();
