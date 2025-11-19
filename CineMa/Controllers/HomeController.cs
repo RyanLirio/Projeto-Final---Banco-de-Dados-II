@@ -47,8 +47,17 @@ namespace CineMa.Controllers
                 .Distinct()
                 .ToList();
 
+            var sessionsToday = sessions
+                .Where(s =>
+                    s.SessionHour.Date == DateTime.Today &&
+                    s.SessionHour > DateTime.Now)
+                .OrderBy(s => s.SessionHour)
+                .ToList();
+
+
             var vm = new HomeViewModel
             {
+                ActiveSessions = sessionsToday ?? new List<Session>(),
                 UpcomingReleases = upcoming ?? new List<Movie>(),
                 MoviesInCartaz = moviesInCartaz ?? new List<Movie>()
             };

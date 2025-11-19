@@ -125,29 +125,22 @@
         <h2 class="section-title">Próximas Sessões</h2>
 
         <div class="list-group">
-
-            <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
-                <div>
-                    <strong>Deadpool 3</strong>
-                    <div class="text-muted small">Sala 2 • Legendado</div>
-                </div>
-                <div>
-                    <span class="me-4">19:40</span>
-                    <button class="btn btn-primary">Comprar</button>
-                </div>
-            </div>
-
-            <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
-                <div>
-                    <strong>Divertida Mente 2</strong>
-                    <div class="text-muted small">Sala 1 • Dublado</div>
-                </div>
-                <div>
-                    <span class="me-4">20:10</span>
-                    <button class="btn btn-primary">Comprar</button>
-                </div>
-            </div>
-
+            @if(Model.ActiveSessions != null)
+            {
+                foreach(var activeSession in Model.ActiveSessions)
+                {
+                    <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
+                        <div>
+                            <strong>@activeSession.Movie</strong>
+                            <div class="text-muted small">Sala @activeSession.CinemaRoom • @activeSession.LanguageAudio</div>
+                        </div>
+                        <div>
+                            <span class="me-4">@activeSession.SessionHour</span>
+                            <button class="btn btn-primary">Comprar</button>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </section>
 
@@ -192,7 +185,7 @@
             </div>
 
             <div class="col-md-4 col-sm-6">
-                <div class="combo-card">
+                <div class="combo-card">git 
                     <img src="/images/combo2.png">
                     <h5 class="mt-2">Combo Família</h5>
                     <p class="text-muted">2 Pipocas + 2 bebidas</p>
