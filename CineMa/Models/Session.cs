@@ -20,6 +20,9 @@ namespace Cine_Ma.Models
         public DateTime SessionHour { get; set; }
 
         [Required]
+        public int TicketPrice {  get; set; }
+
+        [Required]
         public int LanguageId { get; set; }
         [ForeignKey(nameof(LanguageId))]
         public Language? LanguageAudio { get; set; }

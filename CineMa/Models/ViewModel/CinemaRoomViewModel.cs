@@ -15,6 +15,7 @@ namespace Cine_Ma.ViewModels.Rooms
         public int TotalColumns { get; set; }
         public int TotalRows { get; set; }
 
+        public List<string> VipRows { get; set; } = new();
         public List<ChairViewModel> Chairs { get; set; } = new();
     }
 
@@ -27,5 +28,6 @@ namespace Cine_Ma.ViewModels.Rooms
 
         [Required]
         public string? Row { get; set; }
+        public bool IsVip { get; set; }
     }
 }

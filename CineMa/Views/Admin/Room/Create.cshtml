@@ -35,6 +35,20 @@
             </div>
         </div>
 
+        <div class="form-group col-md-12 mt-3">
+            <label class="control-label texto">Fileiras VIP</label>
+            <select asp-for="VipRows" class="form-control inputs-padrao" multiple>
+                @{
+                    for (int r = 1; r <= Model.TotalRows; r++)
+                    {
+                        string rowLetter = ((char)('A' + (r - 1))).ToString();
+                        <option value="@rowLetter">@rowLetter</option>
+                    }
+                }
+            </select>
+            <small class="text-white">Segure CTRL para selecionar mais de uma fileira</small>
+        </div>
+
         <div class="form-group">
             <a asp-controller="Cinema" asp-action="IndexAdmin"
                class="btn btn-purple float-end ms-2 texto">Voltar</a>

@@ -8,12 +8,7 @@
     var room = ViewBag.Room;
     int totalRows = ViewBag.TotalRows;
     int totalColumns = ViewBag.TotalColumns;
-
-    var rows = Model
-        .Select(c => c.Row)
-        .Distinct()
-        .OrderBy(r => r)
-        .ToList();
+    var rows = Model.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
 }
 
 <h1 class="texto">Mapa da Sala @room.RoomNumber</h1>
@@ -34,70 +29,64 @@
     </a>
 </div>
 
-<div class="mt-4">
+<div class="mt-4 text-center">
+
     <div class="screen text-center text-white mb-4 py-2"
          style="background: #444; border-radius: 6px;">
         TELA
     </div>
 
-    <table class="table text-center text-white">
-        <thead>
-            <tr>
-                <th></th>
-                @for (int c = 1; c <= totalColumns; c++)
+    <div class="d-flex flex-column align-items-center">
+
+        @foreach (var row in rows)
+        {
+            <div class="d-flex mb-2">
+
+                @for (int col = 1; col <= totalColumns; col++)
                 {
-                    <th>@c</th>
+                    var chair = Model.First(c => c.Row == row && c.Column == col);
+                    string code = $"{row}{col}";
+                    string color = chair.IsVip ? "#00d47e" : "#4d7cff";
+
+                    <div style="
+                                        width: 40px;
+                                        height: 40px;
+                                        border-radius: 6px;
+                                        margin: 4px;
+                                        background: @color;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        font-weight: bold;
+                                        color: #fff;
+                                        ">
+                        @code
+                    </div>
                 }
-            </tr>
-        </thead>
+            </div>
+        }
 
-        <tbody>
-            @foreach (var row in rows)
-            {
-                <tr>
-                    <th>@row</th>
+    </div>
 
-                    @for (int col = 1; col <= totalColumns; col++)
-                    {
-                        var exists = Model.Any(ch => ch.Row == row && ch.Column == col);
+    <div class="mt-4 text-white">
+        <div class="d-flex justify-content-center gap-4">
 
-                        if (exists)
-                        {
-                            <td style="padding: 8px;">
-                                <div style="
-                                                width: 24px;
-                                                height: 24px;
-                                                background: #00b37e;
-                                                border-radius: 4px;
-                                                margin: auto;">
-                                </div>
-                            </td>
-                        }
-                        else
-                        {
-                            <td style="padding: 8px;">
-                                <div style="
-                                                width: 24px;
-                                                height: 24px;
-                                                background: #b30000;
-                                                border-radius: 4px;
-                                                margin: auto;">
-                                </div>
-                            </td>
-                        }
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+            <div class="d-flex align-items-center">
+                <div style="width:20px; height:20px; background:#4d7cff; border-radius:4px;" class="me-2"></div>
+                Normal
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div style="width:20px; height:20px; background:#00d47e; border-radius:4px;" class="me-2"></div>
+                VIP
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 <style>
-    .btn-blue {
-        background: #4d7cff !important;
-        color: white !important;
-    }
-
     .texto {
         color: #f5f5f5 !important;
     }

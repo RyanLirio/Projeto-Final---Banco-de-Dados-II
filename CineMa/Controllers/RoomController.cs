@@ -53,6 +53,16 @@ namespace Cine_Ma.Controllers
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Room/Create.cshtml", vm);
 
+            foreach (var vipRow in vm.VipRows)
+            {
+                int rowIndex = vipRow[0] - 'A' + 1;
+                if (rowIndex > vm.TotalRows)
+                {
+                    ModelState.AddModelError("VipRows", $"A fileira {vipRow} não existe.");
+                    return View("~/Views/Admin/Room/Create.cshtml", vm);
+                }
+            }
+
             var room = new CinemaRoom
             {
                 CinemaId = vm.CinemaId,
@@ -64,6 +74,7 @@ namespace Cine_Ma.Controllers
             for (int r = 1; r <= vm.TotalRows; r++)
             {
                 string rowLetter = ((char)('A' + (r - 1))).ToString();
+                bool isVipRow = vm.VipRows.Contains(rowLetter);
 
                 for (int c = 1; c <= vm.TotalColumns; c++)
                 {
@@ -71,7 +82,8 @@ namespace Cine_Ma.Controllers
                     {
                         RoomId = room.Id,
                         Column = c,
-                        Row = rowLetter
+                        Row = rowLetter,
+                        IsVip = isVipRow
                     });
                 }
             }
@@ -87,22 +99,31 @@ namespace Cine_Ma.Controllers
             if (room == null)
                 return NotFound();
 
+            var chairs = room.Chairs ?? new List<Chair>();
+
             var vm = new CinemaRoomViewModel
             {
                 Id = room.Id,
                 CinemaId = room.CinemaId,
                 RoomNumber = room.RoomNumber,
 
-                TotalRows = room.Chairs.Select(c => c.Row).Distinct().Count(),
+                TotalRows = chairs.Select(c => c.Row).Distinct().Count(),
+                TotalColumns = chairs.Select(c => c.Column).Distinct().Count(),
 
-                TotalColumns = room.Chairs.Select(c => c.Column).Distinct().Count(),
-
-                Chairs = room.Chairs.Select(c => new ChairViewModel
+                Chairs = chairs.Select(c => new ChairViewModel
                 {
                     RoomId = room.Id,
                     Column = c.Column,
-                    Row = c.Row
-                }).ToList()
+                    Row = c.Row,
+                    IsVip = c.IsVip
+                }).ToList(),
+
+                VipRows = chairs
+                    .Where(c => c.IsVip)
+                    .Select(c => c.Row!)
+                    .Distinct()
+                    .OrderBy(r => r)
+                    .ToList()
             };
 
             return View("~/Views/Admin/Room/Update.cshtml", vm);
@@ -117,6 +138,16 @@ namespace Cine_Ma.Controllers
 
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Room/Update.cshtml", vm);
+
+            foreach (var vipRow in vm.VipRows)
+            {
+                int rowIndex = vipRow[0] - 'A' + 1;
+                if (rowIndex > vm.TotalRows)
+                {
+                    ModelState.AddModelError("VipRows", $"A fileira {vipRow} não existe.");
+                    return View("~/Views/Admin/Room/Update.cshtml", vm);
+                }
+            }
 
             var room = await _roomRepository.GetById(id);
             if (room == null)
@@ -133,6 +164,7 @@ namespace Cine_Ma.Controllers
             for (int r = 1; r <= vm.TotalRows; r++)
             {
                 string rowLetter = ((char)('A' + (r - 1))).ToString();
+                bool isVipRow = vm.VipRows.Contains(rowLetter);
 
                 for (int c = 1; c <= vm.TotalColumns; c++)
                 {
@@ -140,7 +172,8 @@ namespace Cine_Ma.Controllers
                     {
                         RoomId = room.Id,
                         Column = c,
-                        Row = rowLetter
+                        Row = rowLetter,
+                        IsVip = isVipRow
                     });
                 }
             }
@@ -156,7 +189,9 @@ namespace Cine_Ma.Controllers
             if (room == null)
                 return NotFound();
 
-            foreach (var c in room.Chairs)
+            var chairs = room.Chairs?.ToList() ?? new List<Chair>();
+
+            foreach (var c in chairs)
                 await _chairRepository.Delete(c);
 
             await _roomRepository.Delete(room);

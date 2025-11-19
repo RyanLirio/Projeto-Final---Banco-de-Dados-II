@@ -11,6 +11,7 @@
 
 <div class="row">
     <form asp-action="Update" asp-controller="Room" asp-route-id="@Model.Id" class="form-padrao">
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <input type="hidden" asp-for="Id" />
@@ -40,8 +41,29 @@
 
         <hr />
 
-        <div class="form-group">
+        <h4 class="texto mt-3">Fileiras VIP</h4>
 
+        <div class="form-group col-md-6">
+            <select asp-for="VipRows" class="form-control inputs-padrao" multiple>
+                @{
+                    for (int r = 1; r <= Model.TotalRows; r++)
+                    {
+                        string rowLetter = ((char)('A' + (r - 1))).ToString();
+                        bool isSelected = Model.VipRows.Contains(rowLetter);
+
+                        <option value="@rowLetter" selected="@(isSelected ? "selected" : null)">
+                            @rowLetter
+                        </option>
+                        ;
+                    }
+                }
+            </select>
+            <small class="text-white">Segure CTRL para selecionar várias fileiras</small>
+        </div>
+
+        <hr />
+
+        <div class="form-group mt-3">
             <a asp-controller="Cinema"
                asp-action="IndexAdmin"
                class="btn btn-purple float-end ms-2 texto">
@@ -51,7 +73,6 @@
             <input type="submit"
                    value="Salvar alterações"
                    class="btn btn-red float-end texto" />
-
         </div>
 
     </form>
