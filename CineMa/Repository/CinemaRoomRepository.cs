@@ -35,6 +35,8 @@ namespace Cine_Ma.Repository
         {
             var data = await _context.CinemaRooms
                 .Include(r => r.Chairs)
+                .Include(r => r.Cinema)
+                    .ThenInclude(c => c!.Address)
                 .ToListAsync();
             return data;
         }
@@ -44,6 +46,8 @@ namespace Cine_Ma.Repository
             var cinemaRoom = await _context.CinemaRooms
                 .Where(c => c.Id == id)
                 .Include(r => r.Chairs)
+                .Include(r => r.Cinema)
+                    .ThenInclude(c => c!.Address)
                 .FirstOrDefaultAsync();
             return cinemaRoom;
         }
