@@ -1,0 +1,126 @@
+﻿@model Cine_Ma.ViewModels.Sessions.SessionViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Session";
+    ViewData["Title"] = "Sessões";
+}
+
+<h1 class="texto">Atualizar Sessão</h1>
+
+<hr />
+
+<div class="row">
+    <form asp-action="Update" asp-controller="Session" asp-route-id="@Model.Id" class="form-padrao">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row g-3 mb-3">
+
+            <div class="form-group col-md-4">
+                <label asp-for="MovieId" class="control-label texto">Filme</label>
+                <select asp-for="MovieId" class="form-control inputs-padrao">
+                    <option value="">Selecione...</option>
+
+                    @foreach (var movie in Model.Movies)
+                    {
+                        <option value="@movie.Id" selected="@(movie.Id == Model.MovieId)">
+                            @movie.Title
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="MovieId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="SessionHour" class="control-label texto">Horário</label>
+                <input asp-for="SessionHour" type="datetime-local" class="form-control inputs-padrao" />
+                <span asp-validation-for="SessionHour" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="TicketPrice" class="control-label texto">Preço do Ingresso</label>
+                <input asp-for="TicketPrice" type="number" class="form-control inputs-padrao" min="0" />
+                <span asp-validation-for="TicketPrice" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr />
+        <h4 class="texto">Idioma e Sala</h4>
+
+        <div class="row g-3 mb-3">
+
+            <div class="form-group col-md-4">
+                <label asp-for="LanguageId" class="control-label texto">Idioma do Áudio</label>
+                <select asp-for="LanguageId" class="form-control inputs-padrao">
+                    <option value="">Selecione...</option>
+
+                    @foreach (var lang in Model.AudioLanguages)
+                    {
+                        <option value="@lang.Id" selected="@(lang.Id == Model.LanguageId)">
+                            @lang.Name
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="LanguageId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="CaptionId" class="control-label texto">Legenda</label>
+                <select asp-for="CaptionId" class="form-control inputs-padrao">
+                    <option value="">Nenhuma</option>
+
+                    @foreach (var cap in Model.CaptionLanguages)
+                    {
+                        <option value="@cap.Id" selected="@(cap.Id == Model.CaptionId)">
+                            @cap.Name
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="CaptionId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="RoomId" class="control-label texto">Sala</label>
+                <select asp-for="RoomId" class="form-control inputs-padrao">
+                    <option value="">Selecione...</option>
+
+                    @foreach (var room in Model.Rooms)
+                    {
+                        <option value="@room.Id" selected="@(room.Id == Model.RoomId)">
+                            @room.RoomNumber (Cinema @room.Cinema?.Name,
+                            @room.Cinema?.Address?.City - @room.Cinema?.Address?.State?.ToUpper())
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <hr />
+        <h4 class="texto">Configurações Extras</h4>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-4">
+                <label asp-for="Is3D" class="control-label texto">Sessão 3D?</label>
+                <select asp-for="Is3D" class="form-control inputs-padrao">
+                    <option value="false" selected="@(Model.Is3D == false)">Não</option>
+                    <option value="true" selected="@(Model.Is3D == true)">Sim</option>
+                </select>
+                <span asp-validation-for="Is3D" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <a asp-controller="Session" asp-action="IndexAdmin"
+               class="btn btn-purple float-end ms-2 texto">
+                Voltar
+            </a>
+
+            <input type="submit" value="Salvar"
+                   class="btn btn-red float-end texto" />
+        </div>
+
+    </form>
+</div>

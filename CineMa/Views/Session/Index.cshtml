@@ -1,0 +1,152 @@
+﻿@model ICollection<Cine_Ma.Models.Session>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Session";
+    ViewData["Title"] = "Sessões";
+    int count = 0;
+}
+<div class="text-center container">
+    <a asp-controller="Session" asp-action="Create">Novo</a>
+    <div class="row  px-0 text-center tabela-escura d-flex align-items-center tabela-borda">
+        <div class="col-1">
+            <p class="fw-bold text-white py-3 m-0">Id</p>
+        </div>
+        <div class="col-3">
+            <p class="fw-bold text-white py-3 m-0">Filme</p>
+        </div>
+        <div class="col-2">
+            <p class="fw-bold text-white py-3 m-0">Hora Início</p>
+        </div>
+        <div class="col-4">
+            <p class="fw-bold text-white py-3 m-0">Sala</p>
+        </div>
+        <div class="col-2">
+            <p class="fw-bold text-white py-3 m-0">Ações</p>
+        </div>
+    </div>
+    @foreach (var s in Model)
+    {
+        if ((count % 2) == 0)
+        {
+            <div class="row  px-0 tabela-clara d-flex align-items-center tabela-borda" data-bs-toggle="collapse" data-bs-target="#detalhesSessao_@s.Id" style="cursor: pointer;">
+                <div class="col-1">
+                    <p class="text-white py-3 m-0">@s.Id</p>
+                </div>
+                <div class="col-3">
+                    <p class="text-white py-3 m-0">@s.Movie!.Title</p>
+                </div>
+                <div class="col-2">
+                    <p class="text-white py-3 m-0">@s.SessionHour</p>
+                </div>
+                <div class="col-4">
+                    <p class="text-white py-3 m-0">@s.CinemaRoom!.RoomNumber (Cinema @s.CinemaRoom!.Cinema!.Name, @s.CinemaRoom!.Cinema!.Address!.City - @s.CinemaRoom!.Cinema!.Address!.State!.ToUpper())</p>
+                </div>
+                <div class="col-2">
+                    <a asp-controller="Session"
+                       asp-action="Update"
+                       class="btn btn-purple btn-sm me-1"
+                       asp-route-id="@s.Id">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                        </svg>
+                    </a>
+                    <form asp-controller="Session"
+                          asp-action="Delete"
+                          method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Tem certeza que deseja excluir este registro?');">
+
+                        <input type="hidden" name="id" value="@s.Id" />
+
+                        <button type="submit" class="btn btn-red btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row  px-0 tabela-escura d-flex align-items-center tabela-borda" data-bs-toggle="collapse" data-bs-target="#detalhesFilme_@s.Id" style="cursor: pointer;">
+                <div class="col-1">
+                    <p class="text-white py-3 m-0">@s.Id</p>
+                </div>
+                <div class="col-3">
+                    <p class="text-white py-3 m-0">@s.Movie!.Title</p>
+                </div>
+                <div class="col-2">
+                    <p class="text-white py-3 m-0">@s.SessionHour</p>
+                </div>
+                <div class="col-4">
+                    <p class="text-white py-3 m-0">@s.CinemaRoom!.RoomNumber (Cinema @s.CinemaRoom!.Cinema!.Name, @s.CinemaRoom!.Cinema!.Address!.City - @s.CinemaRoom!.Cinema!.Address!.State!.ToUpper())</p>
+                </div>
+                <div class="col-2">
+                    <a asp-controller="Session"
+                       asp-action="Update"
+                       class="btn btn-purple btn-sm me-1"
+                       asp-route-id="@s.Id">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                        </svg>
+                    </a>
+                    <form asp-controller="Session"
+                          asp-action="Delete"
+                          method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Tem certeza que deseja excluir este registro?');">
+
+                        <input type="hidden" name="id" value="@s.Id" />
+
+                        <button type="submit" class="btn btn-red btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+        <div id="detalhesSessao_@s.Id" class="collapse row px-0 py-2 text-start tabela-borda" style="background: #323539; min-width: 100%;">
+            <div class="col-3">
+                <p class="fw-bold text-white" style="font-size: 15px;">Data Fim Prevista: <span class="fw-normal">@s.Movie!.Duration</span></p>
+            </div>
+            <div class="col-2" style="font-size: 15px;">
+                <p class="fw-bold text-white" style="font-size: 15px;">
+                    Áudio: <span class="fw-normal">
+                        @(s.LanguageAudio!.Id == s.Movie.LanguageId
+                                            ? "Áudio Original"
+                                            : $"Dublado ({s.LanguageAudio.Name})")
+                    </span>
+                </p>
+            </div>
+            <div class="col-2" style="font-size: 15px;">
+                <p class="fw-bold text-white" style="font-size: 15px;">
+                    Legenda: <span class="fw-normal">
+                    @(s.CaptionId == null
+                        ? "Não"
+                        : $"({s.LanguageCaption!.Name})")
+                    </span>
+                </p>
+            </div>
+            <div class="col-2" style="font-size: 15px;">
+                <p class="fw-bold text-white" style="font-size: 15px;">
+                    3D: <span class="fw-normal">
+                        @(s.Is3D
+                            ? "Sim"
+                            : "Não")
+                    </span>
+                </p>
+            </div>
+            <div class="col-3" style="font-size: 15px;">
+                <p class="fw-bold text-white mb-0" style="font-size: 15px;">Valor Padrão Ingresso: <span class="fw-normal">R$@s.TicketPrice</span></p>
+            </div>
+        </div>
+
+        count++;
+    }
+</div>

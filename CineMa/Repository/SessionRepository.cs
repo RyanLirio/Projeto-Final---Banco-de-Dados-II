@@ -29,8 +29,11 @@ namespace Cine_Ma.Repository
         {
             var data = await _context.Sessions
                 .Include(s => s.Movie)
+                    .ThenInclude(m => m!.Language)
                 .Include(s => s.LanguageAudio)
                 .Include(s => s.CinemaRoom)
+                    .ThenInclude(r => r!.Cinema)
+                        .ThenInclude(c => c!.Address)
                 .Include(s => s.LanguageCaption)
                 .ToListAsync();
 
