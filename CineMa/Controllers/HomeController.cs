@@ -4,6 +4,7 @@ using CineMa.Models;
 using CineMa.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace CineMa.Controllers
 {
@@ -38,6 +39,19 @@ namespace CineMa.Controllers
 
             var products = await ProductRepository.GetAll();
 
+            var foods = products
+                .Where(p => p.Category == "Comida")
+                .ToList();
+
+            var drinks = products
+                .Where(p => p.Category == "Bebida")
+                .ToList();
+            
+            var combos = products
+                .Where(p => p.Category == "Combo")
+                .ToList();
+
+
             var movies = await MovieRepository.GetAll();
 
             //lançamentos
@@ -59,10 +73,14 @@ namespace CineMa.Controllers
                 .OrderBy(s => s.SessionHour)
                 .ToList();
 
+            
+
 
             var vm = new HomeViewModel
             {
-                Products = products ?? new List<Product>(),
+                Combos = combos ?? new List<Product>(),
+                Drinks = drinks ?? new List<Product>(),
+                Foods = foods ?? new List<Product>(),
                 ActiveSessions = sessionsToday ?? new List<Session>(),
                 UpcomingReleases = upcoming ?? new List<Movie>(),
                 MoviesInCartaz = moviesInCartaz ?? new List<Movie>()

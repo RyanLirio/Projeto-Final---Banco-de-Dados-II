@@ -183,7 +183,7 @@ h1, h2, h3, h4 {
     border-bottom: var(--bs-border-width) var(--bs-border-style) #4d5154 !important;
 }
 /* ================================================================
-   CINE MA – VISUAL DISNEY+ PREMIUM (AZUL NEON + GLASSMORPHISM)
+   CINE MA – DISNEY+ PREMIUM STYLE (AZUL NEON + GLASSMORPHISM)
    ================================================================ */
 
 /* ---------------------------
@@ -249,7 +249,7 @@ body {
     }
 
 /* ---------------------------
-   HERO – CENTRALIZADO
+   HERO
 --------------------------- */
 .hero-cinema {
     width: 100%;
@@ -318,7 +318,7 @@ body {
     }
 
 /* ---------------------------
-   FILTROS – GLASS PREMIUM
+   FILTROS – GLASS
 --------------------------- */
 .filters-shell {
     background: var(--glass);
@@ -389,20 +389,41 @@ body {
 .movie-card {
     background: rgba(255,255,255,0.05);
     border-radius: var(--radius-sm);
-    overflow: hidden;
     box-shadow: var(--shadow-1);
+    overflow: hidden;
     transition: .25s;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-
-    .movie-card:hover {
-        transform: translateY(-6px) scale(1.02);
-    }
 
     .movie-card img {
         width: 100%;
-        height: 280px;
-        object-fit: cover;
+        aspect-ratio: 2 / 3; /* Mantém pôster */
+        object-fit: contain;
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
     }
+
+    .movie-card:hover {
+        transform: translateY(-6px) scale(1.04);
+        box-shadow: var(--shadow-2);
+    }
+
+    .movie-card h5,
+    .movie-card h6 {
+        text-align: center;
+        margin-top: 12px;
+        color: #fff;
+        font-weight: 600;
+    }
+
+/* controles de espaçamento entre sections */
+.section-block {
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
 
 /* ---------------------------
    POSTERS CARROSSEL
@@ -487,6 +508,9 @@ body {
     }
 }
 
+/* ---------------------------
+   ADS LATERAIS
+--------------------------- */
 .ad-left, .ad-right {
     position: fixed;
     top: 200px;
@@ -494,7 +518,7 @@ body {
     height: 100%;
     z-index: 100;
     background-size: cover;
-    background-repeat: repeat-y; /* REPETE VERTICAL */
+    background-repeat: repeat-y;
     background-position: center top;
 }
 
@@ -508,29 +532,173 @@ body {
     background-image: url('/images/ad-right.png');
 }
 
-/* Esconde no celular */
 @media(max-width: 1200px) {
     .ad-left, .ad-right {
         display: none;
     }
 }
 
+/* ---------------------------
+   BOTÃO VERDE OPCIONAL
+--------------------------- */
 .btn-green {
     --bs-btn-color: #fff;
     --bs-btn-bg: #198754;
     --bs-btn-border-color: #198754;
-    --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #157347;
     --bs-btn-hover-border-color: #146c43;
-    --bs-btn-focus-shadow-rgb: 60, 153, 110;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #146c43;
-    --bs-btn-active-border-color: #13653f;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #198754;
-    --bs-btn-disabled-border-color: #198754;
     border-radius: 6px;
     padding: 10px 18px;
     font-weight: 600;
+}
+
+/* ================================
+   PRÓXIMAS SESSÕES – ESTILO PREMIUM
+   ================================ */
+
+.sessions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.session-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: var(--shadow-1);
+    transition: .22s;
+}
+
+    .session-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-2);
+    }
+
+/* Poster */
+.session-poster {
+    width: 70px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.12);
+}
+
+/* Centro */
+.session-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--fg);
+}
+
+.session-details {
+    margin: 3px 0 0 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+/* Direita */
+.session-right {
+    margin-left: auto;
+    text-align: right;
+}
+
+.session-hour {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .session-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .session-right {
+        margin-left: 0;
+    }
+
+    .session-poster {
+        width: 120px;
+        height: 170px;
+    }
+}
+
+/* ================================
+   HORÁRIO – PILL PREMIUM
+================================ */
+.session-hour-pill {
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    text-shadow: 0 0 12px rgba(34,211,238,0.4);
+}
+
+/* ================================
+   BOTÃO "COMPRAR" MAIOR
+================================ */
+.btn-buy {
+    padding: 10px 28px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 999px !important;
+}
+
+/* ================================
+   CLASSIFICAÇÃO INDICATIVA
+================================ */
+.age-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    margin-left: 8px;
+    font-size: .75rem;
+    font-weight: 700;
+    border-radius: 6px;
+    color: #fff;
+}
+
+/* Cores automáticas por classificação */
+.age-Livre, .age-L, .age-0 {
+    background: #16a34a; /* verde */
+}
+
+.age-10, .age-12 {
+    background: #facc15; /* amarelo */
+    color: #0f172a;
+}
+
+.age-14, .age-16 {
+    background: #f97316; /* laranja */
+}
+
+.age-18 {
+    background: #dc2626; /* vermelho */
+}
+
+/* Meta info (sala + idioma + classificação) */
+.session-meta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.session-info {
+    color: var(--muted);
+    font-size: .9rem;
 }

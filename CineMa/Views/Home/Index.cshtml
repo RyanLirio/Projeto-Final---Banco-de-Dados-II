@@ -93,22 +93,19 @@
     </section>
 
     <!-- EM CARTAZ -->
-    <section class="mb-5">
-        <h2 class="section-title">Em Cartaz</h2>
+    <section class="section-block">
+        <h3 class="mb-4">Em Cartaz</h3>
 
         <div class="row g-4">
             @if (Model.MoviesInCartaz != null)
             {
-                foreach (var movie in Model.MoviesInCartaz)
+                foreach (var m in Model.MoviesInCartaz)
                 {
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-6 col-md-4 col-lg-3">
                         <div class="movie-card">
-                            <img src="~/images/@movie.ImageUrl">
-                            <div class="card-body">
-                                <h5>@movie.Title</h5>
-                                <p class="text-muted small">@movie.SexMovies • @movie.Duration</p>
-                                <button class="btn btn-primary btn-sm">Ver Sessões</button>
-                            </div>
+                            <img src="/images/@m.ImageUrl" alt="@m.Title" />
+                            <h6>@m.Title</h6>
+                            <a class="btn btn-primary w-100 mt-2" href="/Cinema/Sessoes/@m.Id">Ver Sessões</a>
                         </div>
                     </div>
                 }
@@ -121,32 +118,48 @@
     </section>
 
     <!-- PRÓXIMAS SESSÕES -->
-    <section class="mb-5">
-        <h2 class="section-title">Próximas Sessões</h2>
+    <section class="mb-5 section-block">
+        <h2 class="section-title mb-4">Próximas Sessões</h2>
 
-        <div class="list-group">
-            @if(Model.ActiveSessions != null)
+        <div class="sessions-grid">
+            @if (Model.ActiveSessions != null)
             {
-                foreach(var activeSession in Model.ActiveSessions)
+                @foreach (var s in Model.ActiveSessions)
                 {
-                    <div class="list-group-item d-flex justify-content-between align-items-center glass-block">
-                        <div>
-                            <strong>@activeSession.Movie.Title</strong>
-                            <div class="text-muted small">Sala @activeSession.CinemaRoom.RoomNumber • @activeSession.LanguageAudio.Name</div>
+                    <div class="session-card">
+
+                        <div class="session-left">
+                            <img class="session-poster" src="/images/@s.Movie.ImageUrl" alt="@s.Movie.Title">
                         </div>
-                        <div>
-                            <span class="me-4">@activeSession.SessionHour</span>
-                            <button class="btn btn-primary">Comprar</button>
+
+                        <div class="session-center">
+                            <h4 class="session-title">@s.Movie.Title</h4>
+
+                            <div class="session-meta">
+                                <span class="session-info">Sala @s.CinemaRoom.RoomNumber • @s.LanguageAudio.Name</span>
+
+                                <span class="age-badge age-@s.Movie.MinimumAge">
+                                    @s.Movie.MinimumAge
+                                </span>
+                            </div>
                         </div>
+
+                        <div class="session-right">
+                            <span class="session-hour-pill">@s.SessionHour.ToString("HH:mm")</span>
+                            <a href="#" class="btn btn-primary btn-buy">Comprar</a>
+                        </div>
+
                     </div>
+
                 }
             }
         </div>
     </section>
 
+
     <!-- ESTREIAS -->
     <section class="mb-5">
-        <h2 class="section-title">Estreias</h2>
+        <h2 class="section-title">Em breve</h2>
 
         <div class="scroll-row">
             @if (Model.UpcomingReleases != null && Model.UpcomingReleases.Count > 0)
@@ -171,13 +184,13 @@
 
     <!-- COMBOS -->
     <section class="mb-5">
-        <h2 class="section-title">Combos & Pipoca</h2>
+        <h2 class="section-title">Combos</h2>
 
         <div class="row g-4">
 
-            @if (Model.Products != null)
+            @if (Model.Combos != null)
             {
-                foreach (var product in Model.Products)
+                foreach (var product in Model.Combos)
                 {
                     <div class="col-md-4 col-sm-6">
                         <div class="combo-card">

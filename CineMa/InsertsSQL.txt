@@ -114,3 +114,32 @@ INSERT INTO Session (MovieId, SessionHour, LanguageId, RoomId, CaptionId, Is3D) 
 
 INSERT INTO Session (MovieId, SessionHour, LanguageId, RoomId, CaptionId, Is3D) VALUES
 (3, DATEADD(HOUR, 13, CAST(CONVERT(date, GETDATE()) AS datetime)), 1, 1, 1, 0); -- 13:00
+
+INSERT INTO Product (Name, Price, Discount) VALUES
+('Pipoca Pequena', 12, 0),
+('Pipoca Média', 16, 0),
+('Pipoca Grande', 20, 0),
+('Pipoca Doce', 18, 0);
+
+INSERT INTO Product (Name, Price, Discount, Category) VALUES
+('Combo Clássico - Pipoca Média + Refri 500ml', 32, 0, 'Combo'),
+('Combo Família - Pipoca Grande + 2 Refri 700ml', 48, 5, 'Combo'),
+('Combo Doce - Pipoca Doce + Refri 500ml', 35, 0, 'Combo'),
+('Combo Premium - Pipoca Grande + 2 Refri + Nachos', 62, 8, 'Combo'),
+('Combo Kids - Pipoca Pequena + Suco', 22, 0, 'Combo');
+
+INSERT INTO Product (Name, Price, Discount, Category) VALUES
+('Pipoca Pequena', 12, 0, 'Pipoca'),
+('Pipoca Média', 16, 0, 'Pipoca'),
+('Pipoca Grande', 20, 0, 'Pipoca'),
+('Pipoca Doce', 18, 0, 'Pipoca'),
+
+('Refrigerante 500ml', 10, 0, 'Bebida'),
+('Refrigerante 700ml', 12, 0, 'Bebida'),
+('Suco Natural 300ml', 14, 0, 'Bebida'),
+('Água Mineral 500ml', 6, 0, 'Bebida'),
+
+('Nachos com Queijo', 18, 0, 'Salgado'),
+('Chocolate Barra', 8, 0, 'Doce');
+
+
