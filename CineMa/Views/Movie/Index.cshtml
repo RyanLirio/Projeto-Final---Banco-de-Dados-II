@@ -1,0 +1,92 @@
+﻿@model CineMa.Models.ViewModel.MovieSessionDetailsViewModel
+
+@{
+    ViewData["Title"] = "Movie";
+    Layout = "_Layout";
+}
+
+
+
+<div class="movie-details-wrapper">
+
+    <!-- BANNER DO FILME -->
+    <div class="movie-banner">
+        <img src="/images/@Model.Movie.ImageUrl" alt="Nome do Filme" class="movie-banner-img" />
+
+        <div class="movie-banner-content">
+            <h1>@Model.Movie.Title</h1>
+
+            <p class="movie-info-line">
+                @Model.Movie.Duration min • @Model.Movie.MinimumAge anos • 
+            </p>
+
+            <p class="movie-description">
+                @Model.Movie.Description
+            </p>
+        </div>
+    </div>
+
+    <!-- FILTRO DE DATAS -->
+    <div class="date-selector-wrapper container mt-4">
+        <h2>Escolha uma data</h2>
+        <div class="days-selector">
+            @if(Model.DaysWithSession != null)
+            {
+                
+                foreach (var day in Model.DaysWithSession)
+                {
+                    var active = day == Model.SelectedDay ? "active-day" : "";
+
+                    <a class="day-pill @active"
+                       href="/Movie/Index/@Model.Movie.Id?day=@day.ToString("yyyy-MM-dd")">
+
+                        <span class="day-name">@day.ToString("ddd").ToUpper()</span>
+                        <span class="day-number">@day.Day</span>
+                        <span class="month-name">@day.ToString("MMM").ToUpper()</span>
+
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+
+    <!-- SESSÕES DISPONÍVEIS -->
+    <div class="container mt-4">
+        <h2>Sessões disponíveis</h2>
+
+            @if(Model.Sessions != null)
+            {
+                foreach(var s in Model.Sessions)
+                {
+                <div class="session-card" data-session-date="@s.SessionHour.Date">
+
+                    <div class="session-left">
+                        <img class="session-poster" src="/images/@s.Movie.ImageUrl" alt="@s.Movie.Title">
+                    </div>
+
+                    <div class="session-center">
+                        <h4 class="session-title">@s.Movie.Title</h4>
+
+                        <div class="session-meta">
+                            <span class="session-info">Sala @s.CinemaRoom.RoomNumber • @s.LanguageAudio.Name</span>
+
+                            <span class="age-badge age-@s.Movie.MinimumAge">
+                                @s.Movie.MinimumAge
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="session-right">
+                        <span class="session-hour-pill">@s.SessionHour.ToString("HH:mm")</span>
+                        <a class="btn btn-primary btn-buy" href="/Session/Index/@s.Id">Comprar</a>
+                    </div>
+
+                </div>
+                    
+                }
+            }
+
+    </div>
+
+</div>

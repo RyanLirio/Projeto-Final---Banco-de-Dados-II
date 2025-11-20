@@ -1,6 +1,8 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Movies;
+using CineMa.Models.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cine_Ma.Controllers
@@ -11,25 +13,56 @@ namespace Cine_Ma.Controllers
         private readonly ILanguageRepository _languageRepository;
         private readonly ISexRepository _sexRepository;
         private readonly ISexMovieRepository _sexMovieRepository;
+        private readonly ISessionRepository _sessionRepository;
 
         public MovieController(
             IMovieRepository movieRepository,
             ILanguageRepository languageRepository,
             ISexRepository sexRepository,
-            ISexMovieRepository sexMovieRepository)
+            ISexMovieRepository sexMovieRepository,
+            ISessionRepository sessionRepository)
         {
             _movieRepository = movieRepository;
             _languageRepository = languageRepository;
             _sexRepository = sexRepository;
             _sexMovieRepository = sexMovieRepository;
+            _sessionRepository = sessionRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id, DateOnly? day)
         {
-            var data = await _movieRepository.GetAll();
-            return View(data);
+            var movie = await _movieRepository.GetById(id);
+            var session = await _sessionRepository.GetByMovieId(id);
+            var SessionDays = await _sessionRepository.GetAvailableDaysForMovie(id);
+
+            
+
+            var days = session
+            .Select(s => DateOnly.FromDateTime(s.SessionHour))
+            .Distinct()
+            .OrderBy(d => d)
+            .ToList();
+
+            var selectedDay = day ?? days.First();
+
+            var sessionsFilteredByDay = session
+                .Where(s => DateOnly.FromDateTime(s.SessionHour) == selectedDay)
+                .OrderBy(s => s.SessionHour)
+                .ToList();
+
+            var vm = new MovieSessionDetailsViewModel
+            {
+                SelectedDay = selectedDay,
+                DaysWithSession = SessionDays,
+                Sessions = sessionsFilteredByDay ?? new List<Session>(),
+                Movie = movie
+            };
+
+            return View(vm);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
@@ -235,5 +268,11 @@ namespace Cine_Ma.Controllers
             return RedirectToAction("IndexAdmin");
         }
 
+        public async Task<IActionResult> Movie(int id)
+        {
+            var data = await _sessionRepository.GetById(id);
+
+            return View(data);
+        }
     }
 }

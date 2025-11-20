@@ -24,6 +24,12 @@ namespace Cine_Ma.Controllers
             _roomRepository = roomRepository;
         }
 
+        public async Task<IActionResult> Index()
+        {
+
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {

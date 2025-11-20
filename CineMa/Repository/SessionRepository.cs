@@ -70,5 +70,29 @@ namespace Cine_Ma.Repository
             _context.Sessions.Update(session);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Session>> GetByMovieId(int id)
+        {
+            var data = await _context.Sessions
+                .Where(s => s.MovieId == id)
+                .Include(s => s.Movie)
+                .Include(s => s.LanguageAudio)
+                .Include(s => s.CinemaRoom)
+                .Include(s => s.LanguageCaption)
+                .ToListAsync();
+                
+            return data;
+        }
+
+        public async Task<List<DateOnly>> GetAvailableDaysForMovie(int movieId)
+        {
+            return await _context.Sessions
+                .Where(s => s.MovieId == movieId)
+                .Select(s => DateOnly.FromDateTime(s.SessionHour))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToListAsync();
+        }
+
     }
 }

@@ -46,6 +46,8 @@ namespace Cine_Ma.Repository
             var movie = await _context.Movies
                 .Where(p => p.Id == id)
                 .Include(m => m.Language)
+                .Include(m => m.SexMovies)
+                .ThenInclude(sm => sm.Sex)
                 .FirstOrDefaultAsync();
             return movie;
         }

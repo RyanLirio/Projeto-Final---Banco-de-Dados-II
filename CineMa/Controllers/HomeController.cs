@@ -89,5 +89,7 @@ namespace CineMa.Controllers
             return View(vm);
         }
 
+        
+
     }
 }

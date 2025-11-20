@@ -702,3 +702,343 @@ body {
     color: var(--muted);
     font-size: .9rem;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===============================
+   MOVIE PAGE – CINEMA PREMIUM
+   =============================== */
+
+/* Wrapper geral */
+.movie-details-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    color: #e2e8f0;
+    font-family: "Inter", sans-serif;
+}
+
+/* ===============================
+   BANNER DO FILME
+   =============================== */
+.movie-banner {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    background: #0f172a;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.55);
+}
+
+.movie-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(55%) saturate(110%);
+}
+
+.movie-banner-content {
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    max-width: 500px;
+}
+
+    .movie-banner-content h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        text-shadow: 0 0 15px rgba(0,0,0,0.8);
+    }
+
+.movie-info-line {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 10px 0 15px 0;
+}
+
+.movie-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 460px;
+    line-height: 1.45rem;
+}
+
+/* ===============================
+   SESSÕES LIST
+   =============================== */
+
+.session-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 18px 24px;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: .2s;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+    .session-item:hover {
+        transform: translateY(-4px);
+        border-color: rgba(59,130,246,0.4);
+    }
+
+/* lado esquerdo */
+.session-left {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Horário em formato pill */
+.session-hour {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 28px;
+    border-radius: 999px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    backdrop-filter: blur(12px);
+    text-shadow: 0 0 5px rgba(255,255,255,0.25);
+}
+
+/* Info da sala */
+.session-info {
+    display: flex;
+    flex-direction: column;
+}
+
+    .session-info strong {
+        font-size: 1.1rem;
+        color: #fff;
+    }
+
+.session-audio {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Botão de comprar */
+.btn-buy-session {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #3b82f6, #22d3ee);
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: .25s;
+    text-decoration: none;
+    box-shadow: 0 0 12px rgba(34,211,238,0.4);
+}
+
+    .btn-buy-session:hover {
+        transform: scale(1.06);
+        box-shadow: 0 0 18px rgba(34,211,238,0.65);
+    }
+
+/* ===============================
+   RESPONSIVIDADE
+   =============================== */
+
+@media (max-width: 900px) {
+    .movie-banner-content h1 {
+        font-size: 2rem;
+    }
+
+    .movie-banner {
+        height: 320px;
+    }
+
+    .movie-banner-content {
+        left: 20px;
+        bottom: 20px;
+    }
+
+    .session-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .btn-buy-session {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .session-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .movie-banner-content {
+        max-width: 300px;
+    }
+
+    .session-hour {
+        font-size: 1.2rem;
+        padding: 8px 22px;
+    }
+}
+
+
+/* ==========================
+   DATE SELECTOR – CINEMA STYLE
+========================== */
+
+.date-selector-wrapper h2 {
+    margin-bottom: 18px;
+    font-weight: 700;
+}
+
+.date-selector {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+    .date-selector::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .date-selector::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.15);
+        border-radius: 10px;
+    }
+
+/* Cada dia */
+.date-pill {
+    min-width: 90px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    transition: .2s;
+}
+
+    .date-pill:hover {
+        background: rgba(59,130,246,0.30);
+        border-color: var(--primary);
+    }
+
+    /* Ativo */
+    .date-pill.active {
+        background: linear-gradient(to bottom right, var(--primary), var(--accent));
+        color: #0f172a;
+        border-color: transparent;
+        font-weight: 700;
+    }
+
+    /* Tipografia */
+    .date-pill .day-name {
+        display: block;
+        font-size: .75rem;
+        opacity: .9;
+    }
+
+    .date-pill .day-number {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    .date-pill .day-month {
+        display: block;
+        font-size: .75rem;
+        opacity: .85;
+    }
+
+.days-selector {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.day-pill {
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    transition: .2s;
+}
+
+    .day-pill:hover {
+        background: rgba(59,130,246,0.35);
+        border-color: var(--primary);
+    }
+
+.active-day {
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    border: none;
+    font-weight: 700;
+    color: #0f172a;
+}
