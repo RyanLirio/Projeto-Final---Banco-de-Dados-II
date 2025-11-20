@@ -1031,10 +1031,10 @@ body {
     transition: .2s;
 }
 
-    .day-pill:hover {
-        background: rgba(59,130,246,0.35);
-        border-color: var(--primary);
-    }
+.day-pill:hover {
+    background: rgba(59,130,246,0.35);
+    border-color: var(--primary);
+}
 
 .active-day {
     background: linear-gradient(to right, var(--primary), var(--accent));

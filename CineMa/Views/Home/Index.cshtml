@@ -186,23 +186,29 @@
     <section class="mb-5">
         <h2 class="section-title">Combos</h2>
 
-        <div class="row g-4">
+        <div class="combos-scroll">
 
             @if (Model.Combos != null)
             {
+                var numCombo = 0;
+
                 foreach (var product in Model.Combos)
                 {
-                    <div class="col-md-4 col-sm-6">
-                        <div class="combo-card">
-                            <img src="/images/combo1.png">
-                            <h5 class="mt-2">@product.Name</h5>
-                            <p class="text-muted">@product.Price</p>
-                            <button class="btn btn-outline-light btn-sm mt-2">Adicionar</button>
+                    numCombo++;
+
+                    <div class="combo-item">
+                        <img class="combo-img" src="/images/combos/combo@(numCombo).jpg" alt="@product.Name" />
+
+                        <div class="combo-info">
+                            <h5>@product.Name</h5>
+                            <p class="combo-price">R$ @product.Price</p>
                         </div>
                     </div>
                 }
             }
         </div>
     </section>
+
+
 
 </div>
