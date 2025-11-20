@@ -43,6 +43,19 @@ namespace Cine_Ma.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteByOrder(int orderId)
+        {
+            var items = await _context.ProductOrders
+                .Where(po => po.OrderId == orderId)
+                .ToListAsync();
+
+            if (items.Any())
+            {
+                _context.ProductOrders.RemoveRange(items);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         // --- MÉTODOS DE CONSULTA (READ) ---
 
         public async Task<ProductOrder?> Get(int productId, int orderId)

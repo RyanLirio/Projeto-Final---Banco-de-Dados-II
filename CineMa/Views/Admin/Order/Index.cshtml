@@ -1,0 +1,171 @@
+﻿@model ICollection<Cine_Ma.Models.Order>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Order";
+    ViewData["Title"] = "Pedidos";
+    int count = 0;
+}
+
+<div class="text-center container">
+    <div class="row px-0 text-center tabela-escura d-flex align-items-center tabela-borda">
+        <div class="col-1">
+            <p class="fw-bold text-white py-3 m-0">Id</p>
+        </div>
+        <div class="col-3">
+            <p class="fw-bold text-white py-3 m-0">Cliente</p>
+        </div>
+        <div class="col-3">
+            <p class="fw-bold text-white py-3 m-0">Cinema</p>
+        </div>
+        <div class="col-2">
+            <p class="fw-bold text-white py-3 m-0">Total</p>
+        </div>
+        <div class="col-1">
+            <p class="fw-bold text-white py-3 m-0">Data</p>
+        </div>
+        <div class="col-2">
+            <p class="fw-bold text-white py-3 m-0">Ações</p>
+        </div>
+    </div>
+
+    @foreach (var o in Model)
+    {
+        var rowClass = (count % 2 == 0) ? "tabela-clara" : "tabela-escura";
+
+        <div class="row px-0 @rowClass d-flex align-items-center tabela-borda"
+             data-bs-toggle="collapse"
+             data-bs-target="#detalhesOrder_@o.Id"
+             style="cursor: pointer;">
+
+            <div class="col-1">
+                <p class="text-white py-3 m-0">@o.Id</p>
+            </div>
+
+            <div class="col-3">
+                <p class="text-white py-3 m-0">@o.Client?.Name</p>
+            </div>
+
+            <div class="col-3">
+                <p class="text-white py-3 m-0">
+                    @o.Cinema?.Name (@o.Cinema?.Address?.City)
+                </p>
+            </div>
+
+            <div class="col-2">
+                <p class="text-white py-3 m-0">R$ @o.TotalPrice</p>
+            </div>
+
+            <div class="col-1">
+                <p class="text-white py-3 m-0">
+                    @o.DtSale.ToString("dd/MM")
+                </p>
+            </div>
+
+            <div class="col-2">
+
+                <a asp-controller="Order"
+                   asp-action="Update"
+                   class="btn btn-purple btn-sm me-1"
+                   asp-route-id="@o.Id">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                    </svg>
+                </a>
+
+                <form asp-controller="Order"
+                      asp-action="Delete"
+                      method="post"
+                      class="d-inline"
+                      onsubmit="return confirm('Tem certeza que deseja excluir este pedido?');">
+
+                    <input type="hidden" name="id" value="@o.Id" />
+
+                    <button type="submit" class="btn btn-red btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                        </svg>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <div id="detalhesOrder_@o.Id"
+             class="collapse row px-3 py-3"
+             style="background:#323539; min-width:100%;">
+
+            <h5 class="text-white mt-2">Ingressos</h5>
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Poltrona</th>
+                        <th>VIP</th>
+                        <th>Meia</th>
+                        <th>Preço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in o.Tickets)
+                    {
+                        <tr>
+                            <td>@t.Row @t.Column</td>
+                            <td>@(t.Chair != null && t.Chair.IsVip ? "Sim" : "Não")</td>
+                            <td>@(t.HalfPrice ? "Sim" : "Não")</td>
+                            <td>R$ @t.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @if (o.ProductOrders != null)
+            {
+                <h5 class="text-white mt-4">Produtos</h5>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtd</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in o.ProductOrders)
+                        {
+                            <tr>
+                                <td>@p.Product?.Name</td>
+                                <td>@p.QuantitySale</td>
+                                <td>R$ @p.OrderPrice</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="text-white mt-4">Sala</h5>
+                    <p class="text-white">
+                        @o.Tickets.First().Chair!.Room?.RoomNumber -
+                        @o.Cinema?.Name,
+                        @o.Cinema?.Address?.City / @o.Cinema?.Address?.State
+                    </p>
+                </div>
+
+                <div class="col-6">
+                    <h5 class="text-white mt-4">Totais</h5>
+                    <ul class="text-white list-group list-group-item-dark">
+                        <li class="list-group-item">Total ingressos: R$ @o.Tickets.Sum(t => t.Price)</li>
+                        <li class="list-group-item">Total produtos: R$ @o!.ProductOrders!.Sum(p => p.OrderPrice)</li>
+                        <li class="list-group-item"><strong>Total geral: R$ @o.TotalPrice</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        count++;
+    }
+
+</div>

@@ -20,7 +20,7 @@ namespace Cine_Ma.Models
         [ForeignKey(nameof(ClientId))]
         public Client? Client { get; set; }
 
-        public ICollection<ProductOrder>? ProductOrders { get; set; }
-        public ICollection<Ticket>? Tickets { get; set; }
+        public ICollection<ProductOrder> ProductOrders { get; set; } = new List<ProductOrder>();
+        public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }
