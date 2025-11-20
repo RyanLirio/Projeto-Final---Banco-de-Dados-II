@@ -29,9 +29,11 @@ namespace Cine_Ma.Repository
         {
             var data = await _context.Orders
                 .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Chair)
                 .Include(o => o.Client)
                 .Include(o => o.Cinema)
-                .ToListAsync(); 
+                    .ThenInclude(c => c!.Address)
+                .ToListAsync();
             return data;
         }
 

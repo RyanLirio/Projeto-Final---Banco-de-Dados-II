@@ -1042,3 +1042,70 @@ body {
     font-weight: 700;
     color: #0f172a;
 }
+
+
+.session-meta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.session-info {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.seat-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.seat-check {
+    display: none;
+}
+
+.seat-label {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    margin: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.seat-check:not(:disabled) + .seat-label:hover {
+    transform: scale(1.1);
+}
+
+.seat-check:checked + .seat-label {
+    background: #ff4444 !important;
+}
+
+.seat-check:disabled + .seat-label {
+    background: #a3a3a3 !important;
+    cursor: not-allowed;
+}
+
+.seat-label.normal {
+    background: #4d7cff;
+}
+
+.seat-label.vip {
+    background: #00d47e;
+}
+
+.seat-label.occupied {
+    background: #a3a3a3 !important;
+    cursor: not-allowed;
+}
+
+.inputs-padrao:disabled {
+    background-color: #11171f;
+    color: #9c9c9c;
+}

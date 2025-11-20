@@ -44,10 +44,12 @@ namespace Cine_Ma.Repository
         {
             var session = await _context.Sessions.Where(s => s.Id == id)
                 .Include(s => s.Movie)
+                    .ThenInclude(m => m!.Language)
                 .Include(s => s.LanguageAudio)
                 .Include(s => s.CinemaRoom)
+                    .ThenInclude(r => r!.Cinema)
+                        .ThenInclude(c => c!.Address)
                 .Include(s => s.LanguageCaption)
-                .Include(s => s.Tickets)
                 .FirstOrDefaultAsync();
             return session;
         }

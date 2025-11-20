@@ -1,0 +1,255 @@
+﻿@model Cine_Ma.ViewModels.Orders.OrderCreateViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "Order";
+    ViewData["Title"] = "Finalizar Compra";
+}
+
+<h1 class="texto">Finalizar Compra – @Model.MovieTitle</h1>
+<hr />
+
+<form asp-action="Create" asp-controller="Order" class="form-padrao">
+
+    <input type="hidden" asp-for="SessionId" />
+    <input type="hidden" asp-for="RoomId" />
+    <input type="hidden" asp-for="CinemaId" />
+
+    <input type="hidden" asp-for="MovieTitle" />
+    <input type="hidden" asp-for="SessionHour" />
+    <input type="hidden" asp-for="RoomDescription" />
+    <input type="hidden" asp-for="BaseTicketPrice" />
+
+    <div class="row mb-4 g-3">
+        <div class="form-group col-md-4">
+            <label class="texto">Filme</label>
+            <input class="form-control inputs-padrao" value="@Model.MovieTitle" disabled />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label class="texto">Horário</label>
+            <input class="form-control inputs-padrao" value="@Model.SessionHour.ToString("dd/MM/yyyy HH:mm")" disabled />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label class="texto">Sala</label>
+            <input class="form-control inputs-padrao" value="@Model.RoomDescription" disabled />
+        </div>
+    </div>
+
+    <hr />
+    <h4 class="texto">Selecione o Cliente</h4>
+
+    <div class="row mb-4 g-3">
+        <div class="form-group col-md-6">
+            <label asp-for="ClientId" class="texto">Cliente</label>
+            <select asp-for="ClientId" class="form-control inputs-padrao">
+                <option value="">Selecione...</option>
+                @foreach (var c in Model.Clients)
+                {
+                    <option value="@c.Id">@c.Name (@c.Cpf)</option>
+                }
+            </select>
+            <span asp-validation-for="ClientId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label asp-for="PaymentType" class="texto">Pagamento</label>
+            <select asp-for="PaymentType" class="form-control inputs-padrao">
+                <option value="DINHEIRO">Dinheiro</option>
+                <option value="PIX">Pix</option>
+                <option value="CARTAO">Cartão</option>
+            </select>
+        </div>
+    </div>
+
+    <hr />
+    <h4 class="texto">Mapa da Sala</h4>
+
+    @{
+        var rows = Model.Seats
+        .Select(s => s.Row)
+        .Distinct()
+        .OrderBy(r => r)
+        .ToList();
+
+        int totalColumns = Model.Seats.Max(s => s.Column);
+    }
+
+    <div class="mt-4 text-center">
+
+        <div class="screen text-center text-white mb-4 py-2"
+             style="background: #444; border-radius: 6px;">
+            TELA
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+
+            @foreach (var row in rows)
+            {
+                <div class="d-flex mb-2">
+
+                    @for (int col = 1; col <= totalColumns; col++)
+                    {
+                        var seat = Model.Seats.First(s => s.Row == row && s.Column == col);
+                        string code = $"{row}{col}";
+                        string inputId = $"seat_{row}_{col}";
+
+                        var index = Model.Seats.IndexOf(seat);
+
+                        <div class="seat-wrapper">
+                            <input type="checkbox"
+                                   id="@inputId"
+                                   name="Seats[@index].Selected"
+                                   class="seat-check"
+                                   value="true"
+                                   @(seat.IsOccupied ? "disabled" : "") />
+
+                            <label for="@inputId"
+                                   class="seat-label @(seat.IsOccupied ? "occupied" : (seat.IsVip ? "vip" : "normal"))">
+                                @code
+                            </label>
+
+                            <input type="hidden" name="Seats[@index].Selected" class="seat-selected-fallback" asp-for="Seats[@index].Selected" />
+
+
+                            <input type="hidden" name="Seats[@index].RoomId" asp-for="@seat.RoomId" />
+                            <input type="hidden" name="Seats[@index].Row" asp-for="@seat.Row" />
+                            <input type="hidden" name="Seats[@index].Column" asp-for="@seat.Column" />
+                            <input type="hidden" name="Seats[@index].IsVip" asp-for="@seat.IsVip" />
+                            <input type="hidden" name="Seats[@index].IsOccupied" asp-for="@seat.IsOccupied" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 text-white">
+            <div class="d-flex justify-content-center gap-4">
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#4d7cff; border-radius:4px;" class="me-2"></div>
+                    Normal
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#00d47e; border-radius:4px;" class="me-2"></div>
+                    VIP
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#a3a3a3; border-radius:4px;" class="me-2"></div>
+                    Ocupada
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#ff4444; border-radius:4px;" class="me-2"></div>
+                    Selecionada
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+    <h4 class="texto">Ingressos Selecionados</h4>
+
+    <table class="table table-dark table-striped" id="tickets-table">
+        <thead>
+            <tr>
+                <th>Poltrona</th>
+                <th>Meia Entrada</th>
+            </tr>
+        </thead>
+        <tbody id="tickets-body">
+        </tbody>
+    </table>
+
+    <hr />
+    <h4 class="texto">Produtos</h4>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Desconto</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Products.Count; i++)
+            {
+                <tr>
+                    <td>@Model.Products[i].Name</td>
+                    <td>R$ @Model.Products[i].UnitPrice</td>
+                    <td>R$ @Model.Products[i].Discount</td>
+                    <td>
+                        <input type="hidden" name="Products[@i].ProductId" value="@Model.Products[i].ProductId" />
+                        <input type="number" name="Products[@i].Quantity"
+                               class="form-control"
+                               min="0"
+                               value="@Model.Products[i].Quantity" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group mt-3">
+        <a asp-controller="Session" asp-action="IndexAdmin"
+           class="btn btn-purple float-end ms-2 texto">
+            Voltar
+        </a>
+
+        <input type="submit" value="Finalizar Compra"
+               class="btn btn-red float-end texto" />
+    </div>
+
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function updateTicketTable() {
+                const tbody = $("#tickets-body");
+                tbody.empty();
+
+                $(".seat-check").each(function () {
+                    if ($(this).is(":checked")) {
+
+                        const index = $(this).attr("name").match(/\d+/)[0];
+                        const row = $(`input[name='Seats[${index}].Row']`).val();
+                        const col = $(`input[name='Seats[${index}].Column']`).val();
+
+                        tbody.append(`
+                        <tr>
+                            <td>${row}${col}</td>
+                            <td>
+                                <input type="checkbox"
+                                        class="half-price-check"
+                                        name="Seats[${index}].HalfPrice"
+                                        value="true" />
+
+                                <input type="hidden"
+                                        name="Seats[${index}].HalfPrice"
+                                        value="false" />
+                            </td>
+                        </tr>
+                        `);
+
+                    }
+                });
+            }
+
+            $(".seat-check").change(function () {
+
+                const index = $(this).attr("name").match(/\d+/)[0];
+
+                const fallback = $(`input.seat-selected-fallback[name='Seats[${index}].Selected']`);
+                fallback.val($(this).is(":checked") ? "true" : "false");
+
+                updateTicketTable();
+            });
+
+        });
+    </script>
+}
+

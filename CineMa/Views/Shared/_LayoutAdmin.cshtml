@@ -95,6 +95,15 @@
                                 <span class="ms-2">Sessão</span>
                             </a>
                         </li>
+                        <li class="nav-item w-100">
+                            <a asp-area=""
+                               asp-controller="Order"
+                               asp-action="IndexAdmin"
+                               class="nav-link texto py-2 w-100 @(activeMenu == "Order" ? "btn-red" : "")">
+                                <i class="bi-grid"></i>
+                                <span class="ms-2">Order</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
