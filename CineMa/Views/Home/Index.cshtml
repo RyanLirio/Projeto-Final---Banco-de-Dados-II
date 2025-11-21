@@ -5,92 +5,39 @@
 
 @model CineMa.Models.ViewModel.HomeViewModel
 
-<!-- HERO CENTRALIZADO -->
-<section class="hero-cinema mx-auto">
-    <div class="hero-overlay"></div>
 
-    <div class="hero-content text-center">
-        <h1 class="hero-title">Os Melhores Filmes Estão Aqui</h1>
-        <p class="hero-subtitle">Aproveite estreias, salas premium e combos especiais!</p>
-
-        <div class="mt-3 d-flex justify-content-center gap-2">
-            <a href="#" class="btn btn-primary btn-lg px-4">Comprar Ingressos</a>
-            <a href="#" class="btn btn-outline-light btn-lg px-4">Ver Estreias</a>
-        </div>
-    </div>
-</section>
 
 <div class="container">
+    <!-- HERO CENTRALIZADO -->
+    <section class="hero-cinema mx-auto">
+        <div class="hero-overlay"></div>
 
-    <!-- FILTROS -->
-    <section class="mb-5">
-        <div class="filters-shell p-3 p-md-4 mb-4">
+        <div class="hero-content text-center">
+            <h1 class="hero-title">Os Melhores Filmes Estão Aqui</h1>
+            <p class="hero-subtitle">Aproveite estreias, salas premium e combos especiais!</p>
 
-            <div class="row g-3 align-items-center">
-
-                <!-- Busca -->
-                <div class="col-12 col-lg-4">
-                    <div class="input-group filter-search">
-                        <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Buscar por filme, ator ou diretor...">
-                    </div>
-                </div>
-
-                <!-- Dropdowns -->
-                <div class="col-12 col-md-8 col-lg-5">
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Gênero</button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item">Ação</a></li>
-                            <li><a class="dropdown-item">Comédia</a></li>
-                            <li><a class="dropdown-item">Terror</a></li>
-                            <li><a class="dropdown-item">Romance</a></li>
-                        </ul>
-
-                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Classificação</button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item">Livre</a></li>
-                            <li><a class="dropdown-item">12+</a></li>
-                            <li><a class="dropdown-item">16+</a></li>
-                            <li><a class="dropdown-item">18+</a></li>
-                        </ul>
-
-                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Idioma</button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item">Dublado</a></li>
-                            <li><a class="dropdown-item">Legendado</a></li>
-                        </ul>
-
-                        <button class="btn btn-filter dropdown-toggle" data-bs-toggle="dropdown">Ordenar por</button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item">Mais assistidos</a></li>
-                            <li><a class="dropdown-item">Lançamentos</a></li>
-                            <li><a class="dropdown-item">Avaliação</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Botões -->
-                <div class="col-12 col-lg-3 text-lg-end">
-                    <button class="btn btn-outline-light btn-sm me-2">Limpar filtros</button>
-                    <button class="btn btn-primary btn-sm">Aplicar</button>
-                </div>
+            <div class="mt-3 d-flex justify-content-center gap-2">
+                <a href="#" class="btn btn-primary btn-lg px-4">Comprar Ingressos</a>
+                <a href="#" class="btn btn-outline-light btn-lg px-4">Ver Estreias</a>
             </div>
-
-            <!-- Chips -->
-            <div class="mt-3 d-flex flex-wrap gap-2">
-                <button class="chip-filter chip-active">Todos</button>
-                <button class="chip-filter">Ação</button>
-                <button class="chip-filter">Comédia</button>
-                <button class="chip-filter">Romance</button>
-                <button class="chip-filter">Suspense</button>
-                <button class="chip-filter">Animação</button>
-                <button class="chip-filter">Família</button>
-                <button class="chip-filter">Heróis</button>
-            </div>
-
         </div>
     </section>
+
+    <!-- SELETOR DE CIDADE -->
+    <section class="mb-5">
+        <div class="city-selector-wrapper">
+            <label class="city-label">Escolha sua cidade</label>
+
+            <select class="city-dropdown">
+                <option>Videira</option>
+                <option>Fraiburgo</option>
+                <option>Caçador</option>
+                <option>Curitibanos</option>
+            </select>
+        </div>
+    </section>
+
+
 
     <!-- EM CARTAZ -->
     <section class="section-block">
