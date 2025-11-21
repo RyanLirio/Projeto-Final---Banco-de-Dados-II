@@ -1,5 +1,6 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineMa.Controllers
@@ -22,18 +23,33 @@ namespace CineMa.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("~/Views/Admin/Language/Index.cshtml", await _languageRepository.GetAll());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("~/Views/Admin/Language/Create.cshtml");
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Language language)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -46,6 +62,11 @@ namespace CineMa.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var language = await _languageRepository.GetById(id);
             if (language == null)
             {
@@ -59,6 +80,11 @@ namespace CineMa.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!id.HasValue)
             {
                 return BadRequest();
@@ -76,6 +102,11 @@ namespace CineMa.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int? id, Language language)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!id.HasValue)
             {
                 return BadRequest();

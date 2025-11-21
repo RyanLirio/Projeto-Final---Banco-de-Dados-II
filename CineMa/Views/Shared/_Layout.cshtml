@@ -18,6 +18,8 @@
 
     @{
         var nomeUsuario = HttpContextAccessor.HttpContext.Session.GetString("UsuarioNome");
+        var usuarioRole = HttpContextAccessor.HttpContext.Session.GetString("UsuarioRole");
+        var isAdmin = usuarioRole == "Admin";
     }
 
     <!-- NAVBAR DARK MODERNA -->
@@ -45,9 +47,12 @@
                             <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidade</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
-                        </li>
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                            </li>
+                        }
 
                     </ul>
 

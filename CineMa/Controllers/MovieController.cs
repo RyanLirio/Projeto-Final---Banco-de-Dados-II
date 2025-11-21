@@ -1,6 +1,7 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Movies;
+using CineMa.Helpers;
 using CineMa.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,6 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int id, DateOnly? day, string? city)
         {
-            
 
             var movie = await _movieRepository.GetById(id);
             var session = await _sessionRepository.GetByMovieId(id);
@@ -79,6 +79,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var data = await _movieRepository.GetAll();
             return View("~/Views/Admin/Movie/Index.cshtml", data);
         }
@@ -86,6 +91,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var vm = new MovieViewModel();
 
             vm.Languages = await _languageRepository.GetAll();
@@ -102,6 +112,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 vm.Languages = await _languageRepository.GetAll();
@@ -157,6 +172,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var movie = await _movieRepository.GetById(id);
 
             if (movie == null)
@@ -198,6 +218,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int id, MovieViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id != vm.Id)
                 return BadRequest();
 
@@ -261,6 +286,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var movie = await _movieRepository.GetById(id);
 
             if (movie == null)

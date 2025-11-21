@@ -1,5 +1,6 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineMa.Controllers
@@ -22,18 +23,33 @@ namespace CineMa.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("~/Views/Admin/Product/Index.cshtml", await _productRepository.GetAll());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("~/Views/Admin/Product/Create.cshtml");
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Product product, string Price)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ModelState.Remove("Price");
 
             Price = Price.Replace(",", "");
@@ -52,6 +68,11 @@ namespace CineMa.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var product = await _productRepository.GetById(id);
             if (product == null)
             {
@@ -65,6 +86,11 @@ namespace CineMa.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!id.HasValue)
             {
                 return BadRequest();
@@ -82,6 +108,11 @@ namespace CineMa.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int? id, Product product, string Price)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!id.HasValue)
             {
                 return BadRequest();

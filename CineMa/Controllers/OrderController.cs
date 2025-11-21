@@ -1,6 +1,7 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Orders;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cine_Ma.Controllers
@@ -39,6 +40,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var orders = await _orderRepository.GetAll();
             return View("~/Views/Admin/Order/Index.cshtml", orders);
         }
@@ -49,7 +55,9 @@ namespace Cine_Ma.Controllers
             int? userId = HttpContext.Session.GetInt32("UsuarioId");
 
             if (userId == null)
-                return BadRequest("Precisa de um usuário pra chegar a essa tela.");
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             var session = await _sessionRepository.GetById(sessionId);
             if (session == null)
@@ -279,6 +287,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int sessionId)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var session = await _sessionRepository.GetById(sessionId);
             if (session == null)
                 return NotFound();
@@ -352,6 +365,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderCreateViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 await RecarregarListas(vm);
@@ -506,6 +524,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var order = await _orderRepository.GetById(id);
             if (order == null)
                 return NotFound();
@@ -591,6 +614,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(OrderCreateViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 await RecarregarListas(vm);
@@ -734,6 +762,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var order = await _orderRepository.GetById(id);
             if (order == null)
                 return NotFound();

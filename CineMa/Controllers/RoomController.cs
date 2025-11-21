@@ -1,6 +1,7 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Rooms;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cine_Ma.Controllers
@@ -21,6 +22,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin(int roomId)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var room = await _roomRepository.GetById(roomId);
             if (room == null)
                 return NotFound();
@@ -37,6 +43,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public IActionResult Create(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var vm = new CinemaRoomViewModel
             {
                 CinemaId = id,
@@ -50,6 +61,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CinemaRoomViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Room/Create.cshtml", vm);
 
@@ -94,6 +110,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var room = await _roomRepository.GetById(id);
 
             if (room == null)
@@ -133,6 +154,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int id, CinemaRoomViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id != vm.Id)
                 return BadRequest();
 
@@ -184,6 +210,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var room = await _roomRepository.GetById(id);
 
             if (room == null)

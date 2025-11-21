@@ -6,6 +6,13 @@
     ViewData["Title"] = "Cinema";
 }
 
+@if (TempData["Erro"] != null)
+{
+    <script>
+        alert("@Html.Raw(TempData["Erro"].ToString().Replace("\"", "\\\""))");
+    </script>
+}
+
 <h1 class="texto">Criando Cinema</h1>
 
 <hr />

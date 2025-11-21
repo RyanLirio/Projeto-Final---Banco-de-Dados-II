@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CineMa.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CineMa.Controllers
 {
@@ -6,6 +7,11 @@ namespace CineMa.Controllers
     {
         public IActionResult Index()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
     }

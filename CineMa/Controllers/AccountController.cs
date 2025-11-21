@@ -41,6 +41,7 @@ namespace CineMa.Controllers
 
             HttpContext.Session.SetInt32("UsuarioId", client.Id);
             HttpContext.Session.SetString("UsuarioNome", client.Name);
+            HttpContext.Session.SetString("UsuarioRole", client.Role ?? "User");
 
             return RedirectToAction("Index", "Home");
         }

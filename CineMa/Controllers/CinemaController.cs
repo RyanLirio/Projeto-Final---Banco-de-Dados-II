@@ -1,8 +1,11 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Cinemas;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cine_Ma.Controllers
 {
@@ -28,6 +31,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var cinemas = await _cinemaRepository.GetAll();
 
             foreach (var c in cinemas)
@@ -41,6 +49,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var vm = new CinemaViewModel();
             return View("~/Views/Admin/Cinema/Create.cshtml", vm);
         }
@@ -48,38 +61,60 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CinemaViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Cinema/Create.cshtml", vm);
 
-            var addr = new Address
+            try
             {
-                ZipCode = vm.Address.ZipCode,
-                City = vm.Address.City,
-                Road = vm.Address.Road,
-                State = vm.Address.State,
-                Number = vm.Address.Number,
-                Descripton = vm.Address.Descripton
-            };
+                var addr = new Address
+                {
+                    ZipCode = vm.Address.ZipCode,
+                    City = vm.Address.City,
+                    Road = vm.Address.Road,
+                    State = vm.Address.State,
+                    Number = vm.Address.Number,
+                    Descripton = vm.Address.Descripton
+                };
 
-            await _addressRepository.Create(addr);
+                await _addressRepository.Create(addr);
 
-            var cinema = new Cinema
+                var cinema = new Cinema
+                {
+                    Name = vm.Name,
+                    Cnpj = vm.Cnpj,
+                    Phone = vm.Phone,
+                    Email = vm.Email,
+                    AddressId = addr.Id
+                };
+
+                await _cinemaRepository.Create(cinema);
+
+                return RedirectToAction("IndexAdmin");
+            }
+            catch (DbUpdateException ex)
             {
-                Name = vm.Name,
-                Cnpj = vm.Cnpj,
-                Phone = vm.Phone,
-                Email = vm.Email,
-                AddressId = addr.Id
-            };
-
-            await _cinemaRepository.Create(cinema);
-
-            return RedirectToAction("IndexAdmin");
+                if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+                {
+                    TempData["Erro"] = "CNPJ já cadastrado! Por favor, use outro CNPJ.";
+                    return View("~/Views/Admin/Cinema/Create.cshtml", vm);
+                }
+                throw;
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var cinema = await _cinemaRepository.GetById(id);
             if (cinema == null)
                 return NotFound();
@@ -109,37 +144,59 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int id, CinemaViewModel vm)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id != vm.Id)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Cinema/Update.cshtml", vm);
 
-            var cinema = await _cinemaRepository.GetById(id);
-            if (cinema == null)
-                return NotFound();
+            try
+            {
+                var cinema = await _cinemaRepository.GetById(id);
+                if (cinema == null)
+                    return NotFound();
 
-            cinema.Name = vm.Name;
-            cinema.Cnpj = vm.Cnpj;
-            cinema.Phone = vm.Phone;
-            cinema.Email = vm.Email;
+                cinema.Name = vm.Name;
+                cinema.Cnpj = vm.Cnpj;
+                cinema.Phone = vm.Phone;
+                cinema.Email = vm.Email;
 
-            cinema.Address!.ZipCode = vm.Address.ZipCode;
-            cinema.Address.City = vm.Address.City;
-            cinema.Address.Road = vm.Address.Road;
-            cinema.Address.State = vm.Address.State;
-            cinema.Address.Number = vm.Address.Number;
-            cinema.Address.Descripton = vm.Address.Descripton;
+                cinema.Address!.ZipCode = vm.Address.ZipCode;
+                cinema.Address.City = vm.Address.City;
+                cinema.Address.Road = vm.Address.Road;
+                cinema.Address.State = vm.Address.State;
+                cinema.Address.Number = vm.Address.Number;
+                cinema.Address.Descripton = vm.Address.Descripton;
 
-            await _addressRepository.Update(cinema.Address);
-            await _cinemaRepository.Update(cinema);
+                await _addressRepository.Update(cinema.Address);
+                await _cinemaRepository.Update(cinema);
 
-            return RedirectToAction("IndexAdmin");
+                return RedirectToAction("IndexAdmin");
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+                {
+                    TempData["Erro"] = "CNPJ já cadastrado! Por favor, use outro CNPJ.";
+                    return View("~/Views/Admin/Cinema/Update.cshtml", vm);
+                }
+                throw;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var cinema = await _cinemaRepository.GetById(id);
             if (cinema == null)
                 return NotFound();

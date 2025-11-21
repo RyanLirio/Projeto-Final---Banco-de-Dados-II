@@ -1,51 +1,102 @@
 ﻿@model CineMa.Models.ViewModel.RegisterClientViewModel
 
-<h2>Registrar Cliente</h2>
+@{
+    ViewData["Title"] = "Registrar";
+}
 
-<form method="post" asp-action="Registrar" asp-controller="Account">
+@if (TempData["Erro"] != null)
+{
+    <script>
+        alert("@Html.Raw(TempData["Erro"].ToString().Replace("\"", "\\\""))");
+    </script>
+}
 
-    <h3>Dados do Cliente</h3>
+<div class="auth-container">
+    <div class="auth-card auth-card-large">
+        <div class="auth-header">
+            <h1 class="auth-title">Criar Conta</h1>
+            <p class="auth-subtitle">Preencha os dados para se cadastrar</p>
+        </div>
 
-    <label>Nome</label>
-    <input type="text" asp-for="Name" required />
+        <form method="post" asp-action="Registrar" asp-controller="Account" class="auth-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <label>CPF</label>
-    <input type="text" asp-for="Cpf" required />
+            <h4 class="form-section-title">Dados Pessoais</h4>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Name" class="form-label-auth">Nome Completo</label>
+                    <input type="text" asp-for="Name" class="form-input-auth" placeholder="Seu nome completo" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Cpf" class="form-label-auth">CPF</label>
+                    <input type="text" asp-for="Cpf" class="form-input-auth" placeholder="000.000.000-00" required />
+                    <span asp-validation-for="Cpf" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Email" class="form-label-auth">E-mail</label>
+                    <input type="email" asp-for="Email" class="form-input-auth" placeholder="seu@email.com" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Phone" class="form-label-auth">Telefone</label>
+                    <input type="text" asp-for="Phone" class="form-input-auth" placeholder="(00) 00000-0000" required />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Birthday" class="form-label-auth">Data de Nascimento</label>
+                    <input type="date" asp-for="Birthday" class="form-input-auth" required />
+                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Senha" class="form-label-auth">Senha</label>
+                    <input type="password" asp-for="Senha" class="form-input-auth" placeholder="••••••••" required />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+            </div>
 
-    <label>E-mail</label>
-    <input type="email" asp-for="Email" required />
+            <h4 class="form-section-title">Endereço</h4>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label asp-for="ZipCode" class="form-label-auth">CEP</label>
+                    <input type="text" asp-for="ZipCode" class="form-input-auth" placeholder="00000-000" required />
+                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="State" class="form-label-auth">Estado</label>
+                    <input type="text" asp-for="State" class="form-input-auth" placeholder="SC" required />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="City" class="form-label-auth">Cidade</label>
+                    <input type="text" asp-for="City" class="form-input-auth" placeholder="Sua cidade" required />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Road" class="form-label-auth">Rua</label>
+                    <input type="text" asp-for="Road" class="form-input-auth" placeholder="Nome da rua" required />
+                    <span asp-validation-for="Road" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Number" class="form-label-auth">Número</label>
+                    <input type="number" asp-for="Number" class="form-input-auth" placeholder="123" required />
+                    <span asp-validation-for="Number" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Descripton" class="form-label-auth">Complemento</label>
+                    <input type="text" asp-for="Descripton" class="form-input-auth" placeholder="Apto, Bloco..." required />
+                    <span asp-validation-for="Descripton" class="text-danger"></span>
+                </div>
+            </div>
 
-    <label>Telefone</label>
-    <input type="text" asp-for="Phone" required />
+            <button type="submit" class="btn-auth btn-auth-primary w-100">Criar Conta</button>
+        </form>
 
-    <label>Nascimento</label>
-    <input type="date" asp-for="Birthday" required />
-
-    <label>Senha</label>
-    <input type="password" asp-for="Senha" required />
-
-    <hr />
-
-    <h3>Endereço</h3>
-
-    <label>CEP</label>
-    <input type="text" asp-for="ZipCode" required />
-
-    <label>Cidade</label>
-    <input type="text" asp-for="City" required />
-
-    <label>Rua</label>
-    <input type="text" asp-for="Road" required />
-
-    <label>Estado</label>
-    <input type="text" asp-for="State" required />
-
-    <label>Número</label>
-    <input type="number" asp-for="Number" required />
-
-    <label>Descrição</label>
-    <input type="text" asp-for="Descripton" required />
-
-    <button type="submit">Registrar</button>
-
-</form>
+        <div class="auth-footer">
+            <p class="auth-link-text">
+                Já tem uma conta?
+                <a asp-action="Login" asp-controller="Account" class="auth-link">Faça login</a>
+            </p>
+        </div>
+    </div>
+</div>

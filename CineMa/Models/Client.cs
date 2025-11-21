@@ -15,6 +15,7 @@ namespace Cine_Ma.Models
         public string? Email { get; set; }
         [Required]
         public string? Phone { get; set; }
+        public string? Role { get; set; } = "User";
         [Required]
         public DateOnly Birthday { get; set; }
         [Required]

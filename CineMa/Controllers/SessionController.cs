@@ -1,6 +1,7 @@
 ﻿using Cine_Ma.Models;
 using Cine_Ma.Repository;
 using Cine_Ma.ViewModels.Sessions;
+using CineMa.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cine_Ma.Controllers
@@ -33,6 +34,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var sessions = await _sessionRepository.GetAll();
             return View("~/Views/Admin/Session/Index.cshtml", sessions);
         }
@@ -40,6 +46,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var allMovies = await _movieRepository.GetAll();
             var releasedMovies = allMovies
                 .Where(m => m.DtRelease <= DateOnly.FromDateTime(DateTime.Now))
@@ -64,6 +75,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SessionViewModel vm, string TicketPrice)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ModelState.Remove("TicketPrice");
 
             TicketPrice = TicketPrice.Replace(",", "");
@@ -99,6 +115,11 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var session = await _sessionRepository.GetById(id);
 
             if (session == null)
@@ -127,6 +148,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int id, SessionViewModel vm, string TicketPrice)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id != vm.Id)
                 return BadRequest();
 
@@ -167,6 +193,11 @@ namespace Cine_Ma.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!AdminHelper.IsAdmin(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var session = await _sessionRepository.GetById(id);
             if (session == null)
                 return NotFound();
