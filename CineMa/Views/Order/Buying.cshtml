@@ -1,0 +1,336 @@
+﻿@model Cine_Ma.ViewModels.Orders.OrderCreateViewModel
+
+@{
+    ViewData["Title"] = "Finalizando Compra";
+    Layout = "_Layout";
+}
+<form asp-action="Buying" asp-controller="Order" class="form-padrao">
+    <h1 class="texto text-center">Finalizar Compra – @Model.MovieTitle</h1>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-6 movie-paying justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-3">
+                    <img src="/images/@Model.MovieImage" alt="@Model.MovieTitle" />
+                </div>
+
+                <div class="col-9 d-flex flex-column text-center">
+                    <h3>@Model.MovieTitle</h3>
+
+                    <p class="movie-info-line">
+                        @Model.MovieDuration min • @Model.MovieAge anos •
+                    </p>
+
+                    <p class="movie-description">
+                        @Model.MovieDescription
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <h3>Dados da Sessão</h3>
+            <p class="movie-info-line fw-bold">
+                @Model.RoomDescription
+            </p>
+            <p class="movie-info-line">
+                <span class="fw-bold">Horário:</span> @Model.SessionHour.ToString("dd/MM/yyyy HH:mm")
+            </p>
+            @{
+                var cliente = Model.Clients.FirstOrDefault(c => c.Id == Model.ClientId);
+            }
+            <p class="movie-info-line">
+                <span class="fw-bold">Cliente:</span> @cliente!.Name
+                <br />
+                <span class="fw-bold">CPF:</span> @cliente.Cpf
+            </p>
+            <h5 class="money" data-value="@Model.BaseTicketPrice"></h5>
+        </div>
+    </div>
+
+    <h2 class="texto text-center mt-3">Escolha Sua Cadeira</h2>
+
+    <hr />
+
+
+    <input type="hidden" asp-for="SessionId" />
+    <input type="hidden" asp-for="RoomId" />
+    <input type="hidden" asp-for="CinemaId" />
+
+    <input type="hidden" asp-for="MovieTitle" />
+    <input type="hidden" asp-for="MovieAge" />
+    <input type="hidden" asp-for="MovieImage" />
+    <input type="hidden" asp-for="MovieDescription" />
+    <input type="hidden" asp-for="MovieDuration" />
+    <input type="hidden" asp-for="SessionHour" />
+    <input type="hidden" asp-for="RoomDescription" />
+    <input type="hidden" asp-for="BaseTicketPrice" />
+
+    @{
+        var rows = Model.Seats
+        .Select(s => s.Row)
+        .Distinct()
+        .OrderBy(r => r)
+        .ToList();
+
+        int totalColumns = Model.Seats.Max(s => s.Column);
+    }
+
+    <div class="mt-4 text-center">
+
+        <div class="screen mx-auto w-50 text-center text-white mb-4 py-2"
+             style="background: #444; border-radius: 6px;">
+            TELA
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+
+            @foreach (var row in rows)
+            {
+                <div class="d-flex mb-2">
+
+                    @for (int col = 1; col <= totalColumns; col++)
+                    {
+                        var seat = Model.Seats.First(s => s.Row == row && s.Column == col);
+                        string code = $"{row}{col}";
+                        string inputId = $"seat_{row}_{col}";
+
+                        var index = Model.Seats.IndexOf(seat);
+
+                        <div class="seat-wrapper">
+                            <input type="checkbox"
+                                   id="@inputId"
+                                   name="Seats[@index].Selected"
+                                   class="seat-check"
+                                   value="true"
+                                   @(seat.IsOccupied ? "disabled" : "") />
+
+                            <label for="@inputId"
+                                   class="seat-label @(seat.IsOccupied ? "occupied" : (seat.IsVip ? "vip" : "normal"))">
+                                @code
+                            </label>
+
+                            <input type="hidden" name="Seats[@index].Selected" class="seat-selected-fallback" asp-for="Seats[@index].Selected" />
+
+
+                            <input type="hidden" name="Seats[@index].RoomId" asp-for="@seat.RoomId" />
+                            <input type="hidden" name="Seats[@index].Row" asp-for="@seat.Row" />
+                            <input type="hidden" name="Seats[@index].Column" asp-for="@seat.Column" />
+                            <input type="hidden" name="Seats[@index].IsVip" asp-for="@seat.IsVip" />
+                            <input type="hidden" name="Seats[@index].IsOccupied" asp-for="@seat.IsOccupied" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 text-white">
+            <div class="d-flex justify-content-center gap-4">
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#4d7cff; border-radius:4px;" class="me-2"></div>
+                    Normal
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#00d47e; border-radius:4px;" class="me-2"></div>
+                    VIP
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#a3a3a3; border-radius:4px;" class="me-2"></div>
+                    Ocupada
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="width:20px; height:20px; background:#ff4444; border-radius:4px;" class="me-2"></div>
+                    Selecionada
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+    <h4 class="texto mb-3 text-center">Ingressos Selecionados</h4>
+
+    <div class="tickets-summary-card p-4 w-50 m-auto">
+        <table class="table table-sm table-borderless tickets-table mb-0" id="tickets-table">
+            <thead>
+                <tr>
+                    <th class="text-white-50">Poltrona</th>
+                    <th class="text-white-50 text-center">Meia Entrada</th>
+                    <th class="text-white-50 text-end">Preço</th>
+                </tr>
+            </thead>
+            <tbody id="tickets-body">
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="mt-5" />
+<h4 class="texto mb-4">Produtos Adicionais (Combos, etc.)</h4>
+
+<div class="row g-4 product-selection-grid">
+    @for (int i = 0; i < Model.Products.Count; i++)
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="product-card p-3 d-flex flex-column" data-product-id="@Model.Products[i].ProductId">
+
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="product-name mb-0">@Model.Products[i].Name</h5>
+                    
+                    @{
+                        decimal unitPriceCents = Model.Products[i].UnitPrice;
+                        
+                        decimal discountRate = Model.Products[i].Discount / 100.0M; 
+                        
+                        decimal discountValueCents = Math.Round(unitPriceCents * discountRate);
+                       
+                        decimal finalPriceCents = unitPriceCents - discountValueCents;
+                    }
+
+                    <div class="price-info text-end">
+                        @if (Model.Products[i].Discount > 0)
+                        {
+                            <small class="text-muted text-decoration-line-through">
+                                <span class="money" data-value="@unitPriceCents"></span>
+                            </small>
+                            <br />
+                        }
+                        <span class="money product-final-price" data-value="@finalPriceCents"></span>
+                    </div>
+                </div>
+
+                @if (Model.Products[i].Discount > 0)
+                {
+                    <div class="product-discount badge bg-danger mb-2 align-self-start">
+                        @Model.Products[i].Discount% de Desconto
+                    </div>
+                }
+
+                <div class="quantity-control d-flex align-items-center mt-auto pt-3 border-top border-secondary">
+                    <label class="me-3 text-white-50">Quantidade:</label>
+                    
+                    <input type="hidden" name="Products[@i].ProductId" value="@Model.Products[i].ProductId" />
+                    
+                    <input type="number" 
+                           name="Products[@i].Quantity"
+                           class="form-control quantity-input"
+                           data-product-index="@i"
+                           min="0"
+                           value="@Model.Products[i].Quantity" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+    <input type="submit" value="Finalizar Compra"
+           class="btn btn-red float-end texto" />
+</form>
+@section Scripts {
+    <script>
+        function formatMoneyElement(element) {
+            const rawValue = parseInt(element.dataset.value);
+            const safeRawValue = isNaN(rawValue) ? 0 : rawValue;
+
+            const formatted = (safeRawValue / 100).toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+            element.textContent = formatted;
+        }
+
+        function formatAllMoneyElements() {
+             const moneyFields = document.querySelectorAll(".money");
+             moneyFields.forEach(field => {
+                 formatMoneyElement(field);
+             });
+        }
+
+
+        $(document).ready(function () {
+
+            const baseTicketPriceInt = parseInt($('input[name="BaseTicketPrice"]').val() || 0);
+            const vipSurcharge = 0.15;
+
+            function updateTicketTable() {
+                const tbody = $("#tickets-body");
+                tbody.empty();
+
+                $(".seat-check").each(function () {
+                    if ($(this).is(":checked")) {
+
+                        const index = $(this).attr("name").match(/\d+/)[0];
+                        const row = $(`input[name='Seats[${index}].Row']`).val();
+                        const col = $(`input[name='Seats[${index}].Column']`).val();
+
+                        const isVip = $(`input[name='Seats[${index}].IsVip']`).val() === 'True';
+
+                        let fullPrice;
+                        if (isVip) {
+                            fullPrice = Math.round(baseTicketPriceInt * (1 + vipSurcharge));
+                        } else {
+                            fullPrice = baseTicketPriceInt;
+                        }
+
+                        const halfPriceInputs = `
+                            <input type="hidden"
+                                   name="Seats[${index}].HalfPrice"
+                                   value="false" />
+                            <input type="checkbox"
+                                   class="half-price-check form-check-input"
+                                   name="Seats[${index}].HalfPrice"
+                                   value="true" />
+                        `;
+
+                        tbody.append(`
+                        <tr data-seat-index="${index}">
+                            <td>${row}${col}</td>
+                            <td class="text-center">
+                                ${halfPriceInputs}
+                            </td>
+                            <td class="text-end price-cell">
+                                <span class="money money-box"
+                                      data-value="${fullPrice}"
+                                      data-full-price="${fullPrice}">
+                                </span>
+                            </td>
+                        </tr>
+                        `);
+                    }
+                });
+
+                formatAllMoneyElements();
+                attachHalfPriceEvents();
+            }
+
+            function attachHalfPriceEvents() {
+                $(".half-price-check").off('change').on('change', function() {
+                    const row = $(this).closest('tr');
+                    const moneyElement = row.find('.money-box')[0];
+                    const fullPrice = parseInt($(moneyElement).data('full-price'));
+                    const isHalfPrice = $(this).is(':checked');
+
+                    let newPrice;
+                    if (isHalfPrice) {
+                        newPrice = Math.round(fullPrice * 0.5);
+                    } else {
+                        newPrice = fullPrice;
+                    }
+
+                    $(moneyElement).attr('data-value', newPrice);
+                    formatMoneyElement(moneyElement);
+                });
+            }
+
+            $(".seat-check").change(function () {
+                const index = $(this).attr("name").match(/\d+/)[0];
+
+                const fallback = $(`input.seat-selected-fallback[name='Seats[${index}].Selected']`);
+                fallback.val($(this).is(":checked") ? "true" : "false");
+
+                updateTicketTable();
+            });
+
+            updateTicketTable();
+        });
+    </script>
+}

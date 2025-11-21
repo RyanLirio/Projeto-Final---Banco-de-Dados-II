@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener("DOMContentLoaded", () => {
+    const moneyFields = document.querySelectorAll(".money");
 
-// Write your JavaScript code.
+    moneyFields.forEach(field => {
+        const rawValue = parseInt(field.dataset.value); // ex: 2000
+        const formatted = (rawValue / 100).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        field.textContent = formatted;
+    });
+});

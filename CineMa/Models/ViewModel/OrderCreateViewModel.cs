@@ -8,6 +8,7 @@ namespace Cine_Ma.ViewModels.Orders
         public int? OrderId { get; set; }
         [Required]
         public int SessionId { get; set; }
+        public int SessionPrice { get; set; }
 
         [Required]
         public int CinemaId { get; set; }
@@ -19,6 +20,11 @@ namespace Cine_Ma.ViewModels.Orders
         public int ClientId { get; set; }
 
         public string MovieTitle { get; set; } = string.Empty;
+        // adicionado
+        public string MovieDescription { get; set; } = string.Empty;
+        public int MovieAge { get; set; }
+        public string MovieImage { get; set; } = string.Empty;
+        public int MovieDuration { get; set; }
         public DateTime SessionHour { get; set; }
         public string RoomDescription { get; set; } = string.Empty;
 
