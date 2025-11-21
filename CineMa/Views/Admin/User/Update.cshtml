@@ -1,0 +1,102 @@
+﻿@model CineMa.Models.ViewModel.RegisterClientViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActiveMenu"] = "User";
+    ViewData["Title"] = "Atualizar Usuário";
+}
+
+<h1 class="texto">Atualizando Usuário</h1>
+<hr />
+
+<div class="row">
+    <form asp-action="Update" asp-controller="Account" class="form-padrao">
+
+        <input type="hidden" name="id" asp-for="@Model.Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-4">
+                <label asp-for="Name" class="control-label texto">Nome</label>
+                <input asp-for="Name" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="Email" class="control-label texto">Email</label>
+                <input asp-for="Email" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="Cpf" class="control-label texto">CPF</label>
+                <input asp-for="Cpf" class="form-control inputs-padrao" />
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-4">
+                <label asp-for="Phone" class="control-label texto">Telefone</label>
+                <input asp-for="Phone" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="Birthday" class="control-label texto">Data Nascimento</label>
+                <input asp-for="Birthday" type="date" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label texto">Role</label>
+                <select name="Role" class="form-control inputs-padrao">
+                    <option value="User" selected="@(ViewBag.Role == "User")">User</option>
+                    <option value="Admin" selected="@(ViewBag.Role == "Admin")">Admin</option>
+                </select>
+
+            </div>
+        </div>
+
+        <hr />
+        <h4 class="texto">Endereço</h4>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-3">
+                <label asp-for="ZipCode" class="control-label texto">CEP</label>
+                <input asp-for="ZipCode" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="State" class="control-label texto">Estado</label>
+                <input asp-for="State" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="City" class="control-label texto">Cidade</label>
+                <input asp-for="City" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="Road" class="control-label texto">Rua</label>
+                <input asp-for="Road" class="form-control inputs-padrao" />
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-3">
+                <label asp-for="Number" class="control-label texto">Número</label>
+                <input asp-for="Number" class="form-control inputs-padrao" />
+            </div>
+            <div class="form-group col-md-9">
+                <label asp-for="Descripton" class="control-label texto">Complemento</label>
+                <input asp-for="Descripton" class="form-control inputs-padrao" />
+            </div>
+        </div>
+
+        <hr />
+        <h4 class="texto">Redefinir Senha</h4>
+
+        <div class="row g-3 mb-3">
+            <div class="form-group col-md-4">
+                <label class="control-label texto">Nova Senha (opcional)</label>
+                <input type="password" name="NewPassword" class="form-control inputs-padrao" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a asp-controller="Account" asp-action="IndexAdmin" class="btn btn-purple float-end ms-2 texto">Voltar</a>
+            <input type="submit" value="Atualizar" class="btn btn-red float-end texto hoverRoxo" />
+        </div>
+
+    </form>
+</div>
