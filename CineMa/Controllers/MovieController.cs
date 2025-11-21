@@ -41,10 +41,12 @@ namespace Cine_Ma.Controllers
             city ??= session.First().CinemaRoom.Cinema.Address.City;
 
             var days = session
-            .Select(s => DateOnly.FromDateTime(s.SessionHour))
-            .Distinct()
-            .OrderBy(d => d)
-            .ToList();
+                .Select(s => DateOnly.FromDateTime(s.SessionHour))
+                .Where(date => date >= DateOnly.FromDateTime(DateTime.Today))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+
 
             var selectedDay = day ?? days.First();
 
@@ -54,14 +56,11 @@ namespace Cine_Ma.Controllers
                 .Where(s =>
                     DateOnly.FromDateTime(s.SessionHour) == selectedDay &&
                     s.CinemaRoom.Cinema.Address.City == city &&
-                    s.SessionHour > DateTime.Now
+                    s.SessionHour > DateTime.Now &&
+                    s.SessionHour.Date >= DateTime.Today
                 )
                 .OrderBy(s => s.SessionHour)
                 .ToList();
-
-
-
-
 
             var vm = new MovieSessionDetailsViewModel
             {

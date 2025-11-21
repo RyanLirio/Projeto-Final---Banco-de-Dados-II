@@ -1,6 +1,7 @@
 ﻿using Cine_Ma.Data;
 using Cine_Ma.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Cine_Ma.Repository
 {
@@ -76,7 +77,7 @@ namespace Cine_Ma.Repository
         public async Task<List<Session>> GetByMovieId(int id)
         {
             var data = await _context.Sessions
-                .Where(s => s.MovieId == id)
+                .Where(s => s.MovieId == id && s.SessionHour.Date >= DateTime.Today)
                 .Include(s => s.Movie)
                 .Include(s => s.LanguageAudio)
                 .Include(s => s.CinemaRoom)
@@ -90,8 +91,9 @@ namespace Cine_Ma.Repository
 
         public async Task<List<DateOnly>> GetAvailableDaysForMovie(int movieId)
         {
+            var today = DateOnly.FromDateTime(DateTime.Today);
             return await _context.Sessions
-                .Where(s => s.MovieId == movieId)
+                .Where(s => s.MovieId == movieId && DateOnly.FromDateTime(s.SessionHour) >= today)
                 .Select(s => DateOnly.FromDateTime(s.SessionHour))
                 .Distinct()
                 .OrderBy(d => d)
