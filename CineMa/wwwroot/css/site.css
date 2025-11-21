@@ -1241,15 +1241,18 @@ body {
     }
 
 .hero-cinema {
-    width: 100%; /* agora vai ocupar toda a largura da container */
-    margin: 30px 0 50px 0; /* remove margin auto */
-    min-height: 360px;
-    background-image: url('/images/hero-destaque.jpg');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-    border-radius: var(--radius);
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-2);
+    width: 100%;
+    max-width: 100% !important;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    margin-bottom: 40px;
 }
+
+.hero-cinema img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+

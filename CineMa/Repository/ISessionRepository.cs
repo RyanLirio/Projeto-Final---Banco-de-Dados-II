@@ -12,6 +12,7 @@ namespace Cine_Ma.Repository
         public Task<List<Session>> GetAll();
         public Task<List<Session>> GetByMovieId(int id);
         public Task<List<DateOnly>> GetAvailableDaysForMovie(int movieId);
+        public Task<List<Session>> GetActiveSessionsByCity(string city);
 
     }
 }

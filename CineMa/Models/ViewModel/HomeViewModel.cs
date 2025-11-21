@@ -4,6 +4,12 @@ namespace CineMa.Models.ViewModel
 {
     public class HomeViewModel
     {
+        public List<Movie> MoviesByCity { get; set; } = new();
+        public List<Movie> UpcomingMoviesByCity { get; set; } = new();
+        public List<Session> SessionsByCity { get; set; } = new();
+
+        public string? SelectedCity { get; set; }
+        public List<Address> City{ get; set; } = new();
         public List<Product> Combos { get; set; } = new();
         public List<Product> Drinks { get; set; } = new();
         public List<Product> Foods { get; set; } = new();

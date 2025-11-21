@@ -14,13 +14,15 @@ namespace CineMa.Controllers
         private readonly IMovieRepository MovieRepository;
         private readonly ISessionRepository SessionRepository;
         private readonly IProductRepository ProductRepository;
+        private readonly IAddressRepository AddressRepository;
 
-        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository, IProductRepository productRepository)
+        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository, IProductRepository productRepository, IAddressRepository addressRepository)
         {
             _logger = logger;
             MovieRepository = movieRepository;
             SessionRepository = sessionRepository;
             ProductRepository = productRepository;
+            AddressRepository = addressRepository;
         }
 
         public IActionResult Privacy()
@@ -34,8 +36,9 @@ namespace CineMa.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? city)
         {
+            city ??= "Videira";
 
             var products = await ProductRepository.GetAll();
 
@@ -60,7 +63,17 @@ namespace CineMa.Controllers
             //sessoes ativas
             var sessions = await SessionRepository.GetActiveSessions();
 
+            var cities = await AddressRepository.GetAll();
+            var moviesC = await MovieRepository.GetMoviesByCity(city);;
+            var sessionsC = await SessionRepository.GetActiveSessionsByCity(city);
+            var upcomingC = await MovieRepository.GetUpcomingByCity(city);
+            var moviesInCartazC = moviesC
+                .Where(m => sessions.Any(s => s.MovieId == m.Id))
+                .Distinct()
+                .ToList();
+
             //filmes em cartaz
+
             var moviesInCartaz = movies
                 .Where(m => sessions.Any(s => s.MovieId == m.Id))
                 .Distinct()
@@ -74,10 +87,14 @@ namespace CineMa.Controllers
                 .ToList();
 
             
-
-
             var vm = new HomeViewModel
             {
+                UpcomingMoviesByCity = upcomingC ?? new List<Movie>(),
+                MoviesByCity = moviesInCartazC ?? new List<Movie>(),
+                SessionsByCity = sessionsC ?? new List<Session>(),
+
+                SelectedCity = city,
+                City = cities ?? new List<Address>(),
                 Combos = combos ?? new List<Product>(),
                 Drinks = drinks ?? new List<Product>(),
                 Foods = foods ?? new List<Product>(),

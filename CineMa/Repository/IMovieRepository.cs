@@ -12,5 +12,7 @@ namespace Cine_Ma.Repository
         public Task<List<Movie>> GetAll();
         public Task<List<Movie>> GetBySexId(int sexId);
         public Task<List<Movie>> GetByRelease();
+        public Task<List<Movie>> GetMoviesByCity(string city);
+        public Task<List<Movie>> GetUpcomingByCity(string city);
     }
 }

@@ -88,5 +88,26 @@ namespace Cine_Ma.Repository
             return movies;
         }
 
+        public async Task<List<Movie>> GetMoviesByCity(string city)
+        {
+            return await _context.Sessions
+                .Where(s => s.CinemaRoom.Cinema.Address.City == city)
+                .Select(s => s.Movie)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetUpcomingByCity(string city)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly in30Days = today.AddDays(30);
+            return await _context.Sessions
+                .Where(s => s.CinemaRoom.Cinema.Address.City == city &&
+                            s.Movie!.DtRelease >= today &&
+                            s.Movie.DtRelease <= in30Days)
+                .Select(s => s.Movie)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

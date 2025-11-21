@@ -96,5 +96,18 @@ namespace Cine_Ma.Repository
                 .ToListAsync();
         }
 
+        public async Task<List<Session>?> GetActiveSessionsByCity(string city)
+        {
+            var data = await _context.Sessions
+                .Where(s => s.SessionHour > DateTime.Now &&
+                            s.SessionHour.Date == DateTime.Today &&
+                            s.CinemaRoom!.Cinema!.Address!.City!.ToLower() == city.ToLower())
+                .Include(s => s.Movie)
+                .Include(s => s.LanguageAudio)
+                .Include(s => s.CinemaRoom)
+                .Include(s => s.LanguageCaption)
+                .ToListAsync();
+            return data;
+        }
     }
 }

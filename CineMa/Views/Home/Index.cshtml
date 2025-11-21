@@ -28,12 +28,17 @@
         <div class="city-selector-wrapper">
             <label class="city-label">Escolha sua cidade</label>
 
-            <select class="city-dropdown">
-                <option>Videira</option>
-                <option>Fraiburgo</option>
-                <option>Caçador</option>
-                <option>Curitibanos</option>
-            </select>
+            <form method="get" asp-controller="Home" asp-action="Index">
+                <select name="city" class="city-dropdown" onchange="this.form.submit()">
+                    @foreach (var c in Model.City)
+                    {
+                        <option value="@c.City" selected="@(Model.SelectedCity == c.City)">
+                            @c.City
+                        </option>
+                    }
+                </select>
+            </form>
+
         </div>
     </section>
 
@@ -44,9 +49,9 @@
         <h3 class="mb-4">Em Cartaz</h3>
 
         <div class="row g-4">
-            @if (Model.MoviesInCartaz != null)
+            @if (Model.MoviesByCity != null)
             {
-                foreach (var m in Model.MoviesInCartaz)
+                foreach (var m in Model.MoviesByCity)
                 {
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="movie-card">
@@ -69,9 +74,9 @@
         <h2 class="section-title mb-4">Próximas Sessões</h2>
 
         <div class="sessions-grid">
-            @if (Model.ActiveSessions != null)
+            @if (Model.SessionsByCity != null)
             {
-                @foreach (var s in Model.ActiveSessions)
+                @foreach (var s in Model.SessionsByCity)
                 {
                     <div class="session-card">
 
@@ -93,7 +98,7 @@
 
                         <div class="session-right">
                             <span class="session-hour-pill">@s.SessionHour.ToString("HH:mm")</span>
-                            <a href="#" class="btn btn-primary btn-buy">Comprar</a>
+                            <a href="/Movie/Index/@s.Movie.Id" class="btn btn-primary btn-buy">Comprar</a>
                         </div>
 
                     </div>
@@ -111,7 +116,7 @@
         <div class="scroll-row">
             @if (Model.UpcomingReleases != null && Model.UpcomingReleases.Count > 0)
             {
-                foreach (var movie in Model.UpcomingReleases)
+                foreach (var movie in Model.UpcomingMoviesByCity)
                 {
                     <div class="movie-poster">
                         <img src="~/images/@movie.ImageUrl" />

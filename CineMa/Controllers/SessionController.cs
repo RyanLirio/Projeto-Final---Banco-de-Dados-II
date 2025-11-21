@@ -40,9 +40,17 @@ namespace Cine_Ma.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var allMovies = await _movieRepository.GetAll();
+            var releasedMovies = allMovies
+                .Where(m => m.DtRelease <= DateOnly.FromDateTime(DateTime.Now))
+                .OrderByDescending(m => m.DtRelease)
+                .ToList();
+
+
+
             var vm = new SessionViewModel
             {
-                Movies = await _movieRepository.GetAll(),
+                Movies = releasedMovies,
                 Rooms = await _roomRepository.GetAll(),
                 AudioLanguages = await _languageRepository.GetAll(),
                 CaptionLanguages = await _languageRepository.GetAll(),
