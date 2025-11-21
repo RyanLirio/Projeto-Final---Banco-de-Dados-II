@@ -1,0 +1,290 @@
+﻿@model Cine_Ma.Models.Order
+
+@{
+    ViewData["Title"] = "Detalhes do Pedido";
+    Layout = "_Layout";
+}
+
+@{
+    var firstTicket = Model.Tickets?.FirstOrDefault();
+    var session = firstTicket?.Session;
+    var movie = session?.Movie;
+    var allChairs = ViewBag.AllChairs as List<Cine_Ma.Models.Chair>;
+    var selectedSeatsSet = Model.Tickets?
+        .Where(t => t.Chair != null)
+        .Select(t => $"{t.Row}_{t.Column}")
+        .ToHashSet() ?? new HashSet<string>();
+}
+
+<div class="container">
+    <h1 class="texto text-center mb-4">Detalhes do Pedido #@Model.Id</h1>
+
+    <hr />
+
+    @if (movie != null && session != null)
+    {
+        <div class="row">
+            <div class="col-6 movie-paying justify-content-center">
+                <div class="row align-items-center">
+                    <div class="col-3">
+                        <img src="/images/@movie.ImageUrl" alt="@movie.Title" />
+                    </div>
+
+                    <div class="col-9 d-flex flex-column text-center">
+                        <h3>@movie.Title</h3>
+
+                        <p class="movie-info-line">
+                            @movie.Duration min • @movie.MinimumAge anos
+                        </p>
+
+                        <p class="movie-description">
+                            @movie.Description
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <h3>Dados da Sessão</h3>
+                <p class="movie-info-line fw-bold">
+                    @if (firstTicket?.Chair?.Room != null)
+                    {
+                        var room = firstTicket.Chair.Room;
+                        var cinema = Model.Cinema;
+                        <span>Sala @room.RoomNumber</span>
+                        @if (cinema != null)
+                        {
+                            <span> - @cinema.Name</span>
+                            @if (cinema.Address != null)
+                            {
+                                <span>, @cinema.Address.City/@cinema.Address.State</span>
+                            }
+                        }
+                    }
+                </p>
+                <p class="movie-info-line">
+                    <span class="fw-bold">Horário:</span> @session.SessionHour.ToString("dd/MM/yyyy HH:mm")
+                </p>
+                @if (Model.Client != null)
+                {
+                    <p class="movie-info-line">
+                        <span class="fw-bold">Cliente:</span> @Model.Client.Name
+                        <br />
+                        <span class="fw-bold">CPF:</span> @Model.Client.Cpf
+                    </p>
+                }
+                <p class="movie-info-line">
+                    <span class="fw-bold">Data da Compra:</span> @Model.DtSale.ToString("dd/MM/yyyy")
+                </p>
+                @if (!string.IsNullOrEmpty(Model.PaymentType))
+                {
+                    <p class="movie-info-line">
+                        <span class="fw-bold">Pagamento:</span> @Model.PaymentType
+                    </p>
+                }
+            </div>
+        </div>
+
+        <h2 class="texto text-center mt-3">Mapa da Sala</h2>
+        <hr />
+
+        @if (allChairs != null && allChairs.Any())
+        {
+            var rows = allChairs
+                .Select(c => c.Row)
+                .Distinct()
+                .OrderBy(r => r)
+                .ToList();
+
+            int totalColumns = allChairs.Max(c => c.Column);
+
+            <div class="mt-4 text-center">
+                <div class="screen mx-auto w-50 text-center text-white mb-4 py-2"
+                     style="background: #444; border-radius: 6px;">
+                    TELA
+                </div>
+
+                <div class="d-flex flex-column align-items-center">
+                    @foreach (var row in rows)
+                    {
+                        <div class="d-flex mb-2">
+                            @for (int col = 1; col <= totalColumns; col++)
+                            {
+                                var chair = allChairs.FirstOrDefault(c => c.Row == row && c.Column == col);
+                                if (chair != null)
+                                {
+                                    string code = $"{row}{col}";
+                                    string seatKey = $"{row}_{col}";
+                                    bool isSelected = selectedSeatsSet.Contains(seatKey);
+
+                                    <div class="seat-wrapper">
+                                        <input type="checkbox"
+                                               id="seat_@(row)_@(col)"
+                                               class="seat-check"
+                                               checked="@isSelected"
+                                               disabled="true" />
+
+                                        <label for="seat_@(row)_@(col)"
+                                               class="seat-label @(isSelected ? "selected" : (chair.IsVip ? "vip" : "normal"))">
+                                            @code
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="mt-4 text-white">
+                    <div class="d-flex justify-content-center gap-4">
+                        <div class="d-flex align-items-center">
+                            <div style="width:20px; height:20px; background:#4d7cff; border-radius:4px;" class="me-2"></div>
+                            Normal
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div style="width:20px; height:20px; background:#00d47e; border-radius:4px;" class="me-2"></div>
+                            VIP
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div style="width:20px; height:20px; background:#a3a3a3; border-radius:4px;" class="me-2"></div>
+                            Ocupada
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div style="width:20px; height:20px; background:#ff4444; border-radius:4px;" class="me-2"></div>
+                            Selecionada
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <hr />
+        <h4 class="texto mb-3 text-center">Ingressos Selecionados</h4>
+
+        @if (Model.Tickets != null && Model.Tickets.Any())
+        {
+            <div class="tickets-summary-card p-4 w-50 m-auto">
+                <table class="table table-sm table-borderless tickets-table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-white-50">Poltrona</th>
+                            <th class="text-white-50 text-center">Meia Entrada</th>
+                            <th class="text-white-50 text-end">Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in Model.Tickets)
+                        {
+                            <tr>
+                                <td>@ticket.Row@ticket.Column</td>
+                                <td class="text-center">
+                                    @(ticket.HalfPrice ? "Sim" : "Não")
+                                </td>
+                                <td class="text-end price-cell">
+                                    <span class="money money-box" data-value="@ticket.Price"></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        <hr class="mt-5" />
+        <h4 class="texto mb-4">Produtos Adicionais</h4>
+
+        @if (Model.ProductOrders != null && Model.ProductOrders.Any())
+        {
+            <div class="tickets-summary-card p-4 w-50 m-auto">
+                <table class="table table-sm table-borderless tickets-table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-white-50">Produto</th>
+                            <th class="text-white-50 text-center">Quantidade</th>
+                            <th class="text-white-50 text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var productOrder in Model.ProductOrders)
+                        {
+                            <tr>
+                                <td>@productOrder.Product?.Name</td>
+                                <td class="text-center">
+                                    @productOrder.QuantitySale
+                                </td>
+                                <td class="text-end price-cell">
+                                    <span class="money money-box" data-value="@productOrder.OrderPrice"></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted py-3">
+                <p>Nenhum produto adicional foi adquirido.</p>
+            </div>
+        }
+
+        <hr class="mt-5" />
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <div class="tickets-summary-card p-4">
+                    <h5 class="texto mb-3 text-center">Resumo do Pedido</h5>
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="text-white-50">Total de Ingressos:</td>
+                                <td class="text-end">
+                                    <span class="money" data-value="@(Model.Tickets?.Sum(t => t.Price) ?? 0)"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-white-50">Total de Produtos:</td>
+                                <td class="text-end">
+                                    <span class="money" data-value="@(Model.ProductOrders?.Sum(po => po.OrderPrice) ?? 0)"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-top">
+                                <td class="text-white fw-bold">Total Geral:</td>
+                                <td class="text-end">
+                                    <span class="money fw-bold" style="font-size: 1.2rem; color: var(--accent);" data-value="@Model.TotalPrice"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <p class="text-muted">Pedido não encontrado ou sem informações de sessão.</p>
+        </div>
+    }
+
+    <div class="text-center mt-4 mb-4">
+        <a asp-controller="Account" asp-action="Orders" class="btn btn-primary">Voltar para Meus Pedidos</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const moneyFields = document.querySelectorAll(".money");
+
+            moneyFields.forEach(field => {
+                const rawValue = parseInt(field.dataset.value);
+                const safeRawValue = isNaN(rawValue) ? 0 : rawValue;
+
+                const formatted = (safeRawValue / 100).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                });
+                field.textContent = formatted;
+            });
+        });
+    </script>
+}

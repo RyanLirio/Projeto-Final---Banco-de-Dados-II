@@ -8,6 +8,7 @@ namespace Cine_Ma.Repository
         public Task Update(Order order);
         public Task Delete(Order order);
         public Task<Order?> GetById(int id);
+        public Task<Order?> GetByIdClient(int clientId, int orderId);
         public Task<List<Order>> GetAll();
     }
 }

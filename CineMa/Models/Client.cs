@@ -23,7 +23,7 @@ namespace Cine_Ma.Models
         public int AddressId { get; set; }
         [ForeignKey(nameof(AddressId))]
         public Address? Address { get; set; }
-        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
         public string? SenhaHash { get; set; } 
 
     }

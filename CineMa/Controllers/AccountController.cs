@@ -1,5 +1,6 @@
 ﻿using Cine_Ma.Data;
 using Cine_Ma.Models;
+using Cine_Ma.Repository;
 using CineMa.Models.ViewModel;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,16 @@ namespace CineMa.Controllers
     public class AccountController : Controller
     {
         private readonly CineContext _context;
+        private readonly IClientRepository _clientRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IChairRepository _chairRepository;
 
-
-        public AccountController(CineContext context)
+        public AccountController(CineContext context, IClientRepository clientRepository, IOrderRepository orderRepository, IChairRepository chairRepository)
         {
             _context = context;
+            _clientRepository = clientRepository;
+            _orderRepository = orderRepository;
+            _chairRepository = chairRepository;
         }
 
         // ==========================
@@ -37,6 +43,54 @@ namespace CineMa.Controllers
             HttpContext.Session.SetString("UsuarioNome", client.Name);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Orders()
+        {
+            int? userId = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var client = await _clientRepository.GetById(userId.Value);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return View(client);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Order(int orderId)
+        {
+            int? userId = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var order = await _orderRepository.GetByIdClient(userId.Value, orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var firstTicket = order.Tickets?.FirstOrDefault();
+            if (firstTicket?.Chair?.Room != null)
+            {
+                var roomId = firstTicket.Chair.Room.Id;
+                var allChairs = await _chairRepository.GetByRoom(roomId);
+                ViewBag.AllChairs = allChairs;
+            }
+
+            return View(order);
         }
 
         [HttpPost]

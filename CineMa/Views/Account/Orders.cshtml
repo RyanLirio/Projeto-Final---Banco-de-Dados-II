@@ -1,0 +1,131 @@
+﻿@model Cine_Ma.Models.Client
+
+@{
+    ViewData["Title"] = "Meus Pedidos";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1 class="mb-4">Meus Pedidos</h1>
+
+    @if (Model?.Orders != null && Model.Orders.Any())
+    {
+        <div class="sessions-grid">
+            @foreach (var order in Model.Orders.OrderByDescending(o => o.DtSale))
+            {
+                var firstTicket = order.Tickets?.FirstOrDefault();
+                var movie = firstTicket?.Session?.Movie;
+                
+                <div class="session-card order-card">
+                    <div class="session-left">
+                        @if (movie != null && !string.IsNullOrEmpty(movie.ImageUrl))
+                        {
+                            <img class="session-poster" src="/images/@movie.ImageUrl" alt="@movie.Title">
+                        }
+                        else
+                        {
+                            <div class="session-poster" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1);">
+                                <span style="color: var(--muted); font-size: 0.8rem;">Sem imagem</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="session-center" style="flex: 1;">
+                        <h4 class="session-title">
+                            @if (movie != null)
+                            {
+                                @movie.Title
+                            }
+                            else
+                            {
+                                <span>Pedido #@order.Id</span>
+                            }
+                        </h4>
+
+                        <div class="session-meta">
+                            @if (order.Cinema != null)
+                            {
+                                <span class="session-info">
+                                    @order.Cinema.Name
+                                    @if (order.Cinema.Address != null)
+                                    {
+                                        <span> • @order.Cinema.Address.City</span>
+                                    }
+                                </span>
+                            }
+
+                            @if (movie != null)
+                            {
+                                <span class="age-badge age-@movie.MinimumAge">
+                                    @movie.MinimumAge
+                                </span>
+                            }
+                        </div>
+
+                        <div class="order-details mt-3" style="font-size: 0.9rem; color: var(--muted);">
+                            <div class="mb-1">
+                                <strong>Data:</strong> @order.DtSale.ToString("dd/MM/yyyy")
+                            </div>
+                            
+                            @if (order.Tickets != null && order.Tickets.Any())
+                            {
+                                <div class="mb-1">
+                                    <strong>Ingressos:</strong> @order.Tickets.Count() 
+                                    @if (order.Tickets.Any())
+                                    {
+                                        var firstSession = order.Tickets.First().Session;
+                                        if (firstSession != null)
+                                        {
+                                            <span> • @firstSession.SessionHour.ToString("HH:mm")</span>
+                                        }
+                                    }
+                                </div>
+                                
+                                @if (order.Tickets.Any(t => t.Chair != null))
+                                {
+                                    <div class="mb-1">
+                                        <strong>Poltronas:</strong> 
+                                        @string.Join(", ", order.Tickets.Where(t => t.Chair != null).Select(t => $"{t.Row}{t.Column}"))
+                                    </div>
+                                }
+                            }
+
+                            @if (order.ProductOrders != null && order.ProductOrders.Any())
+                            {
+                                <div class="mb-1">
+                                    <strong>Produtos:</strong> @order.ProductOrders.Sum(po => po.QuantitySale) item(ns)
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(order.PaymentType))
+                            {
+                                <div class="mb-1">
+                                    <strong>Pagamento:</strong> @order.PaymentType
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="session-right">
+                        <div class="order-total" style="font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 12px;">
+                            <span class="money" data-value="@order.TotalPrice"></span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 8px;">
+                            Pedido #@order.Id
+                        </div>
+                        <a asp-controller="Account" asp-action="Order" asp-route-orderId="@order.Id" class="btn btn-primary btn-sm">
+                            Ver Detalhes
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5" style="color: var(--muted);">
+            <p style="font-size: 1.1rem;">Você ainda não possui pedidos.</p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Ver Filmes</a>
+        </div>
+    }
+</div>

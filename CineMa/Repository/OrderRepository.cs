@@ -37,6 +37,32 @@ namespace Cine_Ma.Repository
             return data;
         }
 
+        public async Task<Order?> GetByIdClient(int clientId, int orderId)
+        {
+            var order = await _context.Orders
+                .Where(o => o.Id == orderId && o.ClientId == clientId)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.Movie)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.LanguageAudio)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.LanguageCaption)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Chair)
+                        .ThenInclude(c => c!.Room)
+                .Include(o => o.Client)
+                    .ThenInclude(c => c!.Address)
+                .Include(o => o.Cinema)
+                    .ThenInclude(c => c!.Address)
+                .Include(o => o.ProductOrders)
+                    .ThenInclude(po => po.Product)
+                .FirstOrDefaultAsync();
+            return order;
+        }
+
         public async Task<Order?> GetById(int id)
         {
             var order = await _context.Orders
