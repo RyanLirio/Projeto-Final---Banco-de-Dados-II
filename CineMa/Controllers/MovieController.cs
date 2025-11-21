@@ -30,13 +30,15 @@ namespace Cine_Ma.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int id, DateOnly? day)
+        public async Task<IActionResult> Index(int id, DateOnly? day, string? city)
         {
+            
+
             var movie = await _movieRepository.GetById(id);
             var session = await _sessionRepository.GetByMovieId(id);
             var SessionDays = await _sessionRepository.GetAvailableDaysForMovie(id);
 
-            
+            city ??= session.First().CinemaRoom.Cinema.Address.City;
 
             var days = session
             .Select(s => DateOnly.FromDateTime(s.SessionHour))
@@ -46,13 +48,24 @@ namespace Cine_Ma.Controllers
 
             var selectedDay = day ?? days.First();
 
+
+
             var sessionsFilteredByDay = session
-                .Where(s => DateOnly.FromDateTime(s.SessionHour) == selectedDay)
+                .Where(s =>
+                    DateOnly.FromDateTime(s.SessionHour) == selectedDay &&
+                    s.CinemaRoom.Cinema.Address.City == city &&
+                    s.SessionHour > DateTime.Now
+                )
                 .OrderBy(s => s.SessionHour)
                 .ToList();
 
+
+
+
+
             var vm = new MovieSessionDetailsViewModel
             {
+                SelectedCity = city,
                 SelectedDay = selectedDay,
                 DaysWithSession = SessionDays,
                 Sessions = sessionsFilteredByDay ?? new List<Session>(),

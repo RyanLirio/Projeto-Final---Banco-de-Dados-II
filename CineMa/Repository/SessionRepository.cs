@@ -81,6 +81,8 @@ namespace Cine_Ma.Repository
                 .Include(s => s.LanguageAudio)
                 .Include(s => s.CinemaRoom)
                 .Include(s => s.LanguageCaption)
+                .Include(s => s.CinemaRoom!.Cinema)
+                    .ThenInclude(c => c!.Address)
                 .ToListAsync();
                 
             return data;

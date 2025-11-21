@@ -57,7 +57,7 @@
                         <div class="movie-card">
                             <img src="/images/@m.ImageUrl" alt="@m.Title" />
                             <h6>@m.Title</h6>
-                            <a class="btn btn-primary w-100 mt-2" href="/Movie/Index/@m.Id">Ver Sessões</a>
+                            <a class="btn btn-primary w-100 mt-2" href="/Movie/Index/@m.Id?city=@Model.SelectedCity">Ver Sessões</a>
                         </div>
                     </div>
                 }
@@ -98,7 +98,7 @@
 
                         <div class="session-right">
                             <span class="session-hour-pill">@s.SessionHour.ToString("HH:mm")</span>
-                            <a href="/Movie/Index/@s.Movie.Id" class="btn btn-primary btn-buy">Comprar</a>
+                            <a href="/Movie/Index/@s.Movie.Id?city=@Model.SelectedCity" class="btn btn-primary btn-buy">Comprar</a>
                         </div>
 
                     </div>
