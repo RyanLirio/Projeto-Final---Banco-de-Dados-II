@@ -21,14 +21,13 @@
         <tbody>
             @foreach (var p in Model)
             {
-                var price = p.Price / 100;
-                var discountPrice = (p.Price - (p.Price * p.Discount / 100)) / 100;
+                var discountPrice = p.Price - (p.Price * p.Discount / 100);
                 <tr>
                     <td>@p.Id</td>
                     <td>@p.Name</td>
-                    <td>R$@price.ToString("F2")</td>
+                    <td class="money text-white" data-value="@p.Price"></td>
                     <td>@p.Discount %</td>
-                    <td>R$@discountPrice.ToString("F2")</td>
+                    <td class="money text-white" data-value="@discountPrice"></td>
                     <td>
                         <a asp-controller="Product"
                            asp-action="Update"

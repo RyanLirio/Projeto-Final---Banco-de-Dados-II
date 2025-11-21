@@ -24,7 +24,6 @@ namespace Cine_Ma.Repository
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
-
         public async Task<List<Product>> GetAll()
         {
             var data = await _context.Products.ToListAsync();

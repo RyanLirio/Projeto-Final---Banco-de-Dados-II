@@ -29,10 +29,23 @@ namespace Cine_Ma.Repository
         {
             var data = await _context.Orders
                 .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.Movie)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.LanguageAudio)
+                .Include(o => o.Tickets)
+                    .ThenInclude(t => t.Session)
+                        .ThenInclude(s => s!.LanguageCaption)
+                .Include(o => o.Tickets)
                     .ThenInclude(t => t.Chair)
+                        .ThenInclude(c => c!.Room)
                 .Include(o => o.Client)
+                    .ThenInclude(c => c!.Address)
                 .Include(o => o.Cinema)
                     .ThenInclude(c => c!.Address)
+                .Include(o => o.ProductOrders)
+                    .ThenInclude(po => po.Product)
                 .ToListAsync();
             return data;
         }
@@ -70,6 +83,7 @@ namespace Cine_Ma.Repository
                 .Include(o => o.Tickets)
                 .Include(o => o.Client)
                 .Include(o => o.Cinema)
+                .Include(o => o.ProductOrders)
                 .FirstOrDefaultAsync();
             return order;
         }

@@ -190,8 +190,8 @@
             {
                 <tr>
                     <td>@Model.Products[i].Name</td>
-                    <td>R$ @Model.Products[i].UnitPrice</td>
-                    <td>R$ @Model.Products[i].Discount</td>
+                    <td class="money text-white" data-value="@Model.Products[i].UnitPrice"></td>
+                    <td>@Model.Products[i].Discount %</td>
                     <td>
                         <input type="hidden" name="Products[@i].ProductId" value="@Model.Products[i].ProductId" />
                         <input type="number"

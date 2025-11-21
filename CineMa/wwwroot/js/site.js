@@ -11,3 +11,13 @@
         field.textContent = formatted;
     });
 });
+
+function formatPrice(input) {
+    let value = input.value.replace(/\D/g, '');
+
+    if (value.length > 2) {
+        value = value.slice(0, -2) + ',' + value.slice(-2);
+    }
+
+    input.value = value;
+}

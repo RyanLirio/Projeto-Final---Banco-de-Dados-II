@@ -62,8 +62,14 @@ namespace Cine_Ma.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SessionViewModel vm)
+        public async Task<IActionResult> Create(SessionViewModel vm, string TicketPrice)
         {
+            ModelState.Remove("TicketPrice");
+
+            TicketPrice = TicketPrice.Replace(",", "");
+            int price = Convert.ToInt32(TicketPrice);
+            vm.TicketPrice = price;
+
             if (!ModelState.IsValid)
             {
                 vm.Movies = await _movieRepository.GetAll();
@@ -119,10 +125,16 @@ namespace Cine_Ma.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, SessionViewModel vm)
+        public async Task<IActionResult> Update(int id, SessionViewModel vm, string TicketPrice)
         {
             if (id != vm.Id)
                 return BadRequest();
+
+            ModelState.Remove("TicketPrice");
+
+            TicketPrice = TicketPrice.Replace(",", "");
+            int price = Convert.ToInt32(TicketPrice);
+            vm.TicketPrice = price;
 
             if (!ModelState.IsValid)
             {

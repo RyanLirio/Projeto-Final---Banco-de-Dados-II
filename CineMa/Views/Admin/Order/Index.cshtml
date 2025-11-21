@@ -53,7 +53,7 @@
             </div>
 
             <div class="col-2">
-                <p class="text-white py-3 m-0">R$ @o.TotalPrice</p>
+                <p class="text-white py-3 m-0 money" data-value="@o.TotalPrice"></p>
             </div>
 
             <div class="col-1">
@@ -113,7 +113,7 @@
                             <td>@t.Row @t.Column</td>
                             <td>@(t.Chair != null && t.Chair.IsVip ? "Sim" : "Não")</td>
                             <td>@(t.HalfPrice ? "Sim" : "Não")</td>
-                            <td>R$ @t.Price</td>
+                            <td class="money text-white" data-value="@t.Price"></td>
                         </tr>
                     }
                 </tbody>
@@ -136,7 +136,7 @@
                             <tr>
                                 <td>@p.Product?.Name</td>
                                 <td>@p.QuantitySale</td>
-                                <td>R$ @p.OrderPrice</td>
+                                <td class="text-white money" data-value="@p.OrderPrice"></td>
                             </tr>
                         }
                     </tbody>
@@ -156,9 +156,9 @@
                 <div class="col-6">
                     <h5 class="text-white mt-4">Totais</h5>
                     <ul class="text-white list-group list-group-item-dark">
-                        <li class="list-group-item">Total ingressos: R$ @o.Tickets.Sum(t => t.Price)</li>
-                        <li class="list-group-item">Total produtos: R$ @o!.ProductOrders!.Sum(p => p.OrderPrice)</li>
-                        <li class="list-group-item"><strong>Total geral: R$ @o.TotalPrice</strong></li>
+                        <li class="list-group-item">Total ingressos: <span class="money text-dark" data-value="@o.Tickets.Sum(t => t.Price)"></span></li>
+                        <li class="list-group-item">Total produtos: <span class="money text-dark" data-value="@o!.ProductOrders!.Sum(p => p.OrderPrice)"></span></li>
+                        <li class="list-group-item fw-bolder">Total geral: <span class="money text-dark" data-value="@o.TotalPrice"></span></li>
                     </ul>
                 </div>
             </div>

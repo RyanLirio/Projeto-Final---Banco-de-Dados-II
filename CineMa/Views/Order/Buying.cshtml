@@ -272,13 +272,14 @@
                         }
 
                         const halfPriceInputs = `
-                            <input type="hidden"
-                                   name="Seats[${index}].HalfPrice"
-                                   value="false" />
                             <input type="checkbox"
-                                   class="half-price-check form-check-input"
-                                   name="Seats[${index}].HalfPrice"
-                                   value="true" />
+                                        class="half-price-check"
+                                        name="Seats[${index}].HalfPrice"
+                                        value="true" />
+
+                                <input type="hidden"
+                                        name="Seats[${index}].HalfPrice"
+                                        value="false" />
                         `;
 
                         tbody.append(`

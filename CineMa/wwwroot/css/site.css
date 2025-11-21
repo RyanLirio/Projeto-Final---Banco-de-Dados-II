@@ -1342,8 +1342,8 @@ body {
 
 /* Estilo do seu script de formatação monetária */
 .money {
-    color: #a3a3a3 !important;
-    font-weight: 600 !important;
+    color: #a3a3a3;
+    font-weight: 600;
 }
 
 .money-box {

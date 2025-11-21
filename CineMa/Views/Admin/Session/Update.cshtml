@@ -40,7 +40,7 @@
 
             <div class="form-group col-md-4">
                 <label asp-for="TicketPrice" class="control-label texto">Preço do Ingresso</label>
-                <input asp-for="TicketPrice" type="number" class="form-control inputs-padrao" min="0" />
+                <input asp-for="TicketPrice" type="text" class="form-control inputs-padrao" min="0" oninput="formatPrice(this)" />
                 <span asp-validation-for="TicketPrice" class="text-danger"></span>
             </div>
         </div>

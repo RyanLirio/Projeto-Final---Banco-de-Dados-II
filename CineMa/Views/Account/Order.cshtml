@@ -117,16 +117,9 @@
                                     bool isSelected = selectedSeatsSet.Contains(seatKey);
 
                                     <div class="seat-wrapper">
-                                        <input type="checkbox"
-                                               id="seat_@(row)_@(col)"
-                                               class="seat-check"
-                                               checked="@isSelected"
-                                               disabled="true" />
-
-                                        <label for="seat_@(row)_@(col)"
-                                               class="seat-label @(isSelected ? "selected" : (chair.IsVip ? "vip" : "normal"))">
+                                        <div class="seat-label @(isSelected ? "selected" : (chair.IsVip ? "vip" : "normal")) no-click">
                                             @code
-                                        </label>
+                                        </div>
                                     </div>
                                 }
                             }
@@ -232,7 +225,7 @@
             <div class="col-md-6">
                 <div class="tickets-summary-card p-4">
                     <h5 class="texto mb-3 text-center">Resumo do Pedido</h5>
-                    <table class="table table-sm table-borderless">
+                    <table class="table table-sm table-borderless tickets-table">
                         <tbody>
                             <tr>
                                 <td class="text-white-50">Total de Ingressos:</td>
@@ -249,7 +242,7 @@
                             <tr class="border-top">
                                 <td class="text-white fw-bold">Total Geral:</td>
                                 <td class="text-end">
-                                    <span class="money fw-bold" style="font-size: 1.2rem; color: var(--accent);" data-value="@Model.TotalPrice"></span>
+                                    <span class="money fw-bold text-wite" style="font-size: 1.2rem; color: var(--accent);" data-value="@Model.TotalPrice"></span>
                                 </td>
                             </tr>
                         </tbody>
