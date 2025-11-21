@@ -77,6 +77,10 @@ namespace Cine_Ma.Controllers
                 CinemaId = cinema.Id,
                 RoomId = room.Id,
                 MovieTitle = session.Movie!.Title!,
+                MovieAge = session.Movie!.MinimumAge!,
+                MovieDescription = session.Movie!.Description!,
+                MovieImage = session.Movie!.ImageUrl!,
+                MovieDuration = session.Movie!.Duration!,
                 SessionHour = session.SessionHour,
                 RoomDescription =
                     $"{room.RoomNumber} - {cinema.Name}, {cinema.Address!.City}/{cinema.Address.State}",
@@ -114,7 +118,162 @@ namespace Cine_Ma.Controllers
                 }).OrderBy(s => s.Row).ThenBy(s => s.Column).ToList()
             };
 
-            return View("~/Views/Admin/Order/Create.cshtml", vm);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Buying(OrderCreateViewModel vm)
+        {
+            int? userId = HttpContext.Session.GetInt32("UsuarioId");
+            if (userId == null)
+                return BadRequest("Usuário não autenticado.");
+
+            vm.ClientId = userId.Value;
+
+            if (!ModelState.IsValid)
+            {
+                await RecarregarListas(vm);
+                return View(vm); // usa a view Buying
+            }
+
+            var session = await _sessionRepository.GetById(vm.SessionId);
+            if (session == null)
+                return NotFound();
+
+            var room = await _roomRepository.GetById(vm.RoomId);
+            if (room == null)
+                return NotFound();
+
+            await RecarregarListas(vm);
+
+            var chairs = await _chairRepository.GetByRoom(vm.RoomId);
+            var ticketsSession = await _ticketRepository.GetBySessionId(vm.SessionId);
+
+            var occupiedSeats = ticketsSession
+                .Select(t => new { t.Row, t.Column, t.RoomId })
+                .ToHashSet();
+
+            var validSeats = new List<SeatSelectionViewModel>();
+
+            foreach (var seatVm in vm.Seats)
+            {
+                var chair = chairs.FirstOrDefault(c =>
+                    c.RoomId == vm.RoomId &&
+                    c.Column == seatVm.Column &&
+                    c.Row == seatVm.Row);
+
+                if (chair == null)
+                    continue;
+
+                bool isOccupied = occupiedSeats.Any(o =>
+                    o.RoomId == vm.RoomId &&
+                    o.Column == seatVm.Column &&
+                    o.Row == seatVm.Row);
+
+                validSeats.Add(new SeatSelectionViewModel
+                {
+                    RoomId = vm.RoomId,
+                    Column = seatVm.Column,
+                    Row = seatVm.Row,
+                    IsVip = chair.IsVip,
+                    IsOccupied = isOccupied,
+                    Selected = seatVm.Selected,
+                    HalfPrice = seatVm.HalfPrice
+                });
+            }
+
+            var selectedSeats = validSeats
+                .Where(s => s.Selected && !s.IsOccupied)
+                .ToList();
+
+            if (!selectedSeats.Any())
+            {
+                ModelState.AddModelError("", "Selecione pelo menos uma poltrona livre.");
+                vm.Seats = validSeats;
+                return View(vm);
+            }
+
+            int ticketsTotal = 0;
+
+            foreach (var seat in selectedSeats)
+            {
+                int price = session.TicketPrice;
+
+                if (seat.IsVip)
+                    price = (int)(price * 1.15);
+
+                if (seat.HalfPrice)
+                    price /= 2;
+
+                seat.CalculatedPrice = price;
+                ticketsTotal += price;
+            }
+
+            var allProducts = await _productRepository.GetAll();
+            var productsDict = allProducts.ToDictionary(p => p.Id, p => p);
+
+            int productsTotal = vm.Products
+                .Where(p => p.Quantity > 0 && productsDict.ContainsKey(p.ProductId))
+                .Sum(pr =>
+                {
+                    var prod = productsDict[pr.ProductId];
+                    int finalUnit = Math.Max(prod.Price - ((prod.Price * prod.Discount) / 100), 0);
+                    return finalUnit * pr.Quantity;
+                });
+
+            int grandTotal = ticketsTotal + productsTotal;
+
+            var order = new Order
+            {
+                CinemaId = vm.CinemaId,
+                DtSale = DateOnly.FromDateTime(DateTime.Today),
+                TotalPrice = grandTotal,
+                PaymentType = vm.PaymentType,
+                ClientId = vm.ClientId
+            };
+
+            await _orderRepository.Create(order);
+
+            foreach (var seat in selectedSeats)
+            {
+                var ticket = new Ticket
+                {
+                    SessionId = vm.SessionId,
+                    Column = seat.Column,
+                    Row = seat.Row,
+                    RoomId = vm.RoomId,
+                    OrderId = order.Id,
+                    Price = seat.CalculatedPrice,
+                    HalfPrice = seat.HalfPrice
+                };
+
+                await _ticketRepository.Create(ticket);
+            }
+
+            foreach (var pr in vm.Products.Where(p => p.Quantity > 0))
+            {
+                var prod = productsDict[pr.ProductId];
+                int price = Math.Max(prod.Price - ((prod.Price * prod.Discount) / 100), 0);
+
+                var po = new ProductOrder
+                {
+                    OrderId = order.Id,
+                    ProductId = prod.Id,
+                    QuantitySale = pr.Quantity,
+                    OrderPrice = price * pr.Quantity
+                };
+
+                await _productOrderRepository.Create(po);
+            }
+
+            return RedirectToAction("Success", new { orderId = order.Id });
+        }
+
+        [HttpGet]
+        public IActionResult Success(int orderId)
+        {
+            ViewBag.OrderId = orderId;
+            return View("~/Views/Order/Success.cshtml");
         }
 
         [HttpGet]
@@ -146,6 +305,10 @@ namespace Cine_Ma.Controllers
                 CinemaId = cinema.Id,
                 RoomId = room.Id,
                 MovieTitle = session.Movie!.Title!,
+                MovieAge = session.Movie!.MinimumAge!,
+                MovieDescription = session.Movie!.Description!,
+                MovieImage = session.Movie!.ImageUrl!,
+                MovieDuration = session.Movie!.Duration!,
                 SessionHour = session.SessionHour,
                 RoomDescription =
                     $"{room.RoomNumber} - {cinema.Name}, {cinema.Address!.City}/{cinema.Address.State}",
@@ -288,7 +451,7 @@ namespace Cine_Ma.Controllers
                 .Sum(pr =>
                 {
                     var prod = productsDict[pr.ProductId];
-                    int unit = prod.Price - ((prod.Price * prod.Discount)/100);
+                    int unit = prod.Price - ((prod.Price * prod.Discount) / 100);
                     return Math.Max(unit, 0) * pr.Quantity;
                 });
 
@@ -324,7 +487,7 @@ namespace Cine_Ma.Controllers
             foreach (var pr in vm.Products.Where(p => p.Quantity > 0))
             {
                 var prod = productsDict[pr.ProductId];
-                int price = Math.Max(prod.Price - prod.Discount, 0);
+                int price = Math.Max(prod.Price - ((prod.Price * prod.Discount) / 100), 0);
 
                 var po = new ProductOrder
                 {
@@ -369,6 +532,10 @@ namespace Cine_Ma.Controllers
                 CinemaId = cinema.Id,
                 RoomId = room.Id,
                 MovieTitle = session.Movie!.Title!,
+                MovieAge = session.Movie!.MinimumAge!,
+                MovieDescription = session.Movie!.Description!,
+                MovieImage = session.Movie!.ImageUrl!,
+                MovieDuration = session.Movie!.Duration!,
                 SessionHour = session.SessionHour,
                 RoomDescription = $"{room.RoomNumber} - {cinema.Name}, {cinema.Address!.City}/{cinema.Address.State}",
                 BaseTicketPrice = session.TicketPrice,
@@ -515,7 +682,7 @@ namespace Cine_Ma.Controllers
                 .Sum(pr =>
                 {
                     var prod = productsDict[pr.ProductId];
-                    return Math.Max(prod.Price - prod.Discount, 0) * pr.Quantity;
+                    return Math.Max(prod.Price - ((prod.Price * prod.Discount) / 100), 0) * pr.Quantity;
                 });
 
             int grandTotal = ticketsTotal + productsTotal;

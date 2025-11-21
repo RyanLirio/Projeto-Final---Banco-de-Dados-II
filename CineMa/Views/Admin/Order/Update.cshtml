@@ -17,6 +17,10 @@
     <input type="hidden" asp-for="CinemaId" />
 
     <input type="hidden" asp-for="MovieTitle" />
+    <input type="hidden" asp-for="MovieAge" />
+    <input type="hidden" asp-for="MovieImage" />
+    <input type="hidden" asp-for="MovieDescription" />
+    <input type="hidden" asp-for="MovieDuration" />
     <input type="hidden" asp-for="SessionHour" />
     <input type="hidden" asp-for="RoomDescription" />
     <input type="hidden" asp-for="BaseTicketPrice" />
@@ -74,10 +78,10 @@
 
     @{
         var rows = Model.Seats
-            .Select(s => s.Row)
-            .Distinct()
-            .OrderBy(r => r)
-            .ToList();
+        .Select(s => s.Row)
+        .Distinct()
+        .OrderBy(r => r)
+        .ToList();
 
         int totalColumns = Model.Seats.Max(s => s.Column);
     }

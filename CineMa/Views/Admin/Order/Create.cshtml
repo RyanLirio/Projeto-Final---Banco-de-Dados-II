@@ -16,6 +16,10 @@
     <input type="hidden" asp-for="CinemaId" />
 
     <input type="hidden" asp-for="MovieTitle" />
+    <input type="hidden" asp-for="MovieAge" />
+    <input type="hidden" asp-for="MovieImage" />
+    <input type="hidden" asp-for="MovieDescription" />
+    <input type="hidden" asp-for="MovieDuration" />
     <input type="hidden" asp-for="SessionHour" />
     <input type="hidden" asp-for="RoomDescription" />
     <input type="hidden" asp-for="BaseTicketPrice" />
@@ -83,6 +87,7 @@
             TELA
         </div>
 
+        <!-- QUE TEM DENTRO DESSA DIV É CONFIDENCIAL, QUEM FIZER CORRE RISCO DE VIDA-->
         <div class="d-flex flex-column align-items-center">
 
             @foreach (var row in rows)
@@ -163,7 +168,7 @@
 
     <hr />
     <h4 class="texto">Produtos</h4>
-
+    <!-- NÃO MUDAR ESSA TABELA SE NÃO VAI DAR PROBLEMA, JUNTO COM OS SCRIPTS-->
     <table class="table table-dark table-striped">
         <thead>
             <tr>
