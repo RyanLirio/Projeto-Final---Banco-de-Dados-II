@@ -40,6 +40,18 @@ namespace Cine_Ma.Repository
             return data;
         }
 
+        public async Task<List<Address>> GetAddressCinema()
+        {
+            var addresses = await _context.Cinemas
+                .Include(c => c.Address)
+                .Select(c => c.Address!)
+                .GroupBy(a => a.City)
+                .Select(g => g.First())
+                .ToListAsync();
+
+            return addresses;
+        }
+
         public async Task<Cinema?> GetById(int id)
         {
             var cinema = await _context.Cinemas

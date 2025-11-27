@@ -15,14 +15,16 @@ namespace CineMa.Controllers
         private readonly ISessionRepository SessionRepository;
         private readonly IProductRepository ProductRepository;
         private readonly IAddressRepository AddressRepository;
+        private readonly ICinemaRepository CinemaRepository;
 
-        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository, IProductRepository productRepository, IAddressRepository addressRepository)
+        public HomeController(ILogger<HomeController> logger, IMovieRepository movieRepository, ISessionRepository sessionRepository, IProductRepository productRepository, IAddressRepository addressRepository, ICinemaRepository cinemaRepository)
         {
             _logger = logger;
             MovieRepository = movieRepository;
             SessionRepository = sessionRepository;
             ProductRepository = productRepository;
             AddressRepository = addressRepository;
+            CinemaRepository = cinemaRepository;
         }
 
         public IActionResult Privacy()
@@ -63,7 +65,7 @@ namespace CineMa.Controllers
             //sessoes ativas
             var sessions = await SessionRepository.GetActiveSessions();
 
-            var cities = await AddressRepository.GetAll();
+            var cities = await CinemaRepository.GetAddressCinema();
             var moviesC = await MovieRepository.GetMoviesByCity(city);;
             var sessionsC = await SessionRepository.GetActiveSessionsByCity(city);
             var upcomingC = await MovieRepository.GetUpcomingByCity(city);

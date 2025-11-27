@@ -14,7 +14,7 @@
     <form asp-action="Update"
           asp-controller="Movie"
           asp-route-id="@Model.Id"
-          class="form-padrao">
+          class="form-padrao" enctype="multipart/form-data">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -87,6 +87,24 @@
             <label asp-for="Synopsis" class="control-label texto">Sinopse</label>
             <textarea asp-for="Synopsis" class="form-control inputs-padrao"></textarea>
             <span asp-validation-for="Synopsis" class="text-danger"></span>
+        </div>
+
+        <div class="row g-3 mb-3">
+
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label class="control-label">Trocar Capa (JPG)</label>
+                    <input type="file" name="imageCover" class="form-control" accept="image/jpeg" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label class="control-label">Trocar Banner (JPG)</label>
+                    <input type="file" name="imageBanner" class="form-control" accept="image/jpeg" />
+                </div>
+            </div>
+
         </div>
 
         <div class="form-group mb-3">

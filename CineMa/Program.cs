@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -45,11 +46,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ORDEM CORRETA DO PIPELINE ↓↓↓↓
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();          // <-- AQUI (DEPOIS DO ROUTING)
-app.UseAuthorization();    // <-- AQUI (DEPOIS DO SESSION)
+app.UseSession();
+app.UseAuthorization();
+
 // ORDEM CORRETA ↑↑↑↑
 
 app.MapControllerRoute(
@@ -69,6 +70,8 @@ static void CreateDbIfNotExists(IHost host)
         try
         {
             var context = services.GetRequiredService<CineContext>();
+            DbInitializer.Initialize(context);
+            Console.WriteLine(">>> Executando CreateDbIfNotExists");
         }
         catch (Exception ex)
         {

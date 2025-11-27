@@ -222,15 +222,21 @@
         </div>
     }
 </div>
+    <div class="text-end mt-4">
+        <h3 class="texto">
+            Total: <span id="final-total" class="money" data-value="0"></span>
+        </h3>
+    </div>
+
     <input type="submit" value="Finalizar Compra"
-           class="btn btn-red float-end texto" />
+           class="btn btn-primary btn-lg float-end texto" />
+
 </form>
 @section Scripts {
     <script>
         function formatMoneyElement(element) {
             const rawValue = parseInt(element.dataset.value);
             const safeRawValue = isNaN(rawValue) ? 0 : rawValue;
-
             const formatted = (safeRawValue / 100).toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL"
@@ -239,17 +245,37 @@
         }
 
         function formatAllMoneyElements() {
-             const moneyFields = document.querySelectorAll(".money");
-             moneyFields.forEach(field => {
-                 formatMoneyElement(field);
-             });
+            const moneyFields = document.querySelectorAll(".money");
+            moneyFields.forEach(field => {
+                formatMoneyElement(field);
+            });
         }
-
 
         $(document).ready(function () {
 
             const baseTicketPriceInt = parseInt($('input[name="BaseTicketPrice"]').val() || 0);
             const vipSurcharge = 0.15;
+
+            function calculateFinalTotal() {
+                let total = 0;
+
+                $(".money-box").each(function () {
+                    const v = parseInt($(this).data("value"));
+                    if (!isNaN(v)) total += v;
+                });
+
+                $(".quantity-input").each(function () {
+                    const qty = parseInt($(this).val());
+                    const priceElement = $(this).closest(".product-card").find(".product-final-price");
+                    const unitPrice = parseInt(priceElement.data("value"));
+                    if (!isNaN(qty) && qty > 0 && !isNaN(unitPrice)) {
+                        total += qty * unitPrice;
+                    }
+                });
+
+                $("#final-total").attr("data-value", total);
+                formatMoneyElement(document.getElementById("final-total"));
+            }
 
             function updateTicketTable() {
                 const tbody = $("#tickets-body");
@@ -261,7 +287,6 @@
                         const index = $(this).attr("name").match(/\d+/)[0];
                         const row = $(`input[name='Seats[${index}].Row']`).val();
                         const col = $(`input[name='Seats[${index}].Column']`).val();
-
                         const isVip = $(`input[name='Seats[${index}].IsVip']`).val() === 'True';
 
                         let fullPrice;
@@ -273,38 +298,39 @@
 
                         const halfPriceInputs = `
                             <input type="checkbox"
-                                        class="half-price-check"
-                                        name="Seats[${index}].HalfPrice"
-                                        value="true" />
+                                class="half-price-check"
+                                name="Seats[${index}].HalfPrice"
+                                value="true" />
 
-                                <input type="hidden"
-                                        name="Seats[${index}].HalfPrice"
-                                        value="false" />
+                            <input type="hidden"
+                                name="Seats[${index}].HalfPrice"
+                                value="false" />
                         `;
 
                         tbody.append(`
-                        <tr data-seat-index="${index}">
-                            <td>${row}${col}</td>
-                            <td class="text-center">
-                                ${halfPriceInputs}
-                            </td>
-                            <td class="text-end price-cell">
-                                <span class="money money-box"
-                                      data-value="${fullPrice}"
-                                      data-full-price="${fullPrice}">
-                                </span>
-                            </td>
-                        </tr>
+                            <tr data-seat-index="${index}">
+                                <td>${row}${col}</td>
+                                <td class="text-center">
+                                    ${halfPriceInputs}
+                                </td>
+                                <td class="text-end price-cell">
+                                    <span class="money money-box"
+                                          data-value="${fullPrice}"
+                                          data-full-price="${fullPrice}">
+                                    </span>
+                                </td>
+                            </tr>
                         `);
                     }
                 });
 
                 formatAllMoneyElements();
                 attachHalfPriceEvents();
+                calculateFinalTotal();
             }
 
             function attachHalfPriceEvents() {
-                $(".half-price-check").off('change').on('change', function() {
+                $(".half-price-check").off('change').on('change', function () {
                     const row = $(this).closest('tr');
                     const moneyElement = row.find('.money-box')[0];
                     const fullPrice = parseInt($(moneyElement).data('full-price'));
@@ -319,16 +345,19 @@
 
                     $(moneyElement).attr('data-value', newPrice);
                     formatMoneyElement(moneyElement);
+                    calculateFinalTotal();
                 });
             }
 
             $(".seat-check").change(function () {
                 const index = $(this).attr("name").match(/\d+/)[0];
-
                 const fallback = $(`input.seat-selected-fallback[name='Seats[${index}].Selected']`);
                 fallback.val($(this).is(":checked") ? "true" : "false");
-
                 updateTicketTable();
+            });
+
+            $(".quantity-input").on("change keyup", function () {
+                calculateFinalTotal();
             });
 
             updateTicketTable();

@@ -8,6 +8,7 @@ namespace Cine_Ma.Repository
         public Task Update(Cinema cinema);
         public Task Delete(Cinema cinema);
         public Task<List<Cinema>> GetByName(string name);
+        public Task<List<Address>> GetAddressCinema();
         public Task<Cinema?> GetById(int id);
         public Task<List<Cinema>> GetAll();
     }

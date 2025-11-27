@@ -1271,36 +1271,34 @@ body {
 
     .movie-paying div img {
         width: 100%;
-        aspect-ratio: 2 / 3; /* Mantém pôster */
+        aspect-ratio: 2 / 3;
         object-fit: contain;
         background: rgba(255,255,255,0.08);
         border-radius: 10px;
     }
 
-/* --- Estilos para o Card de Ingressos Selecionados --- */
 
 .tickets-summary-card {
-    background-color: #1a1a1a; /* Fundo escuro */
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Estilo para a Tabela de Ingressos dentro do card */
 .tickets-table {
-    --bs-table-bg: #1a1a1a; /* Fundo da tabela igual ao card */
-    --bs-table-color: white; /* Cor do texto geral da tabela */
+    --bs-table-bg: rgba(255,255,255,0.05);
+    --bs-table-color: white;
     border-collapse: separate;
-    border-spacing: 0 8px; /* Espaço entre as linhas para melhor visualização */
+    border-spacing: 0 8px;
 }
 
     .tickets-table th {
-        border-bottom: 1px solid #333; /* Separador sutil */
+        border-bottom: 1px solid #333;
         padding-bottom: 8px !important;
     }
 
-    /* Estilo para as Linhas (TR) dos ingressos */
     .tickets-table tbody tr {
-        background-color: #2a2a2a; /* Fundo ligeiramente mais escuro para a linha selecionada */
         border-radius: 8px;
         vertical-align: middle;
         height: 40px;
@@ -1308,16 +1306,14 @@ body {
 
     .tickets-table tbody td {
         padding: 10px 15px;
-        border: none; /* Remove bordas internas */
+        border: none;
     }
 
-    /* Estilo da Poltrona (Ex: A5) */
     .tickets-table td:first-child {
         font-weight: bold;
-        color: #4d7cff; /* Cor azul/roxa de destaque para o nome da poltrona */
+        color: #4d7cff;
     }
 
-/* Estilo para o Checkbox de Meia Entrada */
 .half-price-check {
     margin: 0 auto;
     width: 18px;
@@ -1329,26 +1325,23 @@ body {
 
     /* Checkbox Checado */
     .half-price-check:checked {
-        background-color: #4d7cff; /* Cor de seleção */
+        background-color: #4d7cff;
         border-color: #4d7cff;
     }
 
-/* Estilo da célula de Preço */
 .tickets-table .price-cell {
-    /* O texto "R$ 10,00" será formatado com a classe 'money' */
     font-weight: 600;
-    color: #a3a3a3; /* Cor cinza claro para o preço */
+    color: #a3a3a3;
 }
 
-/* Estilo do seu script de formatação monetária */
 .money {
     color: #a3a3a3;
     font-weight: 600;
 }
 
 .money-box {
-    background-color: #a3a3a3; /* Fundo cinza claro para o preço */
-    color: #1a1a1a !important; /* Texto escuro dentro da caixa */
+    background-color: #a3a3a3;
+    color: #1a1a1a !important;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.9rem;
@@ -1357,11 +1350,9 @@ body {
     text-align: center;
 }
 
-/* Estilo da célula de Preço */
 .price-cell .money-box {
-    /* O texto "R$ 10,00" será formatado com a classe 'money' */
-    color: #1a1a1a !important; /* Cor do texto escuro */
-    background-color: #a3a3a3; /* Fundo cinza claro/branco-sujo do seu print */
+    color: #1a1a1a !important;
+    background-color: #a3a3a3;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.9rem;
@@ -1371,21 +1362,19 @@ body {
     font-weight: 600;
 }
 
-/* --- Estilos para o Card de Produto --- */
 .product-card {
-    background-color: #1a1a1a; /* Fundo escuro */
+    background: rgba(255,255,255,0.05);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    color: white; /* Cor padrão do texto */
+    color: white;
     height: 100%;
 }
 
 .product-name {
     font-weight: 600;
-    color: #4d7cff; /* Azul/Roxo de destaque */
+    color: #4d7cff;
 }
 
-/* Estilo do input de quantidade */
 .quantity-control .quantity-input {
     max-width: 80px;
     background-color: #2a2a2a;
@@ -1406,11 +1395,10 @@ body {
     border-radius: 4px;
 }
 
-/* Formatação do preço final usando o estilo 'money' */
 .product-final-price {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #00d47e !important; /* Verde VIP para destacar o preço final */
+    color: #00d47e !important;
 }
 
 .success-icon-large {
@@ -1424,7 +1412,6 @@ body {
         height: 100px;
     }
 
-/* Card de Informações do Pedido */
 .order-success-card {
     background: var(--glass);
     backdrop-filter: blur(14px);

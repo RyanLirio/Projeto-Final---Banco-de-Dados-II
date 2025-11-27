@@ -53,11 +53,9 @@ namespace Cine_Ma.Controllers
 
             var allMovies = await _movieRepository.GetAll();
             var releasedMovies = allMovies
-                .Where(m => m.DtRelease <= DateOnly.FromDateTime(DateTime.Now))
+                .Where(m => m.DtRelease <= DateOnly.FromDateTime(DateTime.Now.AddDays(7)))
                 .OrderByDescending(m => m.DtRelease)
                 .ToList();
-
-
 
             var vm = new SessionViewModel
             {

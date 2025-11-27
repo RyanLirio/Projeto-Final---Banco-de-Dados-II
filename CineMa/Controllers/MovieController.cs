@@ -5,6 +5,8 @@ using CineMa.Helpers;
 using CineMa.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Cine_Ma.Controllers
 {
@@ -15,19 +17,22 @@ namespace Cine_Ma.Controllers
         private readonly ISexRepository _sexRepository;
         private readonly ISexMovieRepository _sexMovieRepository;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IWebHostEnvironment _environment;
 
         public MovieController(
             IMovieRepository movieRepository,
             ILanguageRepository languageRepository,
             ISexRepository sexRepository,
             ISexMovieRepository sexMovieRepository,
-            ISessionRepository sessionRepository)
+            ISessionRepository sessionRepository,
+            IWebHostEnvironment environment)
         {
             _movieRepository = movieRepository;
             _languageRepository = languageRepository;
             _sexRepository = sexRepository;
             _sexMovieRepository = sexMovieRepository;
             _sessionRepository = sessionRepository;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -110,7 +115,7 @@ namespace Cine_Ma.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(MovieViewModel vm)
+        public async Task<IActionResult> Create(MovieViewModel vm, IFormFile imageCover, IFormFile imageBanner)
         {
             if (!AdminHelper.IsAdmin(HttpContext))
             {
@@ -139,6 +144,60 @@ namespace Cine_Ma.Controllers
                 return View("~/Views/Admin/Movie/Create.cshtml", vm);
             }
 
+            var coverName = "";
+            if (imageCover != null && imageCover.Length > 0)
+            {
+                var extension = Path.GetExtension(imageCover.FileName).ToLower();
+
+                var uploadPath = Path.Combine(_environment.WebRootPath, "images");
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                var name = System.Text.RegularExpressions.Regex
+                                .Replace(vm.Title!.Normalize(System.Text.NormalizationForm.FormD), @"[^a-zA-Z0-9 ]", "");
+
+                name = name.Replace(" ", "_").ToLower();
+
+                coverName = name+ "-cover" + extension;
+                var filePath = Path.Combine(uploadPath, coverName);
+
+                if (System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageCover.CopyTo(stream);
+                }
+            }
+
+            var bannerName = "";
+            if (imageBanner != null && imageBanner.Length > 0)
+            {
+                var extension = Path.GetExtension(imageBanner.FileName).ToLower();
+
+                var uploadPath = Path.Combine(_environment.WebRootPath, "images/banner");
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                var name = System.Text.RegularExpressions.Regex
+                                .Replace(vm.Title!.Normalize(System.Text.NormalizationForm.FormD), @"[^a-zA-Z0-9 ]", "");
+
+                name = name.Replace(" ", "_").ToLower();
+
+                bannerName = name + "-banner" + extension;
+                var filePath = Path.Combine(uploadPath, bannerName);
+
+                if (System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageBanner.CopyTo(stream);
+                }
+            }
+
             var movie = new Movie
             {
                 Title = vm.Title,
@@ -149,7 +208,9 @@ namespace Cine_Ma.Controllers
                 Synopsis = vm.Synopsis,
                 Studio = vm.Studio,
                 DtRelease = vm.DtRelease,
-                LanguageId = vm.LanguageId
+                LanguageId = vm.LanguageId,
+                ImageUrl = coverName,
+                UrlBanner = bannerName
             };
 
             await _movieRepository.Create(movie);
@@ -216,7 +277,7 @@ namespace Cine_Ma.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, MovieViewModel vm)
+        public async Task<IActionResult> Update(int id, MovieViewModel vm, IFormFile imageCover, IFormFile imageBanner)
         {
             if (!AdminHelper.IsAdmin(HttpContext))
             {
@@ -225,6 +286,12 @@ namespace Cine_Ma.Controllers
 
             if (id != vm.Id)
                 return BadRequest();
+
+            if (imageCover == null)
+                ModelState.Remove("imageCover");
+
+            if (imageBanner == null)
+                ModelState.Remove("imageBanner");
 
             if (!ModelState.IsValid)
             {
@@ -251,6 +318,61 @@ namespace Cine_Ma.Controllers
             var movie = await _movieRepository.GetById(id);
             if (movie == null)
                 return NotFound();
+
+            if (imageCover != null && imageCover.Length > 0)
+            {
+                var extension = Path.GetExtension(imageCover.FileName).ToLower();
+
+                var uploadPath = Path.Combine(_environment.WebRootPath, "images");
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                var name = System.Text.RegularExpressions.Regex
+                                .Replace(vm.Title!.Normalize(System.Text.NormalizationForm.FormD), @"[^a-zA-Z0-9 ]", "");
+
+                name = name.Replace(" ", "_").ToLower();
+
+                var coverName = name + "-cover" + extension;
+                var filePath = Path.Combine(uploadPath, coverName);
+
+                if (System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageCover.CopyTo(stream);
+                }
+
+                movie.ImageUrl = coverName;
+            }
+
+            if (imageBanner != null && imageBanner.Length > 0)
+            {
+                var extension = Path.GetExtension(imageBanner.FileName).ToLower();
+
+                var uploadPath = Path.Combine(_environment.WebRootPath, "images/banner");
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                var name = System.Text.RegularExpressions.Regex
+                                .Replace(vm.Title!.Normalize(System.Text.NormalizationForm.FormD), @"[^a-zA-Z0-9 ]", "");
+
+                name = name.Replace(" ", "_").ToLower();
+
+                var bannerName = name + "-banner" + extension;
+                var filePath = Path.Combine(uploadPath, bannerName);
+
+                if (System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageBanner.CopyTo(stream);
+                }
+                movie.UrlBanner = bannerName;
+            }
 
             movie.Title = vm.Title;
             movie.Duration = vm.Duration;

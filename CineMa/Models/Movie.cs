@@ -33,6 +33,7 @@ namespace Cine_Ma.Models
 
         public ICollection<SexMovie> SexMovies { get; set; } = new List<SexMovie>();
         public string? ImageUrl { get; set; }
+        public string? UrlBanner { get; set; }
         //public bool NowShowing { get; set; }
     }
 }

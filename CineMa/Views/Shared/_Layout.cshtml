@@ -57,23 +57,29 @@
                     </ul>
 
                     <ul class="navbar-nav">
+                        @if (!string.IsNullOrEmpty(nomeUsuario))
+                        {
+                            <li class="nav-item me-2 dropdown">
+                                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Olá, @nomeUsuario!
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="/Account/Orders/">Meus Pedidos</a></li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item me-2">
-                            @if (!string.IsNullOrEmpty(nomeUsuario))
-                            {
-                                <span class="nav-link">Olá, @nomeUsuario!</span>
-                            }
-                            else
-                            {
+                            <li class="nav-item">
+                                <form asp-action="Logout" asp-controller="Account" method="post">
+                                    <button class="btn btn-outline-light btn-sm">Sair</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item me-2 ">
                                 <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                            }
-                        </li>
-
-                        <li class="nav-item">
-                            <form asp-action="Logout" asp-controller="Account" method="post">
-                                <button class="btn btn-outline-light btn-sm">Sair</button>
-                            </form>
-                        </li>
+                            </li>
+                        }
 
                     </ul>
                 </div>
