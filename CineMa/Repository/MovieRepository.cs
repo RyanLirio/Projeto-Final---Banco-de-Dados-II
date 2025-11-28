@@ -97,16 +97,13 @@ namespace Cine_Ma.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Movie>> GetUpcomingByCity(string city)
+        public async Task<List<Movie>?> GetUpcomingMovies()
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             DateOnly in30Days = today.AddDays(30);
-            return await _context.Sessions
-                .Where(s => s.CinemaRoom.Cinema.Address.City == city &&
-                            s.Movie!.DtRelease >= today &&
-                            s.Movie.DtRelease <= in30Days)
-                .Select(s => s.Movie)
-                .Distinct()
+            return await _context.Movies
+                .Where(m => m.DtRelease >= today &&
+                            m.DtRelease <= in30Days)
                 .ToListAsync();
         }
     }

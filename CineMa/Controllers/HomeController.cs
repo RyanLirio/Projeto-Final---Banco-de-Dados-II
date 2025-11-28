@@ -68,7 +68,7 @@ namespace CineMa.Controllers
             var cities = await CinemaRepository.GetAddressCinema();
             var moviesC = await MovieRepository.GetMoviesByCity(city);;
             var sessionsC = await SessionRepository.GetActiveSessionsByCity(city);
-            var upcomingC = await MovieRepository.GetUpcomingByCity(city);
+            var upcomingC = await MovieRepository.GetUpcomingMovies();
             var moviesInCartazC = moviesC
                 .Where(m => sessions.Any(s => s.MovieId == m.Id))
                 .Distinct()

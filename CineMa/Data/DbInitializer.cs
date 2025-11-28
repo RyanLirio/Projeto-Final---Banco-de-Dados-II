@@ -13,31 +13,34 @@ namespace Cine_Ma.Data
             {
                 var products = new Product[]
                 {
-                    new Product { Id = 1,  Name = "Pipoca Pequena", Price = 1200, Discount = 0, Category = "teste" },
-                    new Product { Id = 2,  Name = "Pipoca Média", Price = 1600, Discount = 0, Category = "teste" },
-                    new Product { Id = 3,  Name = "Pipoca Grande", Price = 2000, Discount = 0, Category = "teste" },
-                    new Product { Id = 4,  Name = "Pipoca Doce", Price = 1800, Discount = 0, Category = "teste" },
+                    new Product { Name = "Pipoca Pequena", Price = 1200, Discount = 0, Category = "teste" },
+                    new Product { Name = "Pipoca Média", Price = 1600, Discount = 0, Category = "teste" },
+                    new Product { Name = "Pipoca Grande", Price = 2000, Discount = 0, Category = "teste" },
+                    new Product { Name = "Pipoca Doce", Price = 1800, Discount = 0, Category = "teste" },
 
-                    new Product { Id = 5,  Name = "Combo Clássico - Pipoca Média + Refri 500ml", Price = 3200, Discount = 0, Category = "Combo" },
-                    new Product { Id = 6,  Name = "Combo Família - Pipoca Grande + 2 Refri 700ml", Price = 4800, Discount = 5, Category = "Combo" },
-                    new Product { Id = 7,  Name = "Combo Doce - Pipoca Doce + Refri 500ml", Price = 3500, Discount = 0, Category = "Combo" },
-                    new Product { Id = 8,  Name = "Combo Premium - Pipoca Grande + 2 Refri + Nachos", Price = 6200, Discount = 8, Category = "Combo" },
-                    new Product { Id = 9,  Name = "Combo Kids - Pipoca Pequena + Suco", Price = 2200, Discount = 0, Category = "Combo" },
+                    new Product { Name = "Combo Clássico - Pipoca Média + Refri 500ml", Price = 3200, Discount = 0, Category = "Combo" },
+                    new Product { Name = "Combo Família - Pipoca Grande + 2 Refri 700ml", Price = 4800, Discount = 5, Category = "Combo" },
+                    new Product { Name = "Combo Doce - Pipoca Doce + Refri 500ml", Price = 3500, Discount = 0, Category = "Combo" },
+                    new Product { Name = "Combo Premium - Pipoca Grande + 2 Refri + Nachos", Price = 6200, Discount = 8, Category = "Combo" },
+                    new Product { Name = "Combo Kids - Pipoca Pequena + Suco", Price = 2200, Discount = 0, Category = "Combo" },
 
-                    new Product { Id = 10, Name = "Pipoca Pequena", Price = 1200, Discount = 0, Category = "Pipoca" },
-                    new Product { Id = 11, Name = "Pipoca Média", Price = 1600, Discount = 0, Category = "Pipoca" },
-                    new Product { Id = 12, Name = "Pipoca Grande", Price = 2000, Discount = 0, Category = "Pipoca" },
-                    new Product { Id = 13, Name = "Pipoca Doce", Price = 1800, Discount = 0, Category = "Pipoca" },
+                    new Product { Name = "Pipoca Pequena", Price = 1200, Discount = 0, Category = "Pipoca" },
+                    new Product { Name = "Pipoca Média", Price = 1600, Discount = 0, Category = "Pipoca" },
+                    new Product { Name = "Pipoca Grande", Price = 2000, Discount = 0, Category = "Pipoca" },
+                    new Product { Name = "Pipoca Doce", Price = 1800, Discount = 0, Category = "Pipoca" },
 
-                    new Product { Id = 14, Name = "Refrigerante 500ml", Price = 1000, Discount = 0, Category = "Bebida" },
-                    new Product { Id = 15, Name = "Refrigerante 700ml", Price = 1200, Discount = 0, Category = "Bebida" },
-                    new Product { Id = 16, Name = "Suco Natural 300ml", Price = 1400, Discount = 0, Category = "Bebida" },
-                    new Product { Id = 17, Name = "Água Mineral 500ml", Price = 600,  Discount = 0, Category = "Bebida" },
+                    new Product { Name = "Refrigerante 500ml", Price = 1000, Discount = 0, Category = "Bebida" },
+                    new Product { Name = "Refrigerante 700ml", Price = 1200, Discount = 0, Category = "Bebida" },
+                    new Product { Name = "Suco Natural 300ml", Price = 1400, Discount = 0, Category = "Bebida" },
+                    new Product { Name = "Água Mineral 500ml", Price = 600,  Discount = 0, Category = "Bebida" },
 
-                    new Product { Id = 18, Name = "Nachos com Queijo", Price = 1899, Discount = 0, Category = "Salgado" },
+                    new Product { Name = "Nachos com Queijo", Price = 1899, Discount = 0, Category = "Salgado" },
                 };
 
-                context.Products.AddRange(products);
+                foreach (Product p in products)
+                {
+                    context.Products.Add(p);
+                }
                 context.SaveChanges();
             }
 
@@ -52,7 +55,10 @@ namespace Cine_Ma.Data
                     new Sex { Name = "Animação" }
                 };
 
-                context.Sexes.AddRange(sexes);
+                foreach(Sex s in sexes)
+                {
+                    context.Sexes.Add(s);
+                }
                 context.SaveChanges();
             }
 
@@ -67,7 +73,10 @@ namespace Cine_Ma.Data
                     new Language { Name = "Japonês" }
                 };
 
-                context.Languages.AddRange(languages);
+                foreach (Language l in languages)
+                {
+                    context.Languages.Add(l);
+                }
                 context.SaveChanges();
             }
 
@@ -97,7 +106,10 @@ namespace Cine_Ma.Data
                     new Cinema { Name = "GalaxyFilms",  Cnpj = "56.789.012/0001-22", Phone = "(61) 98555-4433", Email = "galaxy@films.com", AddressId = 5 }
                 };
 
-                context.Cinemas.AddRange(cinemas);
+                foreach (Cinema c in cinemas)
+                {
+                    context.Cinemas.Add(c);
+                }
                 context.SaveChanges();
             }
 
@@ -121,7 +133,10 @@ namespace Cine_Ma.Data
                     new CinemaRoom { CinemaId = 5, RoomNumber = "Sala 2" }
                 };
 
-                context.CinemaRooms.AddRange(rooms);
+                foreach (CinemaRoom r in rooms)
+                {
+                    context.CinemaRooms.Add(r);
+                }
                 context.SaveChanges();
             }
 
@@ -133,8 +148,8 @@ namespace Cine_Ma.Data
 
                 foreach (var room in rooms)
                 {
-                    int totalColumns = random.Next(7, 16);
-                    int totalRows = random.Next(7, 16);
+                    int totalColumns = random.Next(7, 12);
+                    int totalRows = random.Next(7, 12);
 
                     int vipRowIndex = random.Next(0, totalRows);
 
@@ -156,7 +171,10 @@ namespace Cine_Ma.Data
                     }
                 }
 
-                context.Chairs.AddRange(chairs);
+                foreach (Chair c in chairs)
+                {
+                    context.Chairs.Add(c);
+                }
                 context.SaveChanges();
             }
 
@@ -294,7 +312,10 @@ namespace Cine_Ma.Data
                     }
                 };
 
-                context.Movies.AddRange(movies);
+                foreach (Movie m in movies)
+                {
+                    context.Movies.Add(m);
+                }
                 context.SaveChanges();
             }
 
@@ -330,7 +351,10 @@ namespace Cine_Ma.Data
                     new SexMovie { SexId = 4, MovieId = 9 }
                 };
 
-                context.SexMovies.AddRange(sexMovies);
+                foreach (SexMovie sm in sexMovies)
+                {
+                    context.SexMovies.Add(sm);
+                }
                 context.SaveChanges();
             }
 
@@ -340,46 +364,102 @@ namespace Cine_Ma.Data
                 var today = DateOnly.FromDateTime(DateTime.Now);
 
                 var movies = context.Movies.ToList();
-                var rooms = context.CinemaRooms.ToList();
-                int totalRooms = rooms.Count;
-                int roomIndex = 0;
+                var cinemas = context.Cinemas.ToList();
 
                 var sessions = new List<Session>();
+                var hours = new[] { 15, 20 };
 
-                foreach (var movie in movies)
+                foreach (var cinema in cinemas)
                 {
-                    if (movie.DtRelease > today.AddDays(7))
-                    {
+                    var cinemaRooms = context.CinemaRooms
+                        .Where(r => r.CinemaId == cinema.Id)
+                        .OrderBy(r => r.Id)
+                        .ToList();
+
+                    if (cinemaRooms.Count < 2)
                         continue;
-                    }
 
-                    var hours = new[] { 15, 20 };
+                    var sala1 = cinemaRooms[0];
+                    var sala2 = cinemaRooms[1];
+                    var validMovies = movies
+                         .Where(m =>
+                         {
+                             for (int offset = 0; offset < 3; offset++)
+                             {
+                                 var d = today.AddDays(offset);
 
-                    for (int i = 0; i < 2; i++)
+                                 bool ok =
+                                     m.DtRelease <= today.AddDays(7) &&
+                                     d > m.DtRelease;
+
+                                 if (ok)
+                                     return true;
+                             }
+                             return false;
+                         })
+                         .OrderBy(m => random.Next())
+                         .ToList();
+
+                    if (validMovies.Count < 2)
+                        continue;
+
+                    var movieA = validMovies[0];
+                    var movieB = validMovies[1];
+
+
+                    for (int dayOffset = 0; dayOffset < 3; dayOffset++)
                     {
-                        var room = rooms[roomIndex];
-                        roomIndex = (roomIndex + 1) % totalRooms;
+                        var sessionDate = today.AddDays(dayOffset);
 
-                        int addDays = random.Next(0, 3);
-                        var sessionDate = today.AddDays(addDays);
+                        bool podeFilmeA =
+                            movieA.DtRelease <= today.AddDays(7) &&
+                            sessionDate > movieA.DtRelease;
 
-                        var sessionDateTime = new DateTime(
-                            sessionDate.Year,
-                            sessionDate.Month,
-                            sessionDate.Day,
-                            hours[i], 0, 0
-                        );
-
-                        sessions.Add(new Session
+                        if (podeFilmeA)
                         {
-                            MovieId = movie.Id,
-                            SessionHour = sessionDateTime,
-                            TicketPrice = (i == 0 ? 2500 : 3000),
-                            LanguageId = 1,
-                            CaptionId = 1,
-                            RoomId = room.Id,
-                            Is3D = (i == 1)
-                        });
+                            for (int i = 0; i < hours.Length; i++)
+                            {
+                                var sessionDateTime = new DateTime(
+                                    sessionDate.Year, sessionDate.Month, sessionDate.Day,
+                                    hours[i], 0, 0);
+
+                                sessions.Add(new Session
+                                {
+                                    MovieId = movieA.Id,
+                                    SessionHour = sessionDateTime,
+                                    TicketPrice = (i == 0 ? 2500 : 3000),
+                                    LanguageId = 1,
+                                    CaptionId = 1,
+                                    RoomId = sala1.Id,
+                                    Is3D = (i == 1)
+                                });
+                            }
+                        }
+
+                        bool podeFilmeB =
+                            movieB.DtRelease <= today.AddDays(7) &&
+                            sessionDate > movieB.DtRelease;
+
+                        if (podeFilmeB)
+                        {
+                            for (int i = 0; i < hours.Length; i++)
+                            {
+                                var sessionDateTime = new DateTime(
+                                    sessionDate.Year, sessionDate.Month, sessionDate.Day,
+                                    hours[i], 0, 0);
+
+                                sessions.Add(new Session
+                                {
+                                    MovieId = movieB.Id,
+                                    SessionHour = sessionDateTime,
+                                    TicketPrice = (i == 0 ? 2500 : 3000),
+                                    LanguageId = 1,
+                                    CaptionId = 1,
+                                    RoomId = sala2.Id,
+                                    Is3D = (i == 1)
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -389,6 +469,9 @@ namespace Cine_Ma.Data
 
             if (!context.Clients.Any())
             {
+                var senhaAdmin = BCrypt.Net.BCrypt.HashPassword("123");
+                var senhaUser = BCrypt.Net.BCrypt.HashPassword("123");
+
                 var clients = new Client[]
                 {
                     new Client
@@ -401,9 +484,8 @@ namespace Cine_Ma.Data
                         Birthday = new DateOnly(1990, 1, 1),
                         RegistrationDate = DateTime.Now,
                         AddressId = 1,
-                        SenhaHash = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+                        SenhaHash = senhaAdmin
                     },
-
                     new Client
                     {
                         Name = "Usuário Comum",
@@ -414,11 +496,14 @@ namespace Cine_Ma.Data
                         Birthday = new DateOnly(1998, 5, 5),
                         RegistrationDate = DateTime.Now,
                         AddressId = 2,
-                        SenhaHash = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+                        SenhaHash = senhaUser
                     }
                 };
 
-                context.Clients.AddRange(clients);
+                foreach (Client c in clients)
+                {
+                    context.Clients.Add(c);
+                }
                 context.SaveChanges();
             }
         }
